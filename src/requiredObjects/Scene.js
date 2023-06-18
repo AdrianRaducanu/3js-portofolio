@@ -4,10 +4,11 @@ import {Scene as ThreeScene} from "three";
 class Scene extends RequiredObjects{
     constructor() {
         super();
+        this.sceneInstance = new ThreeScene();
     }
 
     initialize() {
-        this.sceneInstance = new ThreeScene();
+
     }
 
     addInScene(obj) {

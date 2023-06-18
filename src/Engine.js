@@ -4,6 +4,7 @@ import Camera from "./requiredObjects/Camera.js";
 import {CAMERA} from "./constants/CAMERA_TYPE.js";
 import Scene from "./requiredObjects/Scene.js";
 import Sizes from "./requiredObjects/Sizes.js";
+import OrbitController from "./requiredObjects/OrbitController.js";
 
 class Enforcer {
 }
@@ -43,6 +44,12 @@ class Engine {
         this.camera = new Camera(CAMERA.PERSPECTIVE);
         this.camera.initialize(this.sizes.getInstance());
 
+        //orbitController
+        this.orbitController = new OrbitController();
+        this.orbitController.initialize();
+
+        //tick fcn
+        this.tick();
     }
 
     start() {
@@ -79,6 +86,15 @@ class Engine {
         return this.renderer;
     }
 
+    getOrbitController() {
+        return this.orbitController;
+    }
+
+    tick() {
+        requestAnimationFrame(() => this.tick());
+        this.orbitController.getInstance().update();
+        this.renderer.renderApp();
+    }
 
 
 }
