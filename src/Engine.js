@@ -1,7 +1,9 @@
-import Renderer from "./Renderer.js";
+import Renderer from "./requiredObjects/Renderer.js";
 import * as THREE from "three";
-import Camera from "./Camera.js";
+import Camera from "./requiredObjects/Camera.js";
 import {CAMERA} from "./constants/CAMERA_TYPE.js";
+import Scene from "./requiredObjects/Scene.js";
+import Sizes from "./requiredObjects/Sizes.js";
 
 class Enforcer {
 }
@@ -22,64 +24,62 @@ class Engine {
     }
 
     initialize() {
-        this.sizes = {
-            width: window.innerWidth,
-            height: window.innerHeight
-        }
+        //sizes
+        this.sizes = new Sizes();
+        this.sizes.initialize();
+
+        //canvas
         this.canvas = document.getElementById('canvas');
 
         //renderer
-        this.renderer = new Renderer(this.sizes);
+        this.renderer = new Renderer();
+        this.renderer.initialize(this.sizes.getInstance());
 
         //scene
-        this.scene = new THREE.Scene();
+        this.scene = new Scene();
+        this.scene.initialize();
 
         //camera
-        this.camera = new Camera(CAMERA.PERSPECTIVE, this.sizes);
+        this.camera = new Camera(CAMERA.PERSPECTIVE);
+        this.camera.initialize(this.sizes.getInstance());
 
-
-        this._updateResize();
     }
 
     start() {
         const light = new THREE.AmbientLight();
-        this.scene.add(light)
+        this.scene.addInScene(light);
 
 
         const geometry = new THREE.BoxGeometry( 1, 1, 1 );
         const material = new THREE.MeshBasicMaterial();
         material.color.set("#ffffff");
         const cube = new THREE.Mesh( geometry, material );
-        this.scene.add( cube );
+        this.scene.addInScene( cube );
 
-        this.camera.setPosition({x: 0,y: 1,z: 5});
+        this.camera.setPosition({x: 0, y: 1, z: 5});
 
 
         this.renderer.renderApp();
     }
 
-    _updateResize() {
-        window.addEventListener("resize", ()=> {
-            this.sizes.height = window.innerHeight;
-            this.sizes.width = window.innerWidth;
-
-            this.camera.update();
-
-            this.renderer.update();
-        });
-    }
 
     getScene() {
         return this.scene;
     }
 
     getCamera() {
-        return this.camera.cameraInstance;
+        return this.camera;
     }
 
     getCanvas() {
         return this.canvas;
     }
+
+    getRenderer() {
+        return this.renderer;
+    }
+
+
 
 }
 

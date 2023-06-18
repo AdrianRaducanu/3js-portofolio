@@ -1,15 +1,20 @@
 import {PerspectiveCamera} from "three";
-import {CAMERA} from "./constants/CAMERA_TYPE.js";
+import {CAMERA} from "../constants/CAMERA_TYPE.js";
+import RequiredObjects from "./RequiredObjects.js";
 
-class Camera {
-    constructor(type, sizes) {
-        this.sizes = sizes;
-        this.cameraInstance = this._returnCameraType(type);
-
+class Camera extends RequiredObjects{
+    constructor(type) {
+        super();
+        this.cameraType = type;
     }
 
-    _returnCameraType(type) {
-        switch (type) {
+    initialize(sizes) {
+        this.sizes = sizes
+        this.cameraInstance = this._returnCameraType();
+    }
+
+    _returnCameraType() {
+        switch (this.cameraType) {
             case CAMERA.PERSPECTIVE:
                 return new PerspectiveCamera(85, this.sizes.width/this.sizes.height, 0.1, 100);
             default:
@@ -24,6 +29,10 @@ class Camera {
     update() {
         this.cameraInstance.aspect = this.sizes.width / this.sizes.height;
         this.cameraInstance.updateProjectionMatrix();
+    }
+
+    getInstance() {
+        return this.cameraInstance;
     }
 }
 
