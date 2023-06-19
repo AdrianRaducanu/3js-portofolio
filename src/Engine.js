@@ -1,10 +1,12 @@
 import Renderer from "./requiredObjects/Renderer.js";
-import * as THREE from "three";
 import Camera from "./requiredObjects/Camera.js";
 import {CAMERA} from "./constants/CAMERA_TYPE.js";
 import Scene from "./requiredObjects/Scene.js";
 import Sizes from "./requiredObjects/Sizes.js";
 import OrbitController from "./requiredObjects/OrbitController.js";
+import {REQUIRED_OBJECTS_TYPE} from "./constants/REQUIRED_OBJECTS_TYPE.js";
+import World from "./World.js";
+import Debugger from "./utils/Debugger.js";
 
 class Enforcer {
 }
@@ -34,7 +36,7 @@ class Engine {
 
         //renderer
         this.renderer = new Renderer();
-        this.renderer.initialize(this.sizes.getInstance());
+        this.renderer.initialize();
 
         //scene
         this.scene = new Scene();
@@ -42,52 +44,68 @@ class Engine {
 
         //camera
         this.camera = new Camera(CAMERA.PERSPECTIVE);
-        this.camera.initialize(this.sizes.getInstance());
+        this.camera.initialize();
 
         //orbitController
         this.orbitController = new OrbitController();
         this.orbitController.initialize();
+
+        //the world
+        this.world = new World();
+        this.world.initialize();
+
+        //debugger
+        this.debugger = new Debugger();
+        this.debugger.initialize();
 
         //tick fcn
         this.tick();
     }
 
     start() {
-        const light = new THREE.AmbientLight();
-        this.scene.addInScene(light);
-
-
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        const material = new THREE.MeshBasicMaterial();
-        material.color.set("#ffffff");
-        const cube = new THREE.Mesh( geometry, material );
-        this.scene.addInScene( cube );
+        this.world.start();
 
         this.camera.setPosition({x: 0, y: 1, z: 5});
 
-
         this.renderer.renderApp();
-    }
-
-
-    getScene() {
-        return this.scene;
-    }
-
-    getCamera() {
-        return this.camera;
     }
 
     getCanvas() {
         return this.canvas;
     }
 
-    getRenderer() {
-        return this.renderer;
+    getRequiredObject(objectType) {
+        switch (objectType) {
+            case REQUIRED_OBJECTS_TYPE.CAMERA:
+                return this.camera;
+            case REQUIRED_OBJECTS_TYPE.SIZES:
+                return this.sizes;
+            case REQUIRED_OBJECTS_TYPE.SCENE:
+                return this.scene;
+            case REQUIRED_OBJECTS_TYPE.RENDERER:
+                return this.renderer;
+            case REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER:
+                return this.orbitController;
+            default:
+                throw new Error("Wrong object type")
+        }
     }
 
-    getOrbitController() {
-        return this.orbitController;
+    getRequiredObjectInstance(objectType) {
+        switch (objectType) {
+            case REQUIRED_OBJECTS_TYPE.CAMERA:
+                return this.camera.getInstance();
+            case REQUIRED_OBJECTS_TYPE.SIZES:
+                return this.sizes.getInstance();
+            case REQUIRED_OBJECTS_TYPE.SCENE:
+                return this.scene.getInstance();
+            case REQUIRED_OBJECTS_TYPE.RENDERER:
+                return this.renderer.getInstance();
+            case REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER:
+                return this.orbitController.getInstance();
+            default:
+                throw new Error("Wrong object type");
+        }
     }
 
     tick() {

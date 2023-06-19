@@ -1,5 +1,6 @@
 import RequiredObjects from "./RequiredObjects.js";
 import Engine from "../Engine.js";
+import {REQUIRED_OBJECTS_TYPE} from "../constants/REQUIRED_OBJECTS_TYPE.js";
 
 class Sizes extends RequiredObjects{
 
@@ -24,10 +25,10 @@ class Sizes extends RequiredObjects{
             this.sizesInstance.height = window.innerHeight;
             this.sizesInstance.width = window.innerWidth;
 
-            const camera = Engine.instance.getCamera();
+            const camera = Engine.instance.getRequiredObject(REQUIRED_OBJECTS_TYPE.CAMERA);
             camera.update();
 
-            const renderer = Engine.instance.getRenderer();
+            const renderer = Engine.instance.getRequiredObject(REQUIRED_OBJECTS_TYPE.RENDERER);
             renderer.update();
         });
     }

@@ -1,6 +1,7 @@
 import RequiredObjects from "./RequiredObjects.js";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import Engine from "../Engine.js";
+import {REQUIRED_OBJECTS_TYPE} from "../constants/REQUIRED_OBJECTS_TYPE.js";
 
 class OrbitController extends RequiredObjects{
     constructor() {
@@ -8,8 +9,8 @@ class OrbitController extends RequiredObjects{
     }
 
     initialize() {
-        const camera = Engine.instance.getCamera().getInstance();
-        const renderer = Engine.instance.getRenderer().getInstance();
+        const camera = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.CAMERA);
+        const renderer = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.RENDERER);
         this.orbitController = new OrbitControls(camera, renderer.domElement);
     }
 
