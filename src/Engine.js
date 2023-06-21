@@ -31,6 +31,10 @@ class Engine {
         this.sizes = new Sizes();
         this.sizes.initialize();
 
+        //debugger
+        this.debugger = new Debugger();
+        this.debugger.initialize();
+
         //canvas
         this.canvas = document.getElementById('canvas');
 
@@ -53,10 +57,6 @@ class Engine {
         //the world
         this.world = new World();
         this.world.initialize();
-
-        //debugger
-        this.debugger = new Debugger();
-        this.debugger.initialize();
 
         //tick fcn
         this.tick();
@@ -86,6 +86,8 @@ class Engine {
                 return this.renderer;
             case REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER:
                 return this.orbitController;
+            case REQUIRED_OBJECTS_TYPE.DEBUGGER:
+                return this.debugger.getInstance();
             default:
                 throw new Error("Wrong object type")
         }
@@ -103,9 +105,15 @@ class Engine {
                 return this.renderer.getInstance();
             case REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER:
                 return this.orbitController.getInstance();
+            case REQUIRED_OBJECTS_TYPE.DEBUGGER:
+                return this.debugger.getInstance();
             default:
                 throw new Error("Wrong object type");
         }
+    }
+
+    createDebuggingFolder(folderTitle, props, callback) {
+        this.debugger.createFolder(folderTitle, props, callback);
     }
 
     tick() {

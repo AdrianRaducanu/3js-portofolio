@@ -1,25 +1,32 @@
 import {Pane} from "tweakpane";
-import {MEASUREMENT_UNITS} from "../constants/UNITS.js";
+import RequiredObjects from "../requiredObjects/RequiredObjects.js";
 
-class Debugger {
+class Debugger extends RequiredObjects{
     constructor() {
+        super();
         this.pane = new Pane();
     }
 
     initialize() {
-        this._createUnitsPane();
     }
 
-    _createUnitsPane() {
-        this.unitsPane = this.pane.addFolder({
-            title: "Units"
-        });
-        this.unitsPane
-            .addInput(MEASUREMENT_UNITS, "BASIC")
-            .on("change", (ev) => {
-                MEASUREMENT_UNITS.BASIC = ev.value;
-            })
+    getInstance() {
+        return this.pane;
+    }
 
+    createFolder(folderTitle, props, callback) {
+        const newPane = this.pane.addFolder({
+            title: folderTitle
+        });
+        Object.keys(props).forEach(key => {
+            newPane
+                .addInput(props, key)
+                .on('change', (event) => {
+                    console.log(key, event.value)
+                    callback(key, event.value);
+                })
+        });
+        return props;
     }
 }
 

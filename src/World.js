@@ -18,7 +18,7 @@ class World {
 
         const geometry = new THREE.BoxGeometry( MEASUREMENT_UNITS.BASIC, MEASUREMENT_UNITS.BASIC, MEASUREMENT_UNITS.BASIC );
         const material = new THREE.MeshBasicMaterial();
-        material.color.set("#ffffff");
+        material.color.set("#ffff00");
         const cube = new THREE.Mesh( geometry, material );
         this.scene.addInScene( cube );
     }
