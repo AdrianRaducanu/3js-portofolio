@@ -22,7 +22,6 @@ class Debugger extends RequiredObjects{
             newPane
                 .addInput(props, key)
                 .on('change', (event) => {
-                    console.log(key, event.value)
                     callback(key, event.value);
                 })
         });

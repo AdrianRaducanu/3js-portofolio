@@ -1,7 +1,7 @@
 import Engine from "./Engine.js";
 import {REQUIRED_OBJECTS_TYPE} from "./constants/REQUIRED_OBJECTS_TYPE.js";
 import * as THREE from "three";
-import {MEASUREMENT_UNITS} from "./constants/UNITS.js";
+import Plane from "./worldObjects/Plane.js";
 
 class World {
     constructor() {
@@ -16,11 +16,14 @@ class World {
         this.scene.addInScene(light);
 
 
-        const geometry = new THREE.BoxGeometry( MEASUREMENT_UNITS.BASIC, MEASUREMENT_UNITS.BASIC, MEASUREMENT_UNITS.BASIC );
-        const material = new THREE.MeshBasicMaterial();
-        material.color.set("#ffff00");
-        const cube = new THREE.Mesh( geometry, material );
-        this.scene.addInScene( cube );
+        // const geometry = new THREE.BoxGeometry( MEASUREMENT_UNITS.BASIC, MEASUREMENT_UNITS.BASIC, MEASUREMENT_UNITS.BASIC );
+        // const material = new THREE.MeshBasicMaterial();
+        // material.color.set("#ffff00");
+        // const cube = new THREE.Mesh( geometry, material );
+        // this.scene.addInScene( cube );
+
+        this.plane = new Plane();
+        this.plane.initialize();
     }
 }
 

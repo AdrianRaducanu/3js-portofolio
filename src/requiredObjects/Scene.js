@@ -31,15 +31,13 @@ class Scene extends RequiredObjects{
 
     _createInitialSceneProperties() {
         this.sceneProperties = {
-            background: "#36405b"
+            background: "#616e92"
         }
 
         this.sceneInstance.background = new THREE.Color(this.sceneProperties.background );
     }
 
     _setProperty(key, value) {
-        console.log(key, value)
-        // this.sceneProperties[key] = value;
         this.sceneInstance[key].set(value);
     }
 
