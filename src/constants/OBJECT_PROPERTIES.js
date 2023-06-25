@@ -1,3 +1,7 @@
 export const OBJECT_PROPERTIES = {
-    COLOR: "color"
+    COLOR: "color",
+    POSITION: "position",
+    INTENSITY: "intensity",
+    DISTANCE: "distance",
+    DECAY: "decay"
 }

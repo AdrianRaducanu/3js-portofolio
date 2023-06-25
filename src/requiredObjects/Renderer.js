@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import Engine from "../Engine.js";
 import RequiredObjects from "./RequiredObjects.js";
-import {REQUIRED_OBJECTS_TYPE} from "../constants/REQUIRED_OBJECTS_TYPE.js";
+import {REQUIRED_OBJECT_TYPES} from "../constants/OBJECT_TYPES.js";
 
 class Renderer extends RequiredObjects{
     constructor() {
@@ -13,13 +13,13 @@ class Renderer extends RequiredObjects{
     }
 
     initialize() {
-        this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.SIZES);
+        this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SIZES);
         this.update();
     }
 
     renderApp() {
-        const scene = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.SCENE);
-        const camera = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.CAMERA);
+        const scene = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SCENE);
+        const camera = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.CAMERA);
         this.rendererInstance.render(scene, camera);
     }
 

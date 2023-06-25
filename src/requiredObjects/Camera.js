@@ -2,7 +2,7 @@ import {PerspectiveCamera} from "three";
 import {CAMERA} from "../constants/CAMERA_TYPE.js";
 import RequiredObjects from "./RequiredObjects.js";
 import Engine from "../Engine.js";
-import {REQUIRED_OBJECTS_TYPE} from "../constants/REQUIRED_OBJECTS_TYPE.js";
+import {REQUIRED_OBJECT_TYPES} from "../constants/OBJECT_TYPES.js";
 
 class Camera extends RequiredObjects{
     constructor(type) {
@@ -11,7 +11,7 @@ class Camera extends RequiredObjects{
     }
 
     initialize() {
-        this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.SIZES);
+        this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SIZES);
         this.cameraInstance = this._returnCameraType();
     }
 
@@ -28,7 +28,7 @@ class Camera extends RequiredObjects{
         this.cameraInstance.position.set(pos.x, pos.y, pos.z);
 
         //need to do that so the orbitController could work
-        const orbitController = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER);
+        const orbitController = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER);
         orbitController.update();
     }
 

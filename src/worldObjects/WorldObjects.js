@@ -1,5 +1,7 @@
 class WorldObjects {
-    constructor() {
+    constructor(name, props) {
+        this.name = name;
+        this.properties = props;
     }
 
     initialize() {

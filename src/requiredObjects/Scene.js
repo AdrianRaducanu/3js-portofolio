@@ -31,7 +31,7 @@ class Scene extends RequiredObjects{
 
     _createInitialSceneProperties() {
         this.sceneProperties = {
-            background: "#616e92"
+            background: "#000"
         }
 
         this.sceneInstance.background = new THREE.Color(this.sceneProperties.background );

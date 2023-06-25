@@ -4,7 +4,7 @@ import {CAMERA} from "./constants/CAMERA_TYPE.js";
 import Scene from "./requiredObjects/Scene.js";
 import Sizes from "./requiredObjects/Sizes.js";
 import OrbitController from "./requiredObjects/OrbitController.js";
-import {REQUIRED_OBJECTS_TYPE} from "./constants/REQUIRED_OBJECTS_TYPE.js";
+import {REQUIRED_OBJECT_TYPES} from "./constants/OBJECT_TYPES.js";
 import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
 
@@ -76,17 +76,17 @@ class Engine {
 
     getRequiredObject(objectType) {
         switch (objectType) {
-            case REQUIRED_OBJECTS_TYPE.CAMERA:
+            case REQUIRED_OBJECT_TYPES.CAMERA:
                 return this.camera;
-            case REQUIRED_OBJECTS_TYPE.SIZES:
+            case REQUIRED_OBJECT_TYPES.SIZES:
                 return this.sizes;
-            case REQUIRED_OBJECTS_TYPE.SCENE:
+            case REQUIRED_OBJECT_TYPES.SCENE:
                 return this.scene;
-            case REQUIRED_OBJECTS_TYPE.RENDERER:
+            case REQUIRED_OBJECT_TYPES.RENDERER:
                 return this.renderer;
-            case REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER:
+            case REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER:
                 return this.orbitController;
-            case REQUIRED_OBJECTS_TYPE.DEBUGGER:
+            case REQUIRED_OBJECT_TYPES.DEBUGGER:
                 return this.debugger.getInstance();
             default:
                 throw new Error("Wrong object type")
@@ -95,21 +95,25 @@ class Engine {
 
     getRequiredObjectInstance(objectType) {
         switch (objectType) {
-            case REQUIRED_OBJECTS_TYPE.CAMERA:
+            case REQUIRED_OBJECT_TYPES.CAMERA:
                 return this.camera.getInstance();
-            case REQUIRED_OBJECTS_TYPE.SIZES:
+            case REQUIRED_OBJECT_TYPES.SIZES:
                 return this.sizes.getInstance();
-            case REQUIRED_OBJECTS_TYPE.SCENE:
+            case REQUIRED_OBJECT_TYPES.SCENE:
                 return this.scene.getInstance();
-            case REQUIRED_OBJECTS_TYPE.RENDERER:
+            case REQUIRED_OBJECT_TYPES.RENDERER:
                 return this.renderer.getInstance();
-            case REQUIRED_OBJECTS_TYPE.ORBIT_CONTROLLER:
+            case REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER:
                 return this.orbitController.getInstance();
-            case REQUIRED_OBJECTS_TYPE.DEBUGGER:
+            case REQUIRED_OBJECT_TYPES.DEBUGGER:
                 return this.debugger.getInstance();
             default:
                 throw new Error("Wrong object type");
         }
+    }
+
+    addInScene(obj) {
+        this.scene.addInScene(obj);
     }
 
     createDebuggingFolder(folderTitle, props, callback) {
