@@ -24,11 +24,11 @@ class Light extends WorldObjects{
         Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this._setProperty(key, value));
     }
 
-    _setProperty(key, value) {
+    setProperty(key, value) {
         this.properties[key] = value;
         switch (key) {
             case OBJECT_PROPERTIES.POSITION:
-                this.lightInstance.position.set(this.properties.position.x, this.properties.position.y, this.properties.position.z);
+                this.lightInstance.position.set(value.x, value.y, value.z);
                 break;
             case OBJECT_PROPERTIES.COLOR:
                 this.lightInstance.color.set(value);

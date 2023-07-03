@@ -2,6 +2,8 @@ import {WORLD_OBJECT_GEOMETRIES, WORLD_OBJECT_MESH_TYPES} from "./constants/OBJE
 import UsualMesh from "./worldObjects/UsualMesh.js";
 import Light from "./worldObjects/Light.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
+import {AMBIENT_LIGHT_PROPS, BOX_PROPS, PLANE_PROPS} from "./worldObjects/PROPS.js";
+import EventHandler from '../src/EventHandler';
 
 class World {
     constructor() {
@@ -13,56 +15,32 @@ class World {
 
         //plane
         this._addPlane();
+
+        //box model mockup
+        this._addBox();
     }
 
     start() {
-
     }
 
     _addLights() {
-        const ambientLightProps = {
-            color: "#404040",
-            intensity: 1
-        }
-        this.ambientLight = new Light("World ambient light", LIGHT_TYPE.AMBIENT, ambientLightProps);
+        this.ambientLight = new Light("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
         this.ambientLight.initialize();
 
-        const directionalLightProps = {
-            color: "#ff2200",
-            intensity: 5,
-            position: {
-                x: -10,
-                y: 5,
-                z: 2
-            }
-        }
-        this.directionalLight = new Light("World directional light", LIGHT_TYPE.DIRECTIONAL, directionalLightProps);
-        this.directionalLight.initialize();
-
-        const pointLightProps = {
-            color: "#33ff11",
-            intensity: 1,
-            distance: 2,
-            decay: 2,
-            position: {
-                x: 3,
-                y: 1,
-                z: -2
-            }
-        }
-        this.pointLight = new Light("World point light", LIGHT_TYPE.POINT, pointLightProps);
-        this.pointLight.initialize();
     }
 
     _addPlane() {
-        const planeProps = {
-            width: 10,
-            height: 10,
-            color: "#317b18"
-        }
-        this.plane = new UsualMesh("Plane",WORLD_OBJECT_GEOMETRIES.PLANE, WORLD_OBJECT_MESH_TYPES.STANDARD, planeProps);
+        this.plane = new UsualMesh("Plane",WORLD_OBJECT_GEOMETRIES.PLANE, WORLD_OBJECT_MESH_TYPES.STANDARD, PLANE_PROPS);
         this.plane.initialize();
     }
+
+    _addBox() {
+        this.box = new UsualMesh("BOX", WORLD_OBJECT_GEOMETRIES.BOX, WORLD_OBJECT_MESH_TYPES.STANDARD, BOX_PROPS);
+        this.box.initialize();
+        EventHandler.instance.onKeyPress(1,2,3);
+    }
+
+
 }
 
 export default World;

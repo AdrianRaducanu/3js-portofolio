@@ -11,8 +11,6 @@ class UsualMesh extends WorldObjects{
     }
 
     initialize() {
-        this.meshInstance.rotateX(Math.PI / 2);
-
         this._setupDebugger();
         this._addInScene();
     }
@@ -22,13 +20,16 @@ class UsualMesh extends WorldObjects{
     }
 
     _setupDebugger() {
-        Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this._setProperty(key, value));
+        Engine.instance.createDebuggingFolder(this.name, {color: this.properties.color}, (key, value) => this.setProperty(key, value));
     }
 
-    _setProperty(key, value) {
+    setProperty(key, value) {
         switch (key) {
             case OBJECT_PROPERTIES.COLOR:
                 this.meshInstance.material.color.set(value);
+                break;
+            case OBJECT_PROPERTIES.POSITION:
+                this.meshInstance.position.set(value.x, value.y, value.z);
                 break;
             default:
                 throw new Error("Invalid property to toggle in class UsualMesh");
@@ -38,7 +39,12 @@ class UsualMesh extends WorldObjects{
     _createMeshBasedOnGeometryAndMaterial(geometry, material) {
         switch (geometry) {
             case WORLD_OBJECT_GEOMETRIES.PLANE:
-                this.meshGeometry = new THREE.PlaneGeometry(this.properties.width,this.properties.height);
+                this.meshGeometry = new THREE.PlaneGeometry(this.properties.width, this.properties.height);
+                this.meshGeometry.rotateX(Math.PI / 2);
+                break;
+            case WORLD_OBJECT_GEOMETRIES.BOX:
+                this.meshGeometry = new THREE.BoxGeometry(this.properties.width);
+                // this.meshGeometry.position.y = this.properties.width / 2;
                 break;
             default:
                 throw new Error("Problem with geometry");
@@ -63,6 +69,14 @@ class UsualMesh extends WorldObjects{
         }
 
         this.meshInstance = new THREE.Mesh(this.meshGeometry, this.meshMaterial);
+
+        if(geometry !== WORLD_OBJECT_GEOMETRIES.PLANE) {
+            this._uniformPositionOnY();
+        }
+    }
+
+    _uniformPositionOnY() {
+        this.meshInstance.position.y += this.meshInstance.geometry.parameters.height / 2;
     }
 }
 
