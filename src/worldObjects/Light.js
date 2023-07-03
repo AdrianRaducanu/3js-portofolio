@@ -21,7 +21,7 @@ class Light extends WorldObjects{
     }
 
     _setupDebugger() {
-        Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this._setProperty(key, value));
+        Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this.setProperty(key, value));
     }
 
     setProperty(key, value) {
