@@ -3,7 +3,7 @@ import UsualMesh from "./worldObjects/UsualMesh.js";
 import Light from "./worldObjects/Light.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {AMBIENT_LIGHT_PROPS, BOX_PROPS, PLANE_PROPS} from "./worldObjects/PROPS.js";
-import EventHandler from '../src/EventHandler';
+import MainObject from "./worldObjects/MainObject.js";
 
 class World {
     constructor() {
@@ -23,6 +23,10 @@ class World {
     start() {
     }
 
+    updateWorld() {
+        this.box.updatePosition();
+    }
+
     _addLights() {
         this.ambientLight = new Light("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
         this.ambientLight.initialize();
@@ -35,9 +39,8 @@ class World {
     }
 
     _addBox() {
-        this.box = new UsualMesh("BOX", WORLD_OBJECT_GEOMETRIES.BOX, WORLD_OBJECT_MESH_TYPES.STANDARD, BOX_PROPS);
+        this.box = new MainObject("BOX", WORLD_OBJECT_GEOMETRIES.BOX, WORLD_OBJECT_MESH_TYPES.STANDARD, BOX_PROPS);
         this.box.initialize();
-        EventHandler.instance.onKeyPress(1,2,3);
     }
 
 

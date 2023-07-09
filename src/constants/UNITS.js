@@ -7,3 +7,13 @@ export const CAMERA_UNITS = {
     NEAR: 0.1,
     FAR: 1000
 }
+
+export const AXIS = {
+    Z: "Z",
+    Y: "Y",
+    X: "X"
+}
+
+export const MOVING_UNIT = 0.01;
+
+export const ROTATION_UNIT = Math.PI / 256;

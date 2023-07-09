@@ -17,6 +17,14 @@ class OrbitController extends RequiredObjects{
     getInstance() {
         return this.orbitController;
     }
+
+    update() {
+        this.orbitController.update();
+    }
+
+    setTarget(pos) {
+        this.orbitController.target = pos;
+    }
 }
 
 export default OrbitController;

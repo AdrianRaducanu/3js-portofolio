@@ -48,7 +48,6 @@ class UsualMesh extends WorldObjects{
                 break;
             default:
                 throw new Error("Problem with geometry");
-                break;
         }
         switch (material) {
             case WORLD_OBJECT_MESH_TYPES.BASIC:
@@ -65,7 +64,6 @@ class UsualMesh extends WorldObjects{
                 break;
             default:
                 throw new Error("Problem with material");
-                break;
         }
 
         this.meshInstance = new THREE.Mesh(this.meshGeometry, this.meshMaterial);
@@ -76,7 +74,7 @@ class UsualMesh extends WorldObjects{
     }
 
     _uniformPositionOnY() {
-        this.meshInstance.position.y += this.meshInstance.geometry.parameters.height / 2;
+        this.meshInstance.position.y += this.meshInstance.geometry.parameters.height / 2 + 0.01;
     }
 }
 

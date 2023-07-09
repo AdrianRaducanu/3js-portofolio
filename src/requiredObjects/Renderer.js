@@ -14,13 +14,13 @@ class Renderer extends RequiredObjects{
 
     initialize() {
         this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SIZES);
+        this.sceneInstance = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SCENE);
+        this.cameraInstance = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.CAMERA);
         this.update();
     }
 
     renderApp() {
-        const scene = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SCENE);
-        const camera = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.CAMERA);
-        this.rendererInstance.render(scene, camera);
+        this.rendererInstance.render(this.sceneInstance, this.cameraInstance);
     }
 
     update() {

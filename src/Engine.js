@@ -38,10 +38,6 @@ class Engine {
         //canvas
         this.canvas = document.getElementById('canvas');
 
-        //renderer
-        this.renderer = new Renderer();
-        this.renderer.initialize();
-
         //scene
         this.scene = new Scene();
         this.scene.initialize();
@@ -49,6 +45,10 @@ class Engine {
         //camera
         this.camera = new Camera(CAMERA.PERSPECTIVE);
         this.camera.initialize();
+
+        //renderer
+        this.renderer = new Renderer();
+        this.renderer.initialize();
 
         //orbitController
         this.orbitController = new OrbitController();
@@ -63,9 +63,9 @@ class Engine {
     }
 
     start() {
-        this.world.start();
+        this.camera.setPosition({x: 0, y: 3, z: 7});
 
-        this.camera.setPosition({x: 0, y: 1, z: 5});
+        this.world.start();
 
         this.renderer.renderApp();
     }
@@ -116,14 +116,22 @@ class Engine {
         this.scene.addInScene(obj);
     }
 
+    moveCamera(axis, value) {
+        this.camera.moveCamera(axis, value);
+    }
+
+    setOrbitPosition(pos) {
+        this.orbitController.setTarget(pos);
+    }
+
     createDebuggingFolder(folderTitle, props, callback) {
         this.debugger.createFolder(folderTitle, props, callback);
     }
 
     tick() {
-        requestAnimationFrame(() => this.tick());
-        this.orbitController.getInstance().update();
+        this.world.updateWorld();
         this.renderer.renderApp();
+        requestAnimationFrame(() => this.tick());
     }
 
 

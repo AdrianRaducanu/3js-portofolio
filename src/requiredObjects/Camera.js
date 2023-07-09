@@ -3,6 +3,7 @@ import {CAMERA} from "../constants/CAMERA_TYPE.js";
 import RequiredObjects from "./RequiredObjects.js";
 import Engine from "../Engine.js";
 import {REQUIRED_OBJECT_TYPES} from "../constants/OBJECT_TYPES.js";
+import {AXIS} from "../constants/UNITS.js";
 
 class Camera extends RequiredObjects{
     constructor(type) {
@@ -30,6 +31,22 @@ class Camera extends RequiredObjects{
         //need to do that so the orbitController could work
         const orbitController = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER);
         orbitController.update();
+    }
+
+    moveCamera(axis, value) {
+        switch (axis) {
+            case AXIS.Z:
+                this.cameraInstance.position.z += value;
+                break;
+            case AXIS.X:
+                this.cameraInstance.position.x += value;
+                break
+            case AXIS.Y:
+                this.cameraInstance.position.y += value;
+                break;
+            default:
+                break;
+        }
     }
 
     update() {
