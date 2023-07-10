@@ -12,6 +12,8 @@ class OrbitController extends RequiredObjects{
         const camera = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.CAMERA);
         const renderer = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.RENDERER);
         this.orbitController = new OrbitControls(camera, renderer.domElement);
+
+        this._setupOrbitProps();
     }
 
     getInstance() {
@@ -24,6 +26,13 @@ class OrbitController extends RequiredObjects{
 
     setTarget(pos) {
         this.orbitController.target = pos;
+    }
+
+    _setupOrbitProps() {
+        this.orbitController.minDistance = 2;
+        this.orbitController.maxDistance = 15;
+
+        this.orbitController.maxPolarAngle = Math.PI / 2;
     }
 }
 
