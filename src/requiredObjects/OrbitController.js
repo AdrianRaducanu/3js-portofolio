@@ -30,7 +30,7 @@ class OrbitController extends RequiredObjects{
 
     _setupOrbitProps() {
         this.orbitController.minDistance = 2;
-        this.orbitController.maxDistance = 15;
+        this.orbitController.maxDistance = 1500;
 
         this.orbitController.maxPolarAngle = Math.PI / 2;
     }

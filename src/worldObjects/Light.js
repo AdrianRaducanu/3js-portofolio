@@ -1,13 +1,14 @@
 import WorldObjects from "./WorldObjects.js";
-import {AmbientLight, DirectionalLight, PointLight} from "three";
+import {AmbientLight, CameraHelper, DirectionalLight, PointLight} from "three";
 import Engine from "../Engine.js";
 import {LIGHT_TYPE} from "../constants/LIGHT_TYPE.js";
 import {OBJECT_PROPERTIES} from "../constants/OBJECT_PROPERTIES.js";
 
 class Light extends WorldObjects{
-    constructor(name, lightType, props) {
+    constructor(name, lightType, props, hasHelper = false) {
         super(name, props);
         this.lightType = lightType;
+        this.hasHelper = hasHelper;
         this._createLightBasedOnType();
     }
 
@@ -22,6 +23,16 @@ class Light extends WorldObjects{
 
     _setupDebugger() {
         Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this.setProperty(key, value));
+    }
+
+    addShadow(props) {
+        Object.keys(props).forEach(prop => {
+            Object.keys(props[prop]).forEach(propKeys => {
+                this.lightInstance.shadow[prop][propKeys] = props[prop][propKeys];
+            })
+        });
+        this.lightInstance.castShadow = true;
+        this._createLightHelper();
     }
 
     setProperty(key, value) {
@@ -55,6 +66,13 @@ class Light extends WorldObjects{
         }
         if(this.properties.position) {
             this.lightInstance.position.set(this.properties.position.x, this.properties.position.y, this.properties.position.z);
+        }
+    }
+
+    _createLightHelper() {
+        if(this.hasHelper) {
+            this.lightHelper = new CameraHelper(this.lightInstance.shadow.camera);
+            Engine.instance.addInScene(this.lightHelper);
         }
     }
 }

@@ -3,6 +3,7 @@ import * as THREE from "three"
 import Engine from "../Engine.js";
 import {OBJECT_PROPERTIES} from "../constants/OBJECT_PROPERTIES.js";
 import {WORLD_OBJECT_GEOMETRIES, WORLD_OBJECT_MESH_TYPES} from "../constants/OBJECT_TYPES.js";
+import {SHADOW_ACTION} from "../constants/SHADOW_ACTION.js";
 
 class UsualMesh extends WorldObjects{
     constructor(name, geometry, material, props) {
@@ -21,6 +22,23 @@ class UsualMesh extends WorldObjects{
 
     _setupDebugger() {
         Engine.instance.createDebuggingFolder(this.name, {color: this.properties.color}, (key, value) => this.setProperty(key, value));
+    }
+
+    addShadow(shouldCast = null) {
+        switch (shouldCast) {
+            case SHADOW_ACTION.RECEIVE:
+                this.meshInstance.receiveShadow = true;
+                break;
+            case SHADOW_ACTION.CAST:
+                this.meshInstance.castShadow = true;
+                break;
+            case SHADOW_ACTION.BOTH:
+            default:
+                this.meshInstance.castShadow = true;
+                this.meshInstance.receiveShadow = true;
+                break;
+        }
+
     }
 
     setProperty(key, value) {

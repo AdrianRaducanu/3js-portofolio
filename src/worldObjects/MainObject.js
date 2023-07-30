@@ -68,15 +68,7 @@ class MainObject extends UsualMesh{
 
     updatePosition() {
         if(this.moveController.up) {
-            this.meshInstance.position.z -= Math.cos(this.meshInstance.rotation.y) * MOVING_UNIT;
-            this.meshInstance.position.x -= Math.sin(this.meshInstance.rotation.y) * MOVING_UNIT;
-
-            //update the camera
-            Engine.instance.moveCamera(AXIS.Z, -Math.cos(this.meshInstance.rotation.y) * MOVING_UNIT);
-            Engine.instance.moveCamera(AXIS.X, -Math.sin(this.meshInstance.rotation.y) * MOVING_UNIT);
-
-            //update controller
-            Engine.instance.setOrbitPosition(this.meshInstance.position);
+            this._move();
         }
         if(this.moveController.down) {
             // here will put sit-down animation
@@ -87,7 +79,28 @@ class MainObject extends UsualMesh{
         if(this.moveController.right) {
             this.meshInstance.rotation.y -= ROTATION_UNIT;
         }
+    }
 
+    _move() {
+        const incrementalX = Math.sin(this.meshInstance.rotation.y) * MOVING_UNIT;
+        const incrementalZ = Math.cos(this.meshInstance.rotation.y) * MOVING_UNIT;
+
+        //early return
+        if((this.meshInstance.position.x - incrementalX >= 2) || (this.meshInstance.position.z - incrementalZ >= 10)) {
+            console.log(this.meshInstance.position);
+            return
+        }
+
+        //change position
+        this.meshInstance.position.z -= incrementalZ;
+        this.meshInstance.position.x -= incrementalX;
+
+        //update the camera
+        Engine.instance.moveCamera(AXIS.Z, -incrementalZ);
+        Engine.instance.moveCamera(AXIS.X, -incrementalX);
+
+        //update controller
+        Engine.instance.setOrbitPosition(this.meshInstance.position);
     }
 }
 

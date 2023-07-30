@@ -2,6 +2,7 @@ import * as THREE from "three";
 import Engine from "../Engine.js";
 import RequiredObjects from "./RequiredObjects.js";
 import {REQUIRED_OBJECT_TYPES} from "../constants/OBJECT_TYPES.js";
+import {PCFSoftShadowMap} from "three";
 
 class Renderer extends RequiredObjects{
     constructor() {
@@ -13,6 +14,8 @@ class Renderer extends RequiredObjects{
     }
 
     initialize() {
+        this.rendererInstance.shadowMap.enabled = true;
+        this.rendererInstance.shadowMap.type = PCFSoftShadowMap;
         this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SIZES);
         this.sceneInstance = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SCENE);
         this.cameraInstance = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.CAMERA);

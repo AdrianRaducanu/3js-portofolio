@@ -5,7 +5,6 @@ class WorldObjects {
     }
 
     initialize() {
-
     }
 
     _addInScene() {
@@ -13,6 +12,10 @@ class WorldObjects {
     }
     _setupDebugger() {
         throw new Error("Must implement setupDebugger");
+    }
+
+    addShadow() {
+        throw new Error("Must implement addShadow");
     }
 
     setProperty(key, value) {
