@@ -7,6 +7,7 @@ import OrbitController from "./requiredObjects/OrbitController.js";
 import {REQUIRED_OBJECT_TYPES} from "./constants/OBJECT_TYPES.js";
 import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
+import {Clock} from "three";
 
 class Enforcer {
 }
@@ -59,6 +60,8 @@ class Engine {
         this.world.initialize();
 
         //tick fcn
+        this.previousTime = 0;
+        this.clock = new Clock();
         this.tick();
     }
 
@@ -129,7 +132,11 @@ class Engine {
     }
 
     tick() {
-        this.world.updateWorld();
+        const elapsedTime = this.clock.getElapsedTime();
+        const deltaTime = elapsedTime - this.previousTime;
+        this.previousTime = elapsedTime;
+
+        this.world.updateWorld(deltaTime);
         this.renderer.renderApp();
         requestAnimationFrame(() => this.tick());
     }

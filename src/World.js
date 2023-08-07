@@ -1,14 +1,13 @@
 import {WORLD_OBJECT_GEOMETRIES, WORLD_OBJECT_MESH_TYPES} from "./constants/OBJECT_TYPES.js";
-import UsualMesh from "./worldObjects/UsualMesh.js";
-import Light from "./worldObjects/Light.js";
+import WorldMesh from "./worldObjects/objectClasses/WorldMesh.js";
+import WorldLight from "./worldObjects/objectClasses/WorldLight.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
-    BOX_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_SHADOW_PROPS,
+    DIRECTIONAL_LIGHT_SHADOW_PROPS, MODEL_PROPS,
     PLANE_PROPS
-} from "./worldObjects/PROPS.js";
+} from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import {SHADOW_ACTION} from "./constants/SHADOW_ACTION.js";
 
@@ -23,37 +22,37 @@ class World {
         //plane
         this._addPlane();
 
-        //box model mockup
-        this._addBox();
+        //mainObject model mockup
+        this._addMainObject();
     }
 
     start() {
     }
 
-    updateWorld() {
-        this.box.updatePosition();
+    updateWorld(delta) {
+        this.mainObject.update(delta);
     }
 
     _addLights() {
-        this.ambientLight = new Light("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
+        this.ambientLight = new WorldLight("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
         this.ambientLight.initialize();
 
-        this.directionalLight = new Light("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS, true);
+        this.directionalLight = new WorldLight("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS, true);
         this.directionalLight.initialize();
         this.directionalLight.addShadow(DIRECTIONAL_LIGHT_SHADOW_PROPS);
 
     }
 
     _addPlane() {
-        this.plane = new UsualMesh("Plane", WORLD_OBJECT_GEOMETRIES.PLANE, WORLD_OBJECT_MESH_TYPES.STANDARD, PLANE_PROPS);
+        this.plane = new WorldMesh("Plane", WORLD_OBJECT_GEOMETRIES.PLANE, WORLD_OBJECT_MESH_TYPES.STANDARD, PLANE_PROPS);
         this.plane.initialize();
         this.plane.addShadow(SHADOW_ACTION.RECEIVE);
     }
 
-    _addBox() {
-        this.box = new MainObject("BOX", WORLD_OBJECT_GEOMETRIES.BOX, WORLD_OBJECT_MESH_TYPES.STANDARD, BOX_PROPS);
-        this.box.initialize();
-        this.box.addShadow(SHADOW_ACTION.CAST)
+    _addMainObject() {
+        this.mainObject = new MainObject("main", MODEL_PROPS);
+        this.mainObject.initialize();
+        // this.mainObject.addShadow();
     }
 
 

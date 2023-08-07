@@ -14,6 +14,9 @@ export const BOX_PROPS = {
     color: "#ffcc00"
 }
 
+export const MODEL_PROPS = {
+}
+
 export const DIRECTIONAL_LIGHT_PROPS = {
     color: "#cacaca",
     intensity: 2,

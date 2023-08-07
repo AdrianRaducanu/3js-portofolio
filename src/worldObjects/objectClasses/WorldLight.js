@@ -1,10 +1,10 @@
 import WorldObjects from "./WorldObjects.js";
 import {AmbientLight, CameraHelper, DirectionalLight, PointLight} from "three";
-import Engine from "../Engine.js";
-import {LIGHT_TYPE} from "../constants/LIGHT_TYPE.js";
-import {OBJECT_PROPERTIES} from "../constants/OBJECT_PROPERTIES.js";
+import Engine from "../../Engine.js";
+import {LIGHT_TYPE} from "../../constants/LIGHT_TYPE.js";
+import {OBJECT_PROPERTIES} from "../../constants/OBJECT_PROPERTIES.js";
 
-class Light extends WorldObjects{
+class WorldLight extends WorldObjects{
     constructor(name, lightType, props, hasHelper = false) {
         super(name, props);
         this.lightType = lightType;
@@ -77,4 +77,4 @@ class Light extends WorldObjects{
     }
 }
 
-export default Light
+export default WorldLight

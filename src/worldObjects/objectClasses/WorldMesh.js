@@ -1,11 +1,11 @@
 import WorldObjects from "./WorldObjects.js";
 import * as THREE from "three"
-import Engine from "../Engine.js";
-import {OBJECT_PROPERTIES} from "../constants/OBJECT_PROPERTIES.js";
-import {WORLD_OBJECT_GEOMETRIES, WORLD_OBJECT_MESH_TYPES} from "../constants/OBJECT_TYPES.js";
-import {SHADOW_ACTION} from "../constants/SHADOW_ACTION.js";
+import Engine from "../../Engine.js";
+import {OBJECT_PROPERTIES} from "../../constants/OBJECT_PROPERTIES.js";
+import {WORLD_OBJECT_GEOMETRIES, WORLD_OBJECT_MESH_TYPES} from "../../constants/OBJECT_TYPES.js";
+import {SHADOW_ACTION} from "../../constants/SHADOW_ACTION.js";
 
-class UsualMesh extends WorldObjects{
+class WorldMesh extends WorldObjects {
     constructor(name, geometry, material, props) {
         super(name, props);
         this._createMeshBasedOnGeometryAndMaterial(geometry, material);
@@ -50,7 +50,7 @@ class UsualMesh extends WorldObjects{
                 this.meshInstance.position.set(value.x, value.y, value.z);
                 break;
             default:
-                throw new Error("Invalid property to toggle in class UsualMesh");
+                throw new Error("Invalid property to toggle in class WorldMesh");
         }
     }
 
@@ -96,4 +96,4 @@ class UsualMesh extends WorldObjects{
     }
 }
 
-export default UsualMesh;
+export default WorldMesh;
