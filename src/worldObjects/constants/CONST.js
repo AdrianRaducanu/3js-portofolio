@@ -10,7 +10,7 @@ export const STANDING_TIME_INCREMENT = 0.01;
 
 export const STANDING_TIME_INITIAL_VALUE = 1;
 
-export const STANDING_TIME_LOOP_TIME = 5;
+export const STANDING_TIME_LOOP_TIME = 10;
 
 export const KEY_EVENTS = {
     KEY_DOWN: "keydown",

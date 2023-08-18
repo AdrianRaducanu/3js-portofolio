@@ -47,7 +47,6 @@ class MainObject extends WorldModel{
             }
 
             //this is regarding standby animation
-            this.standingTime = STANDING_TIME_INITIAL_VALUE;
             this.modelAnimations[MAIN_ANIMATIONS.HEAD_TURN].stop();
 
             switch (event.code) {
@@ -113,9 +112,10 @@ class MainObject extends WorldModel{
     }
 
     update(delta) {
+        this.standingTime += STANDING_TIME_INCREMENT;
+
         this._updatePosition();
         this.updateMixer(delta);
-        this.standingTime += STANDING_TIME_INCREMENT;
 
         if(Math.round(this.standingTime) % STANDING_TIME_LOOP_TIME === 0 && !this.modelAnimations[MAIN_ANIMATIONS.HEAD_TURN]?.isRunning()) {
             this.modelAnimations[MAIN_ANIMATIONS.HEAD_TURN]?.stop();
@@ -128,15 +128,22 @@ class MainObject extends WorldModel{
             this.playAnimationByName(MAIN_ANIMATIONS.WALK);
             this.playAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
             this._move();
+            this.standingTime = STANDING_TIME_INITIAL_VALUE;
         }
         if(this.moveController.down) {
+            this.standingTime = STANDING_TIME_INITIAL_VALUE;
+
             // here will put sit-down animation -> idk if i ll do it
         }
         if(this.moveController.left) {
             this.modelInstance.rotation.y += ROTATION_UNIT;
+
+            this.standingTime = STANDING_TIME_INITIAL_VALUE;
         }
         if(this.moveController.right) {
             this.modelInstance.rotation.y -= ROTATION_UNIT;
+
+            this.standingTime = STANDING_TIME_INITIAL_VALUE;
         }
     }
 
