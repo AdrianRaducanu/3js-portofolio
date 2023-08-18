@@ -50,7 +50,7 @@ class World {
     }
 
     _addMainObject() {
-        this.mainObject = new MainObject("main", MODEL_PROPS);
+        this.mainObject = new MainObject("dora", MODEL_PROPS);
         this.mainObject.initialize();
         // this.mainObject.addShadow();
     }

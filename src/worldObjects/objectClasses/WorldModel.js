@@ -6,7 +6,7 @@ import {AnimationMixer} from "three";
 class WorldModel extends WorldObjects {
     constructor(name, callbackAfterLoading, props) {
         super(name, props);
-        this.url = `../../static/models/${this.name}/bin/Fox.glb`;
+        this.url = `../../static/models/bin/${this.name}.glb`;
         this.modelInstance = {};
         this.modelAnimations = {};
         this.mixer = null;
@@ -71,11 +71,9 @@ class WorldModel extends WorldObjects {
 
     _extractAnimations(gltf) {
         this.mixer = new AnimationMixer(gltf.scene);
-        // const clip = this.mixer.clipAction(gltf.animations[1]);
-        // clip.play();
         gltf.animations.forEach(animation => {
             this.modelAnimations[animation.name] = this.mixer.clipAction(animation);
-        })
+        });
     }
 
     updateMixer(delta) {

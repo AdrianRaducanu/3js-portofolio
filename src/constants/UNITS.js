@@ -9,11 +9,7 @@ export const CAMERA_UNITS = {
 }
 
 export const AXIS = {
-    Z: "Z",
-    Y: "Y",
-    X: "X"
+    Z: "z",
+    Y: "y",
+    X: "x"
 }
-
-export const MOVING_UNIT = 0.01;
-
-export const ROTATION_UNIT = Math.PI / 256;
