@@ -1,15 +1,12 @@
-import {WORLD_OBJECT_GEOMETRIES, WORLD_OBJECT_MESH_TYPES} from "./constants/OBJECT_TYPES.js";
-import WorldMesh from "./worldObjects/objectClasses/WorldMesh.js";
 import WorldLight from "./worldObjects/objectClasses/WorldLight.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_SHADOW_PROPS, MODEL_PROPS,
-    PLANE_PROPS
+    DIRECTIONAL_LIGHT_SHADOW_PROPS, MODEL_PROPS, TERRAIN_PROPS
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
-import {SHADOW_ACTION} from "./constants/SHADOW_ACTION.js";
+import Landscape from "./worldObjects/Landscape.js";
 
 class World {
     constructor() {
@@ -19,11 +16,11 @@ class World {
         //lights
         this._addLights();
 
-        //plane
-        this._addPlane();
-
         //mainObject model mockup
         this._addMainObject();
+
+        //addTerrain
+        this._addTerrain();
     }
 
     start() {
@@ -43,16 +40,14 @@ class World {
 
     }
 
-    _addPlane() {
-        this.plane = new WorldMesh("Plane", WORLD_OBJECT_GEOMETRIES.PLANE, WORLD_OBJECT_MESH_TYPES.STANDARD, PLANE_PROPS);
-        this.plane.initialize();
-        this.plane.addShadow(SHADOW_ACTION.RECEIVE);
+    _addTerrain() {
+        this.terrain = new Landscape("Landscape", TERRAIN_PROPS);
+        this.terrain.initialize();
     }
 
     _addMainObject() {
         this.mainObject = new MainObject("dora", MODEL_PROPS);
         this.mainObject.initialize();
-        // this.mainObject.addShadow();
     }
 
 

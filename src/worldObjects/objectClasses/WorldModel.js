@@ -28,7 +28,7 @@ class WorldModel extends WorldObjects {
     addShadow() {
         this.modelInstance.traverse((node) => {
             if(node.isMesh) {
-                node.castShadow = true;
+                node.receiveShadow = true;
             }
         })
     }

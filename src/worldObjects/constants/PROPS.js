@@ -3,18 +3,11 @@ export const AMBIENT_LIGHT_PROPS = {
     intensity: 1
 }
 
-export const PLANE_PROPS = {
-    width: 100,
-    height: 100,
-    color: "#5e9a8c"
-}
-
-export const BOX_PROPS = {
-    width: 1,
-    color: "#ffcc00"
-}
-
 export const MODEL_PROPS = {
+}
+
+export const TERRAIN_PROPS = {
+    color: "#5e9a8c"
 }
 
 export const DIRECTIONAL_LIGHT_PROPS = {

@@ -7,7 +7,7 @@ import OrbitController from "./requiredObjects/OrbitController.js";
 import {REQUIRED_OBJECT_TYPES} from "./constants/OBJECT_TYPES.js";
 import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
-import {Clock} from "three";
+import {Clock, ColorManagement} from "three";
 
 class Enforcer {
 }
@@ -28,6 +28,7 @@ class Engine {
     }
 
     initialize() {
+        // ColorManagement.enabled = false;
         //sizes
         this.sizes = new Sizes();
         this.sizes.initialize();

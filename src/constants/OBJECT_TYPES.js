@@ -6,13 +6,3 @@ export const REQUIRED_OBJECT_TYPES = {
     SIZES: "SIZES",
     DEBUGGER: "DEBUGGER"
 }
-
-export const WORLD_OBJECT_GEOMETRIES = {
-    PLANE: "PLANE",
-    BOX: "BOX"
-}
-
-export const WORLD_OBJECT_MESH_TYPES = {
-    STANDARD: "STANDARD",
-    BASIC: "BASIC"
-}
