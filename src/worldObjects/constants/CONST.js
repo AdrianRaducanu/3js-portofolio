@@ -21,3 +21,15 @@ export const MOVING_UNIT = 0.05;
 
 export const ROTATION_UNIT = Math.PI / 256;
 
+export const LIGHT_WITH_SHADOW = true;
+
+export const ROAD_MESH = "terrain-road";
+
+export const GRASS_MESH = "terrain-grass";
+
+export const CAVE_MESH = "terrain-cave";
+
+export const LEAF_MESH = "leaf";
+
+export const TREE_MESH = "tree-base";
+

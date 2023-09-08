@@ -3,10 +3,12 @@ import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_SHADOW_PROPS, MODEL_PROPS, TERRAIN_PROPS
+    DIRECTIONAL_LIGHT_SHADOW_PROPS, DIRECTIONAL_LIGHT_PROPS_2
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
+import RaycasterPoint from "./worldObjects/RaycasterPoint.js";
+import {LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
 
 class World {
     constructor() {
@@ -16,11 +18,14 @@ class World {
         //lights
         this._addLights();
 
+        //raycaster
+        this._addRaycaster();
+
+        //addLandscape
+        this._addLandscape();
+
         //mainObject model mockup
         this._addMainObject();
-
-        //addTerrain
-        this._addTerrain();
     }
 
     start() {
@@ -34,20 +39,28 @@ class World {
         this.ambientLight = new WorldLight("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
         this.ambientLight.initialize();
 
-        this.directionalLight = new WorldLight("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS, true);
+        this.directionalLight = new WorldLight("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS, LIGHT_WITH_SHADOW);
         this.directionalLight.initialize();
         this.directionalLight.addShadow(DIRECTIONAL_LIGHT_SHADOW_PROPS);
 
+        this.directionalLight = new WorldLight("World directional light 2", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS_2);
+        this.directionalLight.initialize();
+
+
     }
 
-    _addTerrain() {
-        this.terrain = new Landscape("Landscape", TERRAIN_PROPS);
-        this.terrain.initialize();
+    _addLandscape() {
+        this.landscape = new Landscape("landscape-terrain-separated", this.raycaster);
+        this.landscape.initialize();
     }
 
     _addMainObject() {
-        this.mainObject = new MainObject("dora", MODEL_PROPS);
+        this.mainObject = new MainObject("dora", this.raycaster);
         this.mainObject.initialize();
+    }
+
+    _addRaycaster() {
+        this.raycaster = new RaycasterPoint();
     }
 
 

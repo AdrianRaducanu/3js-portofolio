@@ -1,33 +1,38 @@
+import {SHADOW_PROP} from "../../constants/SHADOW_PROP.js";
+
 export const AMBIENT_LIGHT_PROPS = {
-    color: "#404040",
+    color: "#bdbdbd",
     intensity: 1
 }
 
-export const MODEL_PROPS = {
-}
-
-export const TERRAIN_PROPS = {
-    color: "#5e9a8c"
-}
-
 export const DIRECTIONAL_LIGHT_PROPS = {
-    color: "#cacaca",
-    intensity: 2,
+    color: "#bdbdbd",
+    intensity: 1,
     position: {
-        x: 20,
-        y: 30,
-        z: 5
+        x: 30,
+        y: 50,
+        z: 30
+    }
+}
+export const DIRECTIONAL_LIGHT_PROPS_2 = {
+    color: "#aa7132",
+    intensity: 1,
+    position: {
+        x: -80,
+        y: 50,
+        z: 20
     }
 }
 
+
 export const DIRECTIONAL_LIGHT_SHADOW_PROPS = {
     camera: {
-        far: 100,
-        near: 10,
-        top: 50,
-        right: 50,
-        bottom: -50,
-        left: -50,
+        far: 130,
+        near: 0,
+        top: 100,
+        right: 100,
+        bottom: -100,
+        left: -100,
     },
     mapSize: {
         width: 4096,

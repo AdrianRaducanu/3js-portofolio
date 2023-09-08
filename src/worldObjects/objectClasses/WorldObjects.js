@@ -1,5 +1,5 @@
 class WorldObjects {
-    constructor(name, props) {
+    constructor(name, props = null) {
         this.name = name;
         this.properties = props;
     }

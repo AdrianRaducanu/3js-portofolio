@@ -4,8 +4,8 @@ import Engine from "../../Engine.js";
 import {AnimationMixer} from "three";
 
 class WorldModel extends WorldObjects {
-    constructor(name, callbackAfterLoading, props) {
-        super(name, props);
+    constructor(name) {
+        super(name);
         this.url = `../../static/models/bin/${this.name}.glb`;
         this.modelInstance = {};
         this.modelAnimations = {};
@@ -19,18 +19,11 @@ class WorldModel extends WorldObjects {
         Engine.instance.addInScene(this.modelInstance);
     }
 
-    _setupDebugger() {
-    }
 
     setProperty(key, value) {
     }
 
     addShadow() {
-        this.modelInstance.traverse((node) => {
-            if(node.isMesh) {
-                node.receiveShadow = true;
-            }
-        })
     }
 
     importModel(name, callbackAfterLoading) {

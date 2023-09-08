@@ -67,7 +67,7 @@ class Engine {
     }
 
     start() {
-        this.camera.setPosition({x: 0, y: 3, z: 7});
+        this.camera.setPosition({x: 0, y: 3, z: 77});
 
         this.world.start();
 

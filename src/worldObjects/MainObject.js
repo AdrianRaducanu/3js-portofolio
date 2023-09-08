@@ -13,8 +13,8 @@ import {
 } from "./constants/CONST.js";
 
 class MainObject extends WorldModel{
-    constructor(name, props) {
-        super(name, props);
+    constructor(name, raycaster) {
+        super(name);
         this.moveController = {
             up: false,
             down: false,
@@ -22,6 +22,7 @@ class MainObject extends WorldModel{
             right: false
         }
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
+        this.raycaster = raycaster;
     }
 
     initialize() {
@@ -31,6 +32,9 @@ class MainObject extends WorldModel{
     callbackAfterModelLoad() {
         this._keyListener();
         this._unloopAnimations();
+        this.addShadow();
+
+        this.modelInstance.position.z = 70;
 
         //this can be different from model to model -> should find another solution
         this.neckBone = this.modelInstance["children"][0]["children"][1]["children"][1]["children"][0]["children"][0]["children"][0]["children"][0];
@@ -150,16 +154,17 @@ class MainObject extends WorldModel{
     _move() {
         const incrementalX = Math.sin(this.modelInstance.rotation.y) * MOVING_UNIT;
         const incrementalZ = Math.cos(this.modelInstance.rotation.y) * MOVING_UNIT;
+        const roadCollision = this.raycaster.verifyNextStep(this.modelInstance.position.x - incrementalX, this.modelInstance.position.z - incrementalZ);
 
-        //early return
-        if((this.modelInstance.position.x - incrementalX >= 2) || (this.modelInstance.position.z - incrementalZ >= 10)) {
-            console.log(this.modelInstance.position);
-            return
+        if(!roadCollision.length) {
+            return;
         }
 
         //change position
         this.modelInstance.position.z -= incrementalZ;
         this.modelInstance.position.x -= incrementalX;
+
+        // this.raycaster.updateRaycaster(this.modelInstance.position.x, this.modelInstance.position.z);
 
         //update the camera
         Engine.instance.moveCamera(AXIS.Z, -incrementalZ);
@@ -175,6 +180,14 @@ class MainObject extends WorldModel{
                 this.modelAnimations[key].setLoop(LoopOnce);
             }
         })
+    }
+
+    addShadow() {
+        this.modelInstance.traverse((node) => {
+            if (node.isMesh) {
+                node.castShadow = true;
+            }
+        });
     }
 }
 
