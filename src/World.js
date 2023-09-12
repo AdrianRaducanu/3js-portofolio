@@ -46,11 +46,10 @@ class World {
         this.directionalLight = new WorldLight("World directional light 2", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS_2);
         this.directionalLight.initialize();
 
-
     }
 
     _addLandscape() {
-        this.landscape = new Landscape("landscape-terrain-separated", this.raycaster);
+        this.landscape = new Landscape("landscape", this.raycaster);
         this.landscape.initialize();
     }
 

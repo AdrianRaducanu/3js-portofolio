@@ -3,6 +3,7 @@ import Engine from "../Engine.js";
 import RequiredObjects from "./RequiredObjects.js";
 import {REQUIRED_OBJECT_TYPES} from "../constants/OBJECT_TYPES.js";
 import {LinearSRGBColorSpace, PCFSoftShadowMap, SRGBColorSpace} from "three";
+import {OutlineEffect} from "three/addons/effects/OutlineEffect.js";
 
 class Renderer extends RequiredObjects{
     constructor() {
@@ -24,7 +25,9 @@ class Renderer extends RequiredObjects{
     }
 
     renderApp() {
-        this.rendererInstance.render(this.sceneInstance, this.cameraInstance);
+        const params = {};
+        this.outline = new OutlineEffect(this.rendererInstance, params);
+        this.outline.render(this.sceneInstance, this.cameraInstance);
     }
 
     update() {

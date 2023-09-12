@@ -23,13 +23,12 @@ export const ROTATION_UNIT = Math.PI / 256;
 
 export const LIGHT_WITH_SHADOW = true;
 
-export const ROAD_MESH = "terrain-road";
-
-export const GRASS_MESH = "terrain-grass";
-
-export const CAVE_MESH = "terrain-cave";
-
-export const LEAF_MESH = "leaf";
-
-export const TREE_MESH = "tree-base";
+export const LANDSCAPE_MESH = {
+    ROAD_MESH: "terrain-road",
+    GRASS_MESH: "terrain-grass",
+    CAVE_MESH: "terrain-cave",
+    LEAF_MESH: "leaf",
+    CAVE_ROOF_MESH: "cave-roof",
+    TREE_MESH: "tree-base"
+}
 

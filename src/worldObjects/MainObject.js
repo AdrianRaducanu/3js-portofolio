@@ -186,6 +186,7 @@ class MainObject extends WorldModel{
         this.modelInstance.traverse((node) => {
             if (node.isMesh) {
                 node.castShadow = true;
+                // node.receiveShadow = true;
             }
         });
     }
