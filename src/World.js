@@ -43,8 +43,8 @@ class World {
         this.directionalLight.initialize();
         this.directionalLight.addShadow(DIRECTIONAL_LIGHT_SHADOW_PROPS);
 
-        this.directionalLight = new WorldLight("World directional light 2", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS_2);
-        this.directionalLight.initialize();
+        // this.directionalLight = new WorldLight("World directional light 2", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS_2);
+        // this.directionalLight.initialize();
 
     }
 

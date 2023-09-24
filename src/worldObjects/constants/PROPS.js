@@ -1,7 +1,5 @@
-import {SHADOW_PROP} from "../../constants/SHADOW_PROP.js";
-
 export const AMBIENT_LIGHT_PROPS = {
-    color: "#bdbdbd",
+    color: "#f4e9db",
     intensity: 1
 }
 

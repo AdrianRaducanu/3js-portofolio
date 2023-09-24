@@ -29,6 +29,8 @@ export const LANDSCAPE_MESH = {
     CAVE_MESH: "terrain-cave",
     LEAF_MESH: "leaf",
     CAVE_ROOF_MESH: "cave-roof",
-    TREE_MESH: "tree-base"
+    TREE_MESH: "tree-base",
+    WATERFALL: "waterfall",
+    WATER: "water"
 }
 

@@ -1,5 +1,8 @@
 import WorldModel from "./objectClasses/WorldModel.js";
 import {LANDSCAPE_MESH} from "./constants/CONST.js";
+import {ShaderMaterial} from "three";
+import waterfallVertex from "../shaders/waterfall/vertex.glsl"
+import waterfallFragment from "../shaders/waterfall/fragment.glsl"
 
 class Landscape extends WorldModel{
 
@@ -17,7 +20,10 @@ class Landscape extends WorldModel{
         this.raycaster.createObjectToIntersect(road[0]);
 
         this.modelInstance.traverse((node) => {
-            this._changeMaterial(node)
+            // console.log(node)
+            if(node.name === LANDSCAPE_MESH.WATERFALL) {
+                this._changeWaterfall(node)
+            }
             this._addShadow(node);
         })
     }
@@ -39,8 +45,15 @@ class Landscape extends WorldModel{
             }
     }
 
-    _changeMaterial(node) {
-        console.log(node)
+    _changeWaterfall(node) {
+        console.log(node);
+
+        const waterfallMaterial = new ShaderMaterial({
+            vertexShader: waterfallVertex,
+            fragmentShader: waterfallFragment
+        })
+
+        node.material = waterfallMaterial;
     }
 
 }
