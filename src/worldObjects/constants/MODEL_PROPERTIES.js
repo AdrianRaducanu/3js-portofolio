@@ -1,0 +1,1 @@
+export const WATER_COLOR = "rgb(70,178,178)";

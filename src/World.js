@@ -31,8 +31,9 @@ class World {
     start() {
     }
 
-    updateWorld(delta) {
+    updateWorld(delta, elapsedTime) {
         this.mainObject.update(delta);
+        this.landscape.update(elapsedTime);
     }
 
     _addLights() {

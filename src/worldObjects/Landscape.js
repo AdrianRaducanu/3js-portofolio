@@ -1,14 +1,16 @@
 import WorldModel from "./objectClasses/WorldModel.js";
 import {LANDSCAPE_MESH} from "./constants/CONST.js";
-import {ShaderMaterial} from "three";
+import {Color, ShaderMaterial} from "three";
 import waterfallVertex from "../shaders/waterfall/vertex.glsl"
 import waterfallFragment from "../shaders/waterfall/fragment.glsl"
+import {WATER_COLOR} from "./constants/MODEL_PROPERTIES.js";
 
 class Landscape extends WorldModel{
 
     constructor(name, raycaster) {
         super(name);
         this.raycaster = raycaster;
+        this._createShaderMaterials();
     }
 
     initialize() {
@@ -48,12 +50,24 @@ class Landscape extends WorldModel{
     _changeWaterfall(node) {
         console.log(node);
 
-        const waterfallMaterial = new ShaderMaterial({
-            vertexShader: waterfallVertex,
-            fragmentShader: waterfallFragment
-        })
+        node.material = this.waterfallMaterial;
+    }
 
-        node.material = waterfallMaterial;
+    _createShaderMaterials() {
+        const waterColor = new Color(WATER_COLOR);
+        this.waterfallMaterial = new ShaderMaterial({
+            vertexShader: waterfallVertex,
+            fragmentShader: waterfallFragment,
+            uniforms: {
+                uTime: {value: 0},
+                uWavesAmpl: {value: 0.5},
+                uWaterColor: {value: waterColor},
+            }
+        })
+    }
+
+    update(elapsed) {
+        this.waterfallMaterial.uniforms.uTime.value = elapsed;
     }
 
 }

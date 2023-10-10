@@ -137,7 +137,7 @@ class Engine {
         const deltaTime = elapsedTime - this.previousTime;
         this.previousTime = elapsedTime;
 
-        this.world.updateWorld(deltaTime);
+        this.world.updateWorld(deltaTime, elapsedTime);
         this.renderer.renderApp();
         requestAnimationFrame(() => this.tick());
     }
