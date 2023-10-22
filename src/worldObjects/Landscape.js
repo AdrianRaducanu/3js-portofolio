@@ -1,16 +1,14 @@
 import WorldModel from "./objectClasses/WorldModel.js";
 import {LANDSCAPE_MESH} from "./constants/CONST.js";
-import {Color, ShaderMaterial} from "three";
-import waterfallVertex from "../shaders/waterfall/vertex.glsl"
-import waterfallFragment from "../shaders/waterfall/fragment.glsl"
-import {WATER_COLOR} from "./constants/MODEL_PROPERTIES.js";
 
 class Landscape extends WorldModel{
 
     constructor(name, raycaster) {
         super(name);
         this.raycaster = raycaster;
-        this._createShaderMaterials();
+        this.waterfallUniforms = {
+            uTime: {value: 0}
+        };
     }
 
     initialize() {
@@ -22,9 +20,8 @@ class Landscape extends WorldModel{
         this.raycaster.createObjectToIntersect(road[0]);
 
         this.modelInstance.traverse((node) => {
-            // console.log(node)
             if(node.name === LANDSCAPE_MESH.WATERFALL) {
-                this._changeWaterfall(node)
+                this._modifyWaterMaterial(node)
             }
             this._addShadow(node);
         })
@@ -47,27 +44,34 @@ class Landscape extends WorldModel{
             }
     }
 
-    _changeWaterfall(node) {
-        console.log(node);
+    _modifyWaterMaterial(node) {
+        node.material.onBeforeCompile = (shader) => {
+            shader.uniforms.uTime = this.waterfallUniforms.uTime;
 
-        node.material = this.waterfallMaterial;
+            //modify <common>
+            shader.vertexShader = shader.vertexShader.replace(
+                "#include <common>",
+                `
+                    #include <common>
+                    uniform float uTime;
+                `
+            );
+
+            //modify <begin_vertex>
+            shader.vertexShader = shader.vertexShader.replace(
+                "#include <begin_vertex>",
+                `
+                    #include <begin_vertex>
+                    float elevation = (sin(abs(transformed.z) * 3.5 + uTime) * cos(abs(transformed.x) * 3.5 + uTime) * 0.1);
+                    transformed.y += elevation * (0.5 + transformed.y) * 0.7;
+                `
+            );
+        }
     }
 
-    _createShaderMaterials() {
-        const waterColor = new Color(WATER_COLOR);
-        this.waterfallMaterial = new ShaderMaterial({
-            vertexShader: waterfallVertex,
-            fragmentShader: waterfallFragment,
-            uniforms: {
-                uTime: {value: 0},
-                uWavesAmpl: {value: 0.5},
-                uWaterColor: {value: waterColor},
-            }
-        })
-    }
 
     update(elapsed) {
-        this.waterfallMaterial.uniforms.uTime.value = elapsed;
+        this.waterfallUniforms.uTime.value = elapsed;
     }
 
 }
