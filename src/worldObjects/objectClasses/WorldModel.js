@@ -12,7 +12,8 @@ class WorldModel extends WorldObjects {
         this.mixer = null;
     }
 
-    initialize() {
+    initialize(callback) {
+        this.importModel(() => callback());
     }
 
     _addInScene() {
@@ -23,10 +24,18 @@ class WorldModel extends WorldObjects {
     setProperty(key, value) {
     }
 
+    setPosition(axis, value) {
+        this.modelInstance.position[axis] = value
+    }
+
+    setRotation(axis, value) {
+        this.modelInstance.rotation[axis] = value;
+    }
+
     addShadow() {
     }
 
-    importModel(name, callbackAfterLoading) {
+    importModel(callbackAfterLoading) {
         const loader = new GLTFLoader();
         loader.load(
             this.url,

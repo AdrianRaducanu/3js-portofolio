@@ -26,7 +26,7 @@ class MainObject extends WorldModel{
     }
 
     initialize() {
-        super.importModel(this.name, () => this.callbackAfterModelLoad());
+        super.initialize(() => this.callbackAfterModelLoad())
     }
 
     callbackAfterModelLoad() {

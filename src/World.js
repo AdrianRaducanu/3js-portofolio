@@ -9,6 +9,7 @@ import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
 import RaycasterPoint from "./worldObjects/RaycasterPoint.js";
 import {LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
+import AnimatedObject from "./worldObjects/AnimatedObject.js";
 
 class World {
     constructor() {
@@ -26,6 +27,8 @@ class World {
 
         //mainObject model mockup
         this._addMainObject();
+
+        this._addOtherObjects();
     }
 
     start() {
@@ -34,6 +37,8 @@ class World {
     updateWorld(delta, elapsedTime) {
         this.mainObject.update(delta);
         this.landscape.update(elapsedTime);
+        this.jobWSS.rotateAnimatedNode();
+        this.jobDB.rotateAnimatedNode();
     }
 
     _addLights() {
@@ -61,6 +66,30 @@ class World {
 
     _addRaycaster() {
         this.raycaster = new RaycasterPoint();
+    }
+
+    _addOtherObjects() {
+        const jobDBProps = {
+            position: {
+                x: -88,
+                z: 20
+            }
+        }
+        this.jobDB = new AnimatedObject("db", this.raycaster, jobDBProps);
+        this.jobDB.initialize();
+
+        //wss
+        const jobWSSProps = {
+            position: {
+                x: -81,
+                z: 37
+            },
+            rotation: {
+                y: Math.PI / 3
+            }
+        }
+        this.jobWSS = new AnimatedObject("wss", this.raycaster, jobWSSProps);
+        this.jobWSS.initialize();
     }
 
 
