@@ -13,6 +13,7 @@ class AnimatedObject extends WorldModel {
 
     callbackAfterLoading() {
         this.addShadow();
+        this.raycaster.addMultipleObjectsToIntersect(this.modelInstance)
         this.props ? this.updatePositionAndRotation() : null;
     }
 

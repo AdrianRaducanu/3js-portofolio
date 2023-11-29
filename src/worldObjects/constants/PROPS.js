@@ -1,3 +1,5 @@
+import {Vector3} from "three";
+
 export const AMBIENT_LIGHT_PROPS = {
     color: "#f4e9db",
     intensity: 1
@@ -49,3 +51,17 @@ export const POINT_LIGHT_PROPS = {
         z: -2
     }
 }
+
+
+export const DOWN_FACING_RAYCASTER = {
+    ORIGIN: new Vector3(0, 1, 0),
+    DIRECTION: new Vector3(0, -10, 0)
+}
+
+export const FRONT_FACING_RAYCASTER = {
+    ORIGIN: new Vector3(0, 0.5, 0),
+    DIRECTION: new Vector3(-1, 0, 0)
+}
+
+
+

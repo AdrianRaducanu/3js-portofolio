@@ -3,11 +3,11 @@ import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_SHADOW_PROPS, DIRECTIONAL_LIGHT_PROPS_2
+    DIRECTIONAL_LIGHT_SHADOW_PROPS, DOWN_FACING_RAYCASTER, FRONT_FACING_RAYCASTER
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
-import RaycasterPoint from "./worldObjects/RaycasterPoint.js";
+import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
 import {LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
 import AnimatedObject from "./worldObjects/AnimatedObject.js";
 
@@ -55,17 +55,18 @@ class World {
     }
 
     _addLandscape() {
-        this.landscape = new Landscape("landscape", this.raycaster);
+        this.landscape = new Landscape("landscape", this.downFacingRaycaster);
         this.landscape.initialize();
     }
 
     _addMainObject() {
-        this.mainObject = new MainObject("dora", this.raycaster);
+        this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster);
         this.mainObject.initialize();
     }
 
     _addRaycaster() {
-        this.raycaster = new RaycasterPoint();
+        this.downFacingRaycaster = new CustomRaycaster(DOWN_FACING_RAYCASTER.ORIGIN, DOWN_FACING_RAYCASTER.DIRECTION);
+        this.frontFacingRaycaster = new CustomRaycaster(FRONT_FACING_RAYCASTER.ORIGIN, FRONT_FACING_RAYCASTER.DIRECTION);
     }
 
     _addOtherObjects() {
@@ -75,7 +76,7 @@ class World {
                 z: 20
             }
         }
-        this.jobDB = new AnimatedObject("db", this.raycaster, jobDBProps);
+        this.jobDB = new AnimatedObject("db", this.frontFacingRaycaster, jobDBProps);
         this.jobDB.initialize();
 
         //wss
@@ -88,10 +89,9 @@ class World {
                 y: Math.PI / 3
             }
         }
-        this.jobWSS = new AnimatedObject("wss", this.raycaster, jobWSSProps);
+        this.jobWSS = new AnimatedObject("wss", this.frontFacingRaycaster, jobWSSProps);
         this.jobWSS.initialize();
     }
-
 
 }
 

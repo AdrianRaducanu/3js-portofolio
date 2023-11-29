@@ -13,7 +13,7 @@ import {
 } from "./constants/CONST.js";
 
 class MainObject extends WorldModel{
-    constructor(name, raycaster) {
+    constructor(name, downFacingRaycaster, frontFacingRaycaster) {
         super(name);
         this.moveController = {
             up: false,
@@ -22,7 +22,8 @@ class MainObject extends WorldModel{
             right: false
         }
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
-        this.raycaster = raycaster;
+        this.downFacingRaycaster = downFacingRaycaster;
+        this.frontFacingRaycaster = frontFacingRaycaster;
     }
 
     initialize() {
@@ -141,20 +142,25 @@ class MainObject extends WorldModel{
         }
         if(this.moveController.left) {
             this.modelInstance.rotation.y += ROTATION_UNIT;
+            this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
 
             this.standingTime = STANDING_TIME_INITIAL_VALUE;
+            // console.log(this.frontFacingRaycaster)
         }
         if(this.moveController.right) {
             this.modelInstance.rotation.y -= ROTATION_UNIT;
+            this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
 
             this.standingTime = STANDING_TIME_INITIAL_VALUE;
+            // console.log(this.frontFacingRaycaster)
         }
+
     }
 
     _move() {
         const incrementalX = Math.sin(this.modelInstance.rotation.y) * MOVING_UNIT;
         const incrementalZ = Math.cos(this.modelInstance.rotation.y) * MOVING_UNIT;
-        const roadCollision = this.raycaster.verifyNextStep(this.modelInstance.position.x - incrementalX, this.modelInstance.position.z - incrementalZ);
+        const roadCollision = this.downFacingRaycaster.verifyNextStep(this.modelInstance.position.x - incrementalX, this.modelInstance.position.z - incrementalZ);
 
         if(!roadCollision.length) {
             return;
@@ -164,7 +170,8 @@ class MainObject extends WorldModel{
         this.modelInstance.position.z -= incrementalZ;
         this.modelInstance.position.x -= incrementalX;
 
-        // this.raycaster.updateRaycaster(this.modelInstance.position.x, this.modelInstance.position.z);
+        //moving the raycaster
+        this.frontFacingRaycaster.changeOrigin(new Vector3(this.modelInstance.position.x, 0.5 ,this.modelInstance.position.z));
 
         //update the camera
         Engine.instance.moveCamera(AXIS.Z, -incrementalZ);
@@ -172,6 +179,12 @@ class MainObject extends WorldModel{
 
         //update controller
         Engine.instance.setOrbitPosition(this.modelInstance.position);
+
+        //verify frontal collision
+        const frontCollision = this.frontFacingRaycaster.hasCollied();
+        if(frontCollision) {
+            console.log(frontCollision)
+        }
     }
 
     _unloopAnimations() {
