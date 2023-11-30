@@ -7,7 +7,7 @@ import OrbitController from "./requiredObjects/OrbitController.js";
 import {REQUIRED_OBJECT_TYPES} from "./constants/OBJECT_TYPES.js";
 import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
-import {Clock, ColorManagement} from "three";
+import {Clock, ColorManagement, DefaultLoadingManager} from "three";
 
 class Enforcer {
 }
@@ -35,6 +35,8 @@ class Engine {
      * Initialize the main components of the app
      */
     initialize() {
+        this._manageLoading();
+
         // ColorManagement.enabled = false;
         //sizes
         this.sizes = new Sizes();
@@ -70,7 +72,6 @@ class Engine {
         //tick fcn
         this.previousTime = 0;
         this.clock = new Clock();
-        this.tick();
     }
 
     /**
@@ -165,7 +166,8 @@ class Engine {
 
     /**
      * Tick fcn used to animate things
-     * TODO: research why after some time it goes out of memory
+     *
+     * Out of memory error was due to using ".. = new .." on tick fcn
      */
     tick() {
         const elapsedTime = this.clock.getElapsedTime();
@@ -177,6 +179,17 @@ class Engine {
         requestAnimationFrame(() => this.tick());
     }
 
+    /**
+     * This will start the app after all the models are loaded
+     * in order to avoid [violation] requestAnimationFrame errors
+     * @private
+     */
+    _manageLoading() {
+        DefaultLoadingManager.onLoad = () => {
+            Engine.instance.start();
+            this.tick();
+        }
+    }
 
 }
 

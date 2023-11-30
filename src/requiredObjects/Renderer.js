@@ -12,6 +12,7 @@ class Renderer extends RequiredObjects{
             canvas: Engine.instance.getRequiredObject(REQUIRED_OBJECT_TYPES.CANVAS),
             antialias: true
         });
+        this.outline = new OutlineEffect(this.rendererInstance);
     }
 
     initialize() {
@@ -28,8 +29,6 @@ class Renderer extends RequiredObjects{
      * Render the app and add post process effects (OutlineEffect)
      */
     renderApp() {
-        const params = {};
-        this.outline = new OutlineEffect(this.rendererInstance, params);
         this.outline.render(this.sceneInstance, this.cameraInstance);
     }
 
