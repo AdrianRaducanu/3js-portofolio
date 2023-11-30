@@ -12,7 +12,11 @@ import {Clock, ColorManagement} from "three";
 class Enforcer {
 }
 
+/**
+ * Singleton, used as an engine for the entire app
+ */
 class Engine {
+
     static get instance() {
         if(!Enforcer._instance) {
             Enforcer._instance = new Engine(new Enforcer());
@@ -27,6 +31,9 @@ class Engine {
         Enforcer._instance = this;
     }
 
+    /**
+     * Initialize the main components of the app
+     */
     initialize() {
         // ColorManagement.enabled = false;
         //sizes
@@ -66,6 +73,9 @@ class Engine {
         this.tick();
     }
 
+    /**
+     * Called after initialize
+     */
     start() {
         this.camera.setPosition({x: 0, y: 3, z: 77});
 
@@ -74,12 +84,13 @@ class Engine {
         this.renderer.renderApp();
     }
 
-    getCanvas() {
-        return this.canvas;
-    }
-
+    /**
+     * Used to encapsulate class attributes
+     */
     getRequiredObject(objectType) {
         switch (objectType) {
+            case REQUIRED_OBJECT_TYPES.CANVAS:
+                return this.canvas
             case REQUIRED_OBJECT_TYPES.CAMERA:
                 return this.camera;
             case REQUIRED_OBJECT_TYPES.SIZES:
@@ -90,13 +101,14 @@ class Engine {
                 return this.renderer;
             case REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER:
                 return this.orbitController;
-            case REQUIRED_OBJECT_TYPES.DEBUGGER:
-                return this.debugger.getInstance();
             default:
                 throw new Error("Wrong object type")
         }
     }
 
+    /**
+     * Used to encapsulate class attributes and return an instance
+     */
     getRequiredObjectInstance(objectType) {
         switch (objectType) {
             case REQUIRED_OBJECT_TYPES.CAMERA:
@@ -116,22 +128,45 @@ class Engine {
         }
     }
 
+    /**
+     * Add obj in scene
+     * @param obj
+     */
     addInScene(obj) {
         this.scene.addInScene(obj);
     }
 
+    /**
+     * Move camera based on axis and a value
+     * @param axis
+     * @param value
+     */
     moveCamera(axis, value) {
         this.camera.moveCamera(axis, value);
     }
 
+    /**
+     * Used for orbit controller
+     * @param pos
+     */
     setOrbitPosition(pos) {
         this.orbitController.setTarget(pos);
     }
 
+    /**
+     * Used for debugging
+     * @param folderTitle
+     * @param props
+     * @param callback
+     */
     createDebuggingFolder(folderTitle, props, callback) {
         this.debugger.createFolder(folderTitle, props, callback);
     }
 
+    /**
+     * Tick fcn used to animate things
+     * TODO: research why after some time it goes out of memory
+     */
     tick() {
         const elapsedTime = this.clock.getElapsedTime();
         const deltaTime = elapsedTime - this.previousTime;

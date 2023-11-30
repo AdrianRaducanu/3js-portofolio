@@ -4,7 +4,11 @@ import Engine from "../../Engine.js";
 import {LIGHT_TYPE} from "../../constants/LIGHT_TYPE.js";
 import {OBJECT_PROPERTIES} from "../../constants/OBJECT_PROPERTIES.js";
 
+/**
+ * Used to handle lights
+ */
 class WorldLight extends WorldObjects{
+
     constructor(name, lightType, props, hasHelper = false) {
         super(name, props);
         this.lightType = lightType;
@@ -12,19 +16,34 @@ class WorldLight extends WorldObjects{
         this._createLightBasedOnType();
     }
 
+    /**
+     * Called from outisde of this class
+     */
     initialize() {
         this._addInScene();
         this._setupDebugger();
     }
 
+    /**
+     * Add light to the scene
+     * @private
+     */
     _addInScene() {
         Engine.instance.addInScene(this.lightInstance);
     }
 
+    /**
+     * Add light instance to the debugger
+     * @private
+     */
     _setupDebugger() {
         Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this.setProperty(key, value));
     }
 
+    /**
+     * Optional, add shadow to a light
+     * @param props
+     */
     addShadow(props) {
         Object.keys(props).forEach(prop => {
             Object.keys(props[prop]).forEach(propKeys => {
@@ -38,6 +57,11 @@ class WorldLight extends WorldObjects{
         this._createLightHelper();
     }
 
+    /**
+     * Used for debugger
+     * @param key
+     * @param value
+     */
     setProperty(key, value) {
         this.properties[key] = value;
         switch (key) {
@@ -53,6 +77,10 @@ class WorldLight extends WorldObjects{
         }
     }
 
+    /**
+     * Create the light instance based on its type
+     * @private
+     */
     _createLightBasedOnType() {
         switch (this.lightType) {
             case LIGHT_TYPE.AMBIENT:
@@ -72,6 +100,10 @@ class WorldLight extends WorldObjects{
         }
     }
 
+    /**
+     * Create light helper, dev purpose only
+     * @private
+     */
     _createLightHelper() {
         if(this.hasHelper) {
             this.lightHelper = new CameraHelper(this.lightInstance.shadow.camera);

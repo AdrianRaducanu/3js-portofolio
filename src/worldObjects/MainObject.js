@@ -5,6 +5,7 @@ import WorldModel from "./objectClasses/WorldModel.js";
 import {LoopOnce, Vector3} from "three";
 import {MAIN_ANIMATIONS} from "./constants/ANIMATIONS.js";
 import {
+    KEY_ACTION,
     KEY_EVENTS, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
     NECK_BONE_ROTATION, ROTATION_UNIT,
     STANDING_TIME_INCREMENT,
@@ -12,7 +13,16 @@ import {
     STANDING_TIME_LOOP_TIME
 } from "./constants/CONST.js";
 
-class MainObject extends WorldModel{
+class MainObject extends WorldModel {
+
+    /**
+     * Passing all the raycasters that are related to the cat.
+     *
+     * Moving controller is used in order to move in more than one direction
+     * @param name
+     * @param downFacingRaycaster
+     * @param frontFacingRaycaster
+     */
     constructor(name, downFacingRaycaster, frontFacingRaycaster) {
         super(name);
         this.moveController = {
@@ -26,27 +36,33 @@ class MainObject extends WorldModel{
         this.frontFacingRaycaster = frontFacingRaycaster;
     }
 
+    /**
+     * Called from outside of this method
+     */
     initialize() {
         super.initialize(() => this.callbackAfterModelLoad())
     }
 
+    /**
+     * Called after model is loaded
+     */
     callbackAfterModelLoad() {
         this._keyListener();
         this._unloopAnimations();
-        this.addShadow();
+        this._traverseModel();
 
         this.modelInstance.position.z = 70;
-
-        //this can be different from model to model -> should find another solution
-        this.neckBone = this.modelInstance["children"][0]["children"][1]["children"][1]["children"][0]["children"][0]["children"][0]["children"][0];
 
         //set orbit controller to gravitate around the main object
         Engine.instance.setOrbitPosition(new Vector3(0, 0, 0));
     }
 
+    /**
+     * Used to listen to keys pressed/released
+     * @private
+     */
     _keyListener() {
         window.addEventListener(KEY_EVENTS.KEY_DOWN, (event) => {
-            //early return
             if(this.modelAnimations[MAIN_ANIMATIONS.FLIP].isRunning()) {
                 return;
             }
@@ -56,34 +72,16 @@ class MainObject extends WorldModel{
 
             switch (event.code) {
                 case KEYBOARD_CODES.KEY_W:
-                    this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
-                    this.moveController.down = false;
-                    this.moveController.up = true;
+                    this._onW(KEY_ACTION.DOWN)
                     break;
                 case KEYBOARD_CODES.KEY_S:
-                    this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
-                    //the animations that has no loop should be stop first in order to be played again
-                    this.stopAnimationByName(MAIN_ANIMATIONS.FLIP);
-                    this.playAnimationByName(MAIN_ANIMATIONS.FLIP);
-
-                    this.moveController.up = false;
-                    this.moveController.down = true;
+                    this._onS(KEY_ACTION.DOWN)
                     break;
                 case KEYBOARD_CODES.KEY_A:
-                    this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
-                    if(this.neckBone.rotation[AXIS.Y] < NECK_BONE_LEFT_LIMIT) {
-                        this.neckBone.rotation[AXIS.Y] += NECK_BONE_ROTATION;
-                    }
-                    this.moveController.right = false;
-                    this.moveController.left = true;
+                    this._onA(KEY_ACTION.DOWN)
                     break;
                 case KEYBOARD_CODES.KEY_D:
-                    this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
-                    if(this.neckBone.rotation[AXIS.Y] > NECK_BONE_RIGHT_LIMIT) {
-                        this.neckBone.rotation[AXIS.Y] -= NECK_BONE_ROTATION;
-                    }
-                    this.moveController.left = false;
-                    this.moveController.right = true;
+                    this._onD(KEY_ACTION.DOWN)
                     break;
                 default:
                     break;
@@ -93,22 +91,16 @@ class MainObject extends WorldModel{
         window.addEventListener(KEY_EVENTS.KEY_UP, (event) => {
             switch (event.code) {
                 case KEYBOARD_CODES.KEY_W:
-                    this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
-                    this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
-                    this.moveController.up = false;
+                    this._onW(KEY_ACTION.UP)
                     break;
                 case KEYBOARD_CODES.KEY_S:
-                    this.moveController.down = false;
+                    this._onS(KEY_ACTION.UP)
                     break;
                 case KEYBOARD_CODES.KEY_A:
-                    this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
-                    this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
-                    this.moveController.left = false;
+                    this._onA(KEY_ACTION.UP)
                     break;
                 case KEYBOARD_CODES.KEY_D:
-                    this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
-                    this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
-                    this.moveController.right = false;
+                    this._onD(KEY_ACTION.UP)
                     break;
                 default:
                     break;
@@ -116,6 +108,10 @@ class MainObject extends WorldModel{
         })
     }
 
+    /**
+     * Used to update the main object and its animations
+     * @param delta
+     */
     update(delta) {
         this.standingTime += STANDING_TIME_INCREMENT;
 
@@ -128,40 +124,40 @@ class MainObject extends WorldModel{
         }
     }
 
+    /**
+     * Update position based on moving controller
+     * @private
+     */
     _updatePosition() {
         if(this.moveController.up) {
-            this.playAnimationByName(MAIN_ANIMATIONS.WALK);
-            this.playAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
-            this._move();
-            this.standingTime = STANDING_TIME_INITIAL_VALUE;
+            this._onMovingUp();
         }
         if(this.moveController.down) {
-            this.standingTime = STANDING_TIME_INITIAL_VALUE;
-
-            // here will put sit-down animation -> idk if i ll do it
+            this._onMovingBack();
         }
         if(this.moveController.left) {
-            this.modelInstance.rotation.y += ROTATION_UNIT;
-            this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
-
-            this.standingTime = STANDING_TIME_INITIAL_VALUE;
-            // console.log(this.frontFacingRaycaster)
+            this._onMovingLeft();
         }
         if(this.moveController.right) {
-            this.modelInstance.rotation.y -= ROTATION_UNIT;
-            this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
-
-            this.standingTime = STANDING_TIME_INITIAL_VALUE;
-            // console.log(this.frontFacingRaycaster)
+            this._onMovingRight();
         }
 
     }
 
+    /**
+     * Used to handle movement.
+     *
+     * Before taking the next step, verify if the next position is outside restricted area
+     *
+     * The position is calculated based on model's rotation
+     * @private
+     */
     _move() {
         const incrementalX = Math.sin(this.modelInstance.rotation.y) * MOVING_UNIT;
         const incrementalZ = Math.cos(this.modelInstance.rotation.y) * MOVING_UNIT;
         const roadCollision = this.downFacingRaycaster.verifyNextStep(this.modelInstance.position.x - incrementalX, this.modelInstance.position.z - incrementalZ);
 
+        //this means that next position would be on restricted area
         if(!roadCollision.length) {
             return;
         }
@@ -187,6 +183,10 @@ class MainObject extends WorldModel{
         }
     }
 
+    /**
+     * Used for model animations
+     * @private
+     */
     _unloopAnimations() {
         Object.keys(this.modelAnimations).forEach(key => {
             if(key === MAIN_ANIMATIONS.FLIP || key === MAIN_ANIMATIONS.HEAD_TURN) {
@@ -195,13 +195,138 @@ class MainObject extends WorldModel{
         })
     }
 
-    addShadow() {
+    /**
+     * Will go through each node of the model
+     * @private
+     */
+    _traverseModel() {
         this.modelInstance.traverse((node) => {
+            if (node.name === "spine005") {
+                this.neckBone = node;
+            }
             if (node.isMesh) {
                 node.castShadow = true;
                 // node.receiveShadow = true;
             }
         });
+    }
+
+    /**
+     * Handle interaction with W key
+     * @param action
+     * @private
+     */
+    _onW(action) {
+        if (action === KEY_ACTION.DOWN) {
+            this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
+            this.moveController.down = false;
+            this.moveController.up = true;
+        } else {
+            this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
+            this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
+            this.moveController.up = false;
+        }
+    }
+
+    /**
+     * Handle interaction with S key
+     * @param action
+     * @private
+     */
+    _onS(action) {
+        if (action === KEY_ACTION.DOWN) {
+            this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
+            //the animations that has no loop should be stop first in order to be played again
+            this.stopAnimationByName(MAIN_ANIMATIONS.FLIP);
+            this.playAnimationByName(MAIN_ANIMATIONS.FLIP);
+            this.moveController.up = false;
+            this.moveController.down = true;
+        } else {
+            this.moveController.down = false;
+        }
+    }
+
+    /**
+     * Handle interaction with A key
+     * @param action
+     * @private
+     */
+    _onA(action) {
+        if (action === KEY_ACTION.DOWN) {
+            this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
+            if(this.neckBone.rotation[AXIS.Y] < NECK_BONE_LEFT_LIMIT) {
+                this.neckBone.rotation[AXIS.Y] += NECK_BONE_ROTATION;
+            }
+            this.moveController.right = false;
+            this.moveController.left = true;
+        } else {
+            this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
+            this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
+            this.moveController.left = false;
+        }
+    }
+
+    /**
+     * Handle interaction with D key
+     * @param action
+     * @private
+     */
+    _onD(action) {
+        if (action === KEY_ACTION.DOWN) {
+            this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
+            if(this.neckBone.rotation[AXIS.Y] > NECK_BONE_RIGHT_LIMIT) {
+                this.neckBone.rotation[AXIS.Y] -= NECK_BONE_ROTATION;
+            }
+            this.moveController.left = false;
+            this.moveController.right = true;
+        } else {
+            this.neckBone.rotation[AXIS.Y] = NECK_BONE_INITIAL_ROTATION;
+            this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
+            this.moveController.right = false;
+        }
+    }
+
+    /**
+     * Called when moveController.up is true, meaning that the cat should walk forward
+     * @private
+     */
+    _onMovingUp() {
+        this.playAnimationByName(MAIN_ANIMATIONS.WALK);
+        this.playAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
+        this._move();
+        this.standingTime = STANDING_TIME_INITIAL_VALUE;
+    }
+
+    /**
+     * Called when moveController.up is true, meaning that the cat should make flip animation
+     * @private
+     */
+    _onMovingBack() {
+        this.standingTime = STANDING_TIME_INITIAL_VALUE;
+    }
+
+    /**
+     * Called when moveController.up is true, meaning that the cat should walk left-forward, turning its head
+     *
+     * Also, change raycaster direction
+     * @private
+     */
+    _onMovingLeft() {
+        this.modelInstance.rotation.y += ROTATION_UNIT;
+        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
+        this.standingTime = STANDING_TIME_INITIAL_VALUE;
+    }
+
+    /**
+     * Called when moveController.up is true, meaning that the cat should walk right-forward, turning its head
+     *
+     * Also, change raycaster direction
+     * @private
+     */
+    _onMovingRight() {
+        this.modelInstance.rotation.y -= ROTATION_UNIT;
+        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
+        this.standingTime = STANDING_TIME_INITIAL_VALUE;
     }
 }
 

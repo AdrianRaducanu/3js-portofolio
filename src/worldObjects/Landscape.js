@@ -3,6 +3,11 @@ import {LANDSCAPE_MESH} from "./constants/CONST.js";
 
 class Landscape extends WorldModel{
 
+    /**
+     * The raycaster that the landscape interacts with (down facing raycaster)
+     * @param name
+     * @param raycaster
+     */
     constructor(name, raycaster) {
         super(name);
         this.raycaster = raycaster;
@@ -11,10 +16,16 @@ class Landscape extends WorldModel{
         };
     }
 
+    /**
+     * Called from outside of this class
+     */
     initialize() {
         super.initialize(() => this.callbackAfterModelLoad())
     }
 
+    /**
+     * Called after model is loaded
+     */
     callbackAfterModelLoad() {
         const road = this.modelInstance.children.filter(child => child.name === LANDSCAPE_MESH.ROAD_MESH);
         this.raycaster.addSingleObjectToIntersect(road[0]);
@@ -27,6 +38,11 @@ class Landscape extends WorldModel{
         })
     }
 
+    /**
+     * Add shadow based on node
+     * @param node
+     * @private
+     */
     _addShadow(node) {
         switch (node.name) {
             case LANDSCAPE_MESH.TREE_MESH:
@@ -44,6 +60,11 @@ class Landscape extends WorldModel{
             }
     }
 
+    /**
+     * Used to modify waterfall material
+     * @param node
+     * @private
+     */
     _modifyWaterMaterial(node) {
         node.material.onBeforeCompile = (shader) => {
             shader.uniforms.uTime = this.waterfallUniforms.uTime;
@@ -70,6 +91,10 @@ class Landscape extends WorldModel{
     }
 
 
+    /**
+     * Update uTime uniform in order to add movement to the waterfall
+     * @param elapsed
+     */
     update(elapsed) {
         this.waterfallUniforms.uTime.value = elapsed;
     }

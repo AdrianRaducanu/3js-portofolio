@@ -63,5 +63,23 @@ export const FRONT_FACING_RAYCASTER = {
     DIRECTION: new Vector3(-1, 0, 0)
 }
 
+export const JOB_DB_PROPS = {
+    position: {
+        x: -88,
+        z: 20
+    }
+}
+
+export const JOB_WSS_PROPS = {
+    position: {
+        x: -81,
+        z: 37
+    },
+    rotation: {
+        y: Math.PI / 3
+    }
+}
+
+
 
 

@@ -11,11 +11,19 @@ class Camera extends RequiredObjects{
         this.cameraType = type;
     }
 
+    /**
+     * Called from outside of this class
+     */
     initialize() {
         this.sizes = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.SIZES);
         this.cameraInstance = this._returnCameraType();
     }
 
+    /**
+     * Creates camera based on type provided
+     * @returns {PerspectiveCamera|null}
+     * @private
+     */
     _returnCameraType() {
         switch (this.cameraType) {
             case CAMERA.PERSPECTIVE:
@@ -25,6 +33,10 @@ class Camera extends RequiredObjects{
         }
     }
 
+    /**
+     * Set camera position
+     * @param pos
+     */
     setPosition(pos) {
         this.cameraInstance.position.set(pos.x, pos.y, pos.z);
 
@@ -33,6 +45,11 @@ class Camera extends RequiredObjects{
         orbitController.update();
     }
 
+    /**
+     * Move camera based on main obj
+     * @param axis
+     * @param value
+     */
     moveCamera(axis, value) {
         switch (axis) {
             case AXIS.Z:
@@ -49,11 +66,18 @@ class Camera extends RequiredObjects{
         }
     }
 
+    /**
+     * Update camera on tick fcn
+     */
     update() {
         this.cameraInstance.aspect = this.sizes.width / this.sizes.height;
         this.cameraInstance.updateProjectionMatrix();
     }
 
+    /**
+     * Return camera instance
+     * @returns {*}
+     */
     getInstance() {
         return this.cameraInstance;
     }

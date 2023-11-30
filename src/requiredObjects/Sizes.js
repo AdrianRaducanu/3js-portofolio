@@ -12,14 +12,25 @@ class Sizes extends RequiredObjects{
         };
     }
 
+    /**
+     * Called from outside of this class
+     */
     initialize() {
         this._updateOnResize();
     }
 
+    /**
+     * return sizesInstance
+     * @returns {*|{width: number, height: number}}
+     */
     getInstance() {
         return this.sizesInstance;
     }
 
+    /**
+     * Handle resize event
+     * @private
+     */
     _updateOnResize() {
         window.addEventListener("resize", ()=> {
             this.sizesInstance.height = window.innerHeight;

@@ -9,7 +9,7 @@ class Renderer extends RequiredObjects{
     constructor() {
         super();
         this.rendererInstance = new THREE.WebGLRenderer({
-            canvas: Engine.instance.getCanvas(),
+            canvas: Engine.instance.getRequiredObject(REQUIRED_OBJECT_TYPES.CANVAS),
             antialias: true
         });
     }
@@ -24,12 +24,18 @@ class Renderer extends RequiredObjects{
         this.update();
     }
 
+    /**
+     * Render the app and add post process effects (OutlineEffect)
+     */
     renderApp() {
         const params = {};
         this.outline = new OutlineEffect(this.rendererInstance, params);
         this.outline.render(this.sceneInstance, this.cameraInstance);
     }
 
+    /**
+     * Make the app be aware of size changes and set the pixel ratio
+     */
     update() {
         this.rendererInstance.setSize(this.sizes.width, this.sizes.height)
         this.rendererInstance.setPixelRatio(Math.min(window.devicePixelRatio, 2))

@@ -34,3 +34,12 @@ export const LANDSCAPE_MESH = {
     WATER: "water"
 }
 
+export const JOBS_NAME = {
+    WSS: "wss",
+    DB: "db"
+}
+
+export const KEY_ACTION = {
+    UP: "UP",
+    DOWN: "DOWN"
+}

@@ -3,18 +3,21 @@ import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_SHADOW_PROPS, DOWN_FACING_RAYCASTER, FRONT_FACING_RAYCASTER
+    DIRECTIONAL_LIGHT_SHADOW_PROPS, DOWN_FACING_RAYCASTER, FRONT_FACING_RAYCASTER, JOB_DB_PROPS, JOB_WSS_PROPS
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
 import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
-import {LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
-import AnimatedObject from "./worldObjects/AnimatedObject.js";
+import {JOBS_NAME, LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
+import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 
 class World {
-    constructor() {
-    }
 
+    constructor() {}
+
+    /**
+     * Initialize world related objects
+     */
     initialize() {
         //lights
         this._addLights();
@@ -28,19 +31,28 @@ class World {
         //mainObject model mockup
         this._addMainObject();
 
+        //add other objects
         this._addOtherObjects();
     }
 
-    start() {
-    }
+    start() {}
 
+    /**
+     * Based on tick fnc in engine, animate world objects
+     * @param delta
+     * @param elapsedTime
+     */
     updateWorld(delta, elapsedTime) {
         this.mainObject.update(delta);
         this.landscape.update(elapsedTime);
-        this.jobWSS.rotateAnimatedNode();
-        this.jobDB.rotateAnimatedNode();
+        this.jobWSS.rotateOnLoop();
+        this.jobDB.rotateOnLoop();
     }
 
+    /**
+     * Create and add lights to the scene
+     * @private
+     */
     _addLights() {
         this.ambientLight = new WorldLight("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
         this.ambientLight.initialize();
@@ -54,45 +66,52 @@ class World {
 
     }
 
+    /**
+     * Will create and add landscape
+     * @private
+     */
     _addLandscape() {
         this.landscape = new Landscape("landscape", this.downFacingRaycaster);
         this.landscape.initialize();
     }
 
+    /**
+     * Will create and add the cat
+     *
+     * Being the main objects, the cat should contain multiple raycasters in order to be aware of
+     * the interation with other objects
+     * @private
+     */
     _addMainObject() {
         this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster);
         this.mainObject.initialize();
     }
 
+    /**
+     * Creates all the raycasters
+     *
+     * DownFacing - used in order to constrain the area of walking
+     * FrontFacing - used in order to be aware of the objects that the cat is looking at
+     * @private
+     */
     _addRaycaster() {
         this.downFacingRaycaster = new CustomRaycaster(DOWN_FACING_RAYCASTER.ORIGIN, DOWN_FACING_RAYCASTER.DIRECTION);
         this.frontFacingRaycaster = new CustomRaycaster(FRONT_FACING_RAYCASTER.ORIGIN, FRONT_FACING_RAYCASTER.DIRECTION);
     }
 
+    /**
+     * Will create and add other world objects (only jobs for now)
+     * @private
+     */
     _addOtherObjects() {
-        const jobDBProps = {
-            position: {
-                x: -88,
-                z: 20
-            }
-        }
-        this.jobDB = new AnimatedObject("db", this.frontFacingRaycaster, jobDBProps);
+        //db
+        this.jobDB = new WorldAnimatedObject(JOBS_NAME.DB, this.frontFacingRaycaster, JOB_DB_PROPS);
         this.jobDB.initialize();
 
         //wss
-        const jobWSSProps = {
-            position: {
-                x: -81,
-                z: 37
-            },
-            rotation: {
-                y: Math.PI / 3
-            }
-        }
-        this.jobWSS = new AnimatedObject("wss", this.frontFacingRaycaster, jobWSSProps);
+        this.jobWSS = new WorldAnimatedObject(JOBS_NAME.WSS, this.frontFacingRaycaster, JOB_WSS_PROPS);
         this.jobWSS.initialize();
     }
-
 }
 
 export default World;
