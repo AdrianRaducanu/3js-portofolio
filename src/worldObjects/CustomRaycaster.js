@@ -1,4 +1,5 @@
 import {Raycaster, Vector3} from "three";
+import {DOWN_FACING_RAYCASTER_POS, FRONT_FACING_RAYCASTER_POS} from "./constants/CONST.js";
 
 /**
  * Used to create raycasters
@@ -48,7 +49,7 @@ class CustomRaycaster {
      * @param angle
      */
     changeDirectionBasedOnAngle(angle) {
-        const newDirection = new Vector3(-Math.sin(angle), 0, -Math.cos(angle));
+        const newDirection = new Vector3(-Math.sin(angle), FRONT_FACING_RAYCASTER_POS.Y, -Math.cos(angle));
         newDirection.normalize();
         this.raycaster.set(this.raycastingOrigin, newDirection);
         this.raycastingDirection = newDirection
@@ -75,7 +76,7 @@ class CustomRaycaster {
      * @returns {[]}
      */
     verifyNextStep(posX, posZ) {
-        const fakeOrigin = new Vector3(posX, 1, posZ);
+        const fakeOrigin = new Vector3(posX, DOWN_FACING_RAYCASTER_POS.Y, posZ);
         this.raycaster.set(fakeOrigin, this.raycastingDirection);
         const fakeCollision = this.raycaster.intersectObject(this.objectToIntersect);
         if(fakeCollision) {

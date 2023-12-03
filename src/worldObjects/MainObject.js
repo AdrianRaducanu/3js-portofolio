@@ -5,12 +5,13 @@ import WorldModel from "./objectClasses/WorldModel.js";
 import {LoopOnce, Vector3} from "three";
 import {MAIN_ANIMATIONS} from "./constants/ANIMATIONS.js";
 import {
+    FRONT_FACING_RAYCASTER_POS,
     KEY_ACTION,
     KEY_EVENTS, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
-    NECK_BONE_ROTATION, ROTATION_UNIT,
+    NECK_BONE_ROTATION, ROTATION_UNIT, SPINE_TO_ROTATE,
     STANDING_TIME_INCREMENT,
     STANDING_TIME_INITIAL_VALUE,
-    STANDING_TIME_LOOP_TIME
+    STANDING_TIME_LOOP_TIME, STARTING_POSITION
 } from "./constants/CONST.js";
 
 class MainObject extends WorldModel {
@@ -22,8 +23,9 @@ class MainObject extends WorldModel {
      * @param name
      * @param downFacingRaycaster
      * @param frontFacingRaycaster
+     * @param fireflies
      */
-    constructor(name, downFacingRaycaster, frontFacingRaycaster) {
+    constructor(name, downFacingRaycaster, frontFacingRaycaster, fireflies) {
         super(name);
         this.moveController = {
             up: false,
@@ -34,6 +36,7 @@ class MainObject extends WorldModel {
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
         this.downFacingRaycaster = downFacingRaycaster;
         this.frontFacingRaycaster = frontFacingRaycaster;
+        this.fireflies = fireflies;
     }
 
     /**
@@ -51,7 +54,7 @@ class MainObject extends WorldModel {
         this._unloopAnimations();
         this._traverseModel();
 
-        this.modelInstance.position.z = 70;
+        this.modelInstance.position.z = STARTING_POSITION.Z;
 
         //set orbit controller to gravitate around the main object
         Engine.instance.setOrbitPosition(new Vector3(0, 0, 0));
@@ -166,21 +169,22 @@ class MainObject extends WorldModel {
         this.modelInstance.position.z -= incrementalZ;
         this.modelInstance.position.x -= incrementalX;
 
-        //moving the raycaster
-        this.frontFacingRaycaster.changeOrigin(new Vector3(this.modelInstance.position.x, 0.5 ,this.modelInstance.position.z));
+        this._moveOtherObjects(incrementalZ, incrementalX);
 
-        //update the camera
-        Engine.instance.moveCamera(AXIS.Z, -incrementalZ);
-        Engine.instance.moveCamera(AXIS.X, -incrementalX);
+    }
+
+    /**
+     * Move other objects based on cat's position
+     * @private
+     */
+    _moveOtherObjects(z, x) {
+        //change other objects
+        this._moveCamera(z, x);
+        this._moveFrontRaycaster(this.modelInstance.position.z, this.modelInstance.position.x);
+        this.fireflies.updateFireflyPosition(this.modelInstance.position.z, this.modelInstance.position.x)
 
         //update controller
         Engine.instance.setOrbitPosition(this.modelInstance.position);
-
-        //verify frontal collision
-        const frontCollision = this.frontFacingRaycaster.hasCollied();
-        if(frontCollision) {
-            console.log(frontCollision)
-        }
     }
 
     /**
@@ -201,12 +205,12 @@ class MainObject extends WorldModel {
      */
     _traverseModel() {
         this.modelInstance.traverse((node) => {
-            if (node.name === "spine005") {
+            if (node.name === SPINE_TO_ROTATE) {
                 this.neckBone = node;
             }
             if (node.isMesh) {
                 node.castShadow = true;
-                // node.receiveShadow = true;
+                node.receiveShadow = true;
             }
         });
     }
@@ -327,6 +331,32 @@ class MainObject extends WorldModel {
         this.modelInstance.rotation.y -= ROTATION_UNIT;
         this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
+    }
+
+    /**
+     * Move camera based on cat's position
+     * @param z
+     * @param x
+     * @private
+     */
+    _moveCamera(z,x) {
+        Engine.instance.moveCamera(AXIS.Z, -z);
+        Engine.instance.moveCamera(AXIS.X, -x);
+    }
+
+    /**
+     * Move front facing raycaster position based on cat's position
+     * @param z
+     * @param x
+     * @private
+     */
+    _moveFrontRaycaster(z, x) {
+        this.frontFacingRaycaster.changeOrigin(new Vector3(x, FRONT_FACING_RAYCASTER_POS.Y ,z));
+
+        const frontCollision = this.frontFacingRaycaster.hasCollied();
+        if(frontCollision) {
+            console.log(frontCollision)
+        }
     }
 }
 

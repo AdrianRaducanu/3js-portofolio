@@ -52,7 +52,7 @@ class WorldLight extends WorldObjects{
         });
         this.lightInstance.castShadow = true;
         // normalBias and bias can solve shadow acnee
-        // this.lightInstance.shadow.normalBias = 0.02
+        this.lightInstance.shadow.normalBias = 0.1;
 
         this._createLightHelper();
     }

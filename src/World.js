@@ -2,7 +2,7 @@ import WorldLight from "./worldObjects/objectClasses/WorldLight.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_PROPS,
+    DIRECTIONAL_LIGHT_PROPS, DIRECTIONAL_LIGHT_PROPS_2,
     DIRECTIONAL_LIGHT_SHADOW_PROPS, DOWN_FACING_RAYCASTER, FRONT_FACING_RAYCASTER, JOB_DB_PROPS, JOB_WSS_PROPS
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
@@ -10,6 +10,7 @@ import Landscape from "./worldObjects/Landscape.js";
 import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
 import {JOBS_NAME, LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
+import Firefly from "./worldObjects/Firefly.js";
 
 class World {
 
@@ -19,20 +20,17 @@ class World {
      * Initialize world related objects
      */
     initialize() {
-        //lights
         this._addLights();
 
-        //raycaster
         this._addRaycaster();
 
-        //addLandscape
         this._addLandscape();
 
-        //mainObject model mockup
+        this._addFireFlies();
+
         this._addMainObject();
 
-        //add other objects
-        this._addOtherObjects();
+        this._addJobs();
     }
 
     start() {}
@@ -47,6 +45,7 @@ class World {
         this.landscape.update(elapsedTime);
         this.jobWSS.rotateOnLoop();
         this.jobDB.rotateOnLoop();
+        this.fireflies.update(elapsedTime);
     }
 
     /**
@@ -63,7 +62,6 @@ class World {
 
         // this.directionalLight = new WorldLight("World directional light 2", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS_2);
         // this.directionalLight.initialize();
-
     }
 
     /**
@@ -83,7 +81,7 @@ class World {
      * @private
      */
     _addMainObject() {
-        this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster);
+        this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster, this.fireflies);
         this.mainObject.initialize();
     }
 
@@ -103,7 +101,7 @@ class World {
      * Will create and add other world objects (only jobs for now)
      * @private
      */
-    _addOtherObjects() {
+    _addJobs() {
         //db
         this.jobDB = new WorldAnimatedObject(JOBS_NAME.DB, this.frontFacingRaycaster, JOB_DB_PROPS);
         this.jobDB.initialize();
@@ -111,6 +109,15 @@ class World {
         //wss
         this.jobWSS = new WorldAnimatedObject(JOBS_NAME.WSS, this.frontFacingRaycaster, JOB_WSS_PROPS);
         this.jobWSS.initialize();
+    }
+
+    /**
+     * Will create and add fireflies
+     * @private
+     */
+    _addFireFlies() {
+        this.fireflies = new Firefly("firefly");
+        this.fireflies.initialize();
     }
 }
 

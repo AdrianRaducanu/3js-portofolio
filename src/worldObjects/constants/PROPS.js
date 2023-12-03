@@ -5,6 +5,11 @@ export const AMBIENT_LIGHT_PROPS = {
     intensity: 1
 }
 
+export const FIREFLY_LIGHT_PROPS = {
+    color: "#ff0000",
+    intensity: 10
+}
+
 export const DIRECTIONAL_LIGHT_PROPS = {
     color: "#bdbdbd",
     intensity: 1,
