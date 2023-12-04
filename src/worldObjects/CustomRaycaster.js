@@ -12,16 +12,7 @@ class CustomRaycaster {
 
         this.raycaster = new Raycaster(this.raycastingOrigin, this.raycastingDirection, 0, 10);
 
-        this.objectToIntersect = {};
         this.objectsToIntersect = [];
-    }
-
-    /**
-     * Add a single object to intersect (used to restrict walking)
-     * @param mesh
-     */
-    addSingleObjectToIntersect(mesh) {
-        this.objectToIntersect = mesh;
     }
 
     /**
@@ -79,8 +70,8 @@ class CustomRaycaster {
     verifyNextStep(posX, posY, posZ) {
         const fakeOrigin = new Vector3(posX, posY, posZ);
         this.raycaster.set(fakeOrigin, this.raycastingDirection);
-        const fakeCollision = this.raycaster.intersectObject(this.objectToIntersect);
-        if(fakeCollision) {
+        const fakeCollision = this.raycaster.intersectObjects(this.objectsToIntersect);
+        if(!fakeCollision.length) {
             this.raycastingOrigin = fakeOrigin;
         } else {
             this.raycaster.set(this.raycastingOrigin, this.raycastingDirection);

@@ -8,7 +8,7 @@ import {
     DOWN_FACING_RAYCASTER_POS,
     FRONT_FACING_RAYCASTER_POS,
     KEY_ACTION,
-    KEY_EVENTS, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
+    KEY_EVENTS, LANDSCAPE_MESH, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
     NECK_BONE_ROTATION, ROTATION_UNIT, SPINE_TO_ROTATE,
     STANDING_TIME_INCREMENT,
     STANDING_TIME_INITIAL_VALUE,
@@ -166,7 +166,7 @@ class MainObject extends WorldModel {
         );
 
         //this means that next position would be on restricted area
-        if(!roadCollision.length) {
+        if(!roadCollision.find(el => el.object.name === LANDSCAPE_MESH.ROAD_MESH)) {
             return;
         }
 
@@ -175,7 +175,6 @@ class MainObject extends WorldModel {
         this.modelInstance.position.x -= incrementalX;
 
         this._moveOtherObjects(incrementalZ, incrementalX);
-
     }
 
     /**

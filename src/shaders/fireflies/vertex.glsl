@@ -12,7 +12,8 @@ void main()
     modelPosition.z = uZ + sin(uTime * aRandom.z) * aRandom.z;
 
     vec4 viewPosition = viewMatrix * modelPosition;
+    float depth = - viewPosition.z;
     vec4 projectedPosition = projectionMatrix * viewPosition;
     gl_Position = projectedPosition;
-    gl_PointSize = 20.0;
+    gl_PointSize = 100.0 / depth;
 }

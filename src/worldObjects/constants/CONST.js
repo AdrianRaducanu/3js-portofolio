@@ -53,7 +53,7 @@ export const STARTING_POSITION = {
 export const STARTING_POSITION_FIREFLIES = {
     X: 0,
     Y: 4,
-    Z: 70
+    Z: 10
 }
 
 export const SPINE_TO_ROTATE = "spine005";
@@ -69,3 +69,5 @@ export const DOWN_FACING_RAYCASTER_POS = {
     Y: 1,
     Z: 0
 }
+
+export const NO_OF_FIREFLIES = 20;

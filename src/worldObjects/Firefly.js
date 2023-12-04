@@ -9,7 +9,7 @@ import {
 } from "three";
 import vertexShader from '../shaders/fireflies/vertex.glsl'
 import fragmentShader from '../shaders/fireflies/fragment.glsl'
-import {STARTING_POSITION_FIREFLIES} from "./constants/CONST.js";
+import {NO_OF_FIREFLIES, STARTING_POSITION_FIREFLIES} from "./constants/CONST.js";
 
 class Firefly extends WorldObjects {
     constructor(name) {
@@ -65,9 +65,9 @@ class Firefly extends WorldObjects {
     _createBody() {
         this.geometry = new BufferGeometry();
 
-        const positions = new Float32Array(10 * 3);
-        const randoms = new Float32Array(10 * 3);
-        for(let i = 0; i < 10 * 3; i = i + 3) {
+        const positions = new Float32Array(NO_OF_FIREFLIES * 3);
+        const randoms = new Float32Array(NO_OF_FIREFLIES * 3);
+        for(let i = 0; i < NO_OF_FIREFLIES * 3; i = i + 3) {
             positions[i] = (Math.random() - 0.5);
             positions[i+1] = (Math.random() - 0.5);
             positions[i+2] = (Math.random() - 0.5);
