@@ -5,6 +5,7 @@ import WorldModel from "./objectClasses/WorldModel.js";
 import {LoopOnce, Vector3} from "three";
 import {MAIN_ANIMATIONS} from "./constants/ANIMATIONS.js";
 import {
+    DOWN_FACING_RAYCASTER_POS,
     FRONT_FACING_RAYCASTER_POS,
     KEY_ACTION,
     KEY_EVENTS, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
@@ -158,7 +159,11 @@ class MainObject extends WorldModel {
     _move() {
         const incrementalX = Math.sin(this.modelInstance.rotation.y) * MOVING_UNIT;
         const incrementalZ = Math.cos(this.modelInstance.rotation.y) * MOVING_UNIT;
-        const roadCollision = this.downFacingRaycaster.verifyNextStep(this.modelInstance.position.x - incrementalX, this.modelInstance.position.z - incrementalZ);
+        const roadCollision = this.downFacingRaycaster.verifyNextStep(
+            this.modelInstance.position.x - incrementalX,
+            DOWN_FACING_RAYCASTER_POS.Y,
+            this.modelInstance.position.z - incrementalZ
+        );
 
         //this means that next position would be on restricted area
         if(!roadCollision.length) {
@@ -317,7 +322,7 @@ class MainObject extends WorldModel {
      */
     _onMovingLeft() {
         this.modelInstance.rotation.y += ROTATION_UNIT;
-        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
+        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS)
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
     }
 
@@ -329,7 +334,7 @@ class MainObject extends WorldModel {
      */
     _onMovingRight() {
         this.modelInstance.rotation.y -= ROTATION_UNIT;
-        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y)
+        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS)
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
     }
 

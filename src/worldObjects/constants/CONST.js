@@ -60,7 +60,7 @@ export const SPINE_TO_ROTATE = "spine005";
 
 export const FRONT_FACING_RAYCASTER_POS = {
     X: 0,
-    Y: 0.5,
+    Y: 0,
     Z: 0
 }
 

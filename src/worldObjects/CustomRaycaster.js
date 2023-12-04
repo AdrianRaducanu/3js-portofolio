@@ -1,5 +1,4 @@
 import {Raycaster, Vector3} from "three";
-import {DOWN_FACING_RAYCASTER_POS, FRONT_FACING_RAYCASTER_POS} from "./constants/CONST.js";
 
 /**
  * Used to create raycasters
@@ -47,9 +46,10 @@ class CustomRaycaster {
      * Change the direction of the raycast, used when the cat is rotating
      * To understand this, remember the trigonometric circle
      * @param angle
+     * @param raycasterPos
      */
-    changeDirectionBasedOnAngle(angle) {
-        const newDirection = new Vector3(-Math.sin(angle), FRONT_FACING_RAYCASTER_POS.Y, -Math.cos(angle));
+    changeDirectionBasedOnAngle(angle, raycasterPos) {
+        const newDirection = new Vector3(-Math.sin(angle), raycasterPos.Y, -Math.cos(angle));
         newDirection.normalize();
         this.raycaster.set(this.raycastingOrigin, newDirection);
         this.raycastingDirection = newDirection
@@ -72,11 +72,12 @@ class CustomRaycaster {
      * If there is collision with the valid area, the "fake" origin will be the real origin of the raycast
      * and the cat can update its position
      * @param posX
+     * @param posY
      * @param posZ
      * @returns {[]}
      */
-    verifyNextStep(posX, posZ) {
-        const fakeOrigin = new Vector3(posX, DOWN_FACING_RAYCASTER_POS.Y, posZ);
+    verifyNextStep(posX, posY, posZ) {
+        const fakeOrigin = new Vector3(posX, posY, posZ);
         this.raycaster.set(fakeOrigin, this.raycastingDirection);
         const fakeCollision = this.raycaster.intersectObject(this.objectToIntersect);
         if(fakeCollision) {
