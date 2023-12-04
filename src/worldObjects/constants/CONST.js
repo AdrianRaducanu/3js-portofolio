@@ -8,7 +8,11 @@ export const NECK_BONE_RIGHT_LIMIT = -Math.PI/6;
 
 export const STANDING_TIME_INCREMENT = 0.01;
 
+export const OUTSIDE_CAVE_TIME_INCREMENT = 10;
+
 export const STANDING_TIME_INITIAL_VALUE = 1;
+
+export const OUTSIDE_CAVE_TIME_INITIAL_VALUE = 0;
 
 export const STANDING_TIME_LOOP_TIME = 10;
 

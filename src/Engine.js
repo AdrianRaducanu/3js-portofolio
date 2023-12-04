@@ -8,6 +8,7 @@ import {REQUIRED_OBJECT_TYPES} from "./constants/OBJECT_TYPES.js";
 import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
 import {Clock, ColorManagement, DefaultLoadingManager} from "three";
+import * as TWEEN from "@tweenjs/tween.js";
 
 class Enforcer {
 }
@@ -174,6 +175,7 @@ class Engine {
         const deltaTime = elapsedTime - this.previousTime;
         this.previousTime = elapsedTime;
 
+        TWEEN.update();
         this.world.updateWorld(deltaTime, elapsedTime);
         this.renderer.renderApp();
         requestAnimationFrame(() => this.tick());

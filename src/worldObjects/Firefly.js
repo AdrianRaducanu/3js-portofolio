@@ -10,11 +10,18 @@ import {
 import vertexShader from '../shaders/fireflies/vertex.glsl'
 import fragmentShader from '../shaders/fireflies/fragment.glsl'
 import {NO_OF_FIREFLIES, STARTING_POSITION_FIREFLIES} from "./constants/CONST.js";
+import * as TWEEN from '@tweenjs/tween.js'
 
 class Firefly extends WorldObjects {
+    /**
+     * isReadyToMove -> fireflies can follow the cat only after its flip inside the cave,
+     * if is night the fireflies will follow the cat no matter what
+     * @param name
+     */
     constructor(name) {
         super(name);
         this._createFireflies();
+        this.isReadyToMove = false;
     }
 
     /**
@@ -55,7 +62,7 @@ class Firefly extends WorldObjects {
      * @private
      */
     _createLight() {
-        this.fireflyLight = new PointLight(0xaa7132, 10, 10);
+        this.fireflyLight = new PointLight(0xaa7132, 3, 10);
     }
 
     /**
@@ -110,9 +117,60 @@ class Firefly extends WorldObjects {
      * @param x
      */
     updateFireflyPosition(z, x) {
-        this.firefly.position.set(x, STARTING_POSITION_FIREFLIES.Y, z);
-        this.material.uniforms.uX.value = x;
-        this.material.uniforms.uZ.value = z;
+        if(this.isReadyToMove) {
+            this.firefly.position.set(x, STARTING_POSITION_FIREFLIES.Y, z);
+            this.material.uniforms.uX.value = x;
+            this.material.uniforms.uZ.value = z;
+        }
+    }
+
+    /**
+     * Used when cat do flip and the fireflies are in the initial position
+     * @param z
+     * @param x
+     */
+    goToPosition(z, x) {
+        if(this.isReadyToMove) {
+            return;
+        }
+        this.tween = new TWEEN.Tween(this.firefly.position)
+            .to({z: z, x: x}, 1000)
+            .onUpdate(() => {
+                this.material.uniforms.uZ.value = this.firefly.position.z;
+                this.material.uniforms.uX.value = this.firefly.position.x;
+            })
+            .easing(TWEEN.Easing.Cubic.Out)
+            .onComplete(() => {
+                this.isReadyToMove = true;
+            });
+        this.tween.start();
+    }
+
+    /**
+     * After the cat went outside the cave, a timer will start.
+     * After ~5sec, the fireflies will go back to their initial position
+     * and the cat must enter the cave and make a flip so the fireflies can follow
+     */
+    returnToInitialPosition() {
+        this.tween = new TWEEN.Tween(this.firefly.position)
+            .to({z: STARTING_POSITION_FIREFLIES.Z, x: STARTING_POSITION_FIREFLIES.X}, 1000)
+            .onUpdate(() => {
+                this.material.uniforms.uZ.value = this.firefly.position.z;
+                this.material.uniforms.uX.value = this.firefly.position.x;
+            })
+            .easing(TWEEN.Easing.Cubic.Out)
+            .onComplete(() => {
+                this.isReadyToMove = false;
+            });
+        this.tween.start();
+    }
+
+    /**
+     * Return if the fireflies are in their initial position
+     * @returns {boolean}
+     */
+    isInInitialPosition() {
+        return Math.round(this.firefly.position.z) === STARTING_POSITION_FIREFLIES.Z && Math.round(this.firefly.position.x) === STARTING_POSITION_FIREFLIES.X;
     }
 }
 

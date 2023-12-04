@@ -9,10 +9,10 @@ import {
     FRONT_FACING_RAYCASTER_POS,
     KEY_ACTION,
     KEY_EVENTS, LANDSCAPE_MESH, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
-    NECK_BONE_ROTATION, ROTATION_UNIT, SPINE_TO_ROTATE,
+    NECK_BONE_ROTATION, OUTSIDE_CAVE_TIME_INCREMENT, OUTSIDE_CAVE_TIME_INITIAL_VALUE, ROTATION_UNIT, SPINE_TO_ROTATE,
     STANDING_TIME_INCREMENT,
     STANDING_TIME_INITIAL_VALUE,
-    STANDING_TIME_LOOP_TIME, STARTING_POSITION
+    STANDING_TIME_LOOP_TIME, STARTING_POSITION,
 } from "./constants/CONST.js";
 
 class MainObject extends WorldModel {
@@ -21,6 +21,10 @@ class MainObject extends WorldModel {
      * Passing all the raycasters that are related to the cat.
      *
      * Moving controller is used in order to move in more than one direction
+     *
+     * standingTime -> used to trigger standing animation (head rotation) once every 20sec
+     * outsideCaveTime -> counter used to trigger the return in initial position of the fireflies
+     * isInCave -> check if the down facing raycast intersects cave-roof mesh
      * @param name
      * @param downFacingRaycaster
      * @param frontFacingRaycaster
@@ -38,6 +42,8 @@ class MainObject extends WorldModel {
         this.downFacingRaycaster = downFacingRaycaster;
         this.frontFacingRaycaster = frontFacingRaycaster;
         this.fireflies = fireflies;
+        this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
+        this.isInCave = false;
     }
 
     /**
@@ -119,6 +125,10 @@ class MainObject extends WorldModel {
     update(delta) {
         this.standingTime += STANDING_TIME_INCREMENT;
 
+        if(!this.isInCave) {
+            this._onOutsideCave();
+        }
+
         this._updatePosition();
         this.updateMixer(delta);
 
@@ -170,6 +180,9 @@ class MainObject extends WorldModel {
             return;
         }
 
+        //check if is in cave
+        this.isInCave = !!roadCollision.find(el => el.object.name === LANDSCAPE_MESH.CAVE_ROOF_MESH);
+
         //change position
         this.modelInstance.position.z -= incrementalZ;
         this.modelInstance.position.x -= incrementalX;
@@ -179,13 +192,24 @@ class MainObject extends WorldModel {
 
     /**
      * Move other objects based on cat's position
+     *
+     * Camera will always follow the cat
+     * TODO: when oribtController is gonna be deleted, should fix camera rotation
+     *
+     * Raycasters:
+     * -> downFacing raycaster is already updated using .verifyNextStep()
+     * -> frontFacing raycaster will always follow the cat
+     *
+     * Fireflies will follow the cat only if:
+     * - on daytime: the cat is in cave AND the cat made a flip
+     * - on nighttime: always follow the cat (TODO: nighttime to be implemented)
      * @private
      */
     _moveOtherObjects(z, x) {
         //change other objects
         this._moveCamera(z, x);
         this._moveFrontRaycaster(this.modelInstance.position.z, this.modelInstance.position.x);
-        this.fireflies.updateFireflyPosition(this.modelInstance.position.z, this.modelInstance.position.x)
+        this._moveFireFlies(this.modelInstance.position.z, this.modelInstance.position.x);
 
         //update controller
         Engine.instance.setOrbitPosition(this.modelInstance.position);
@@ -307,10 +331,15 @@ class MainObject extends WorldModel {
 
     /**
      * Called when moveController.up is true, meaning that the cat should make flip animation
+     * that will trigger to fireflies to follow her in cave only on nighttime
      * @private
      */
     _onMovingBack() {
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
+
+        if(this.isInCave) {
+            this.fireflies.goToPosition(this.modelInstance.position.z, this.modelInstance.position.x);
+        }
     }
 
     /**
@@ -360,6 +389,41 @@ class MainObject extends WorldModel {
         const frontCollision = this.frontFacingRaycaster.hasCollied();
         if(frontCollision) {
             console.log(frontCollision)
+        }
+    }
+
+    /**
+     * Will move fireflies based on cat's position
+     * @param z
+     * @param x
+     * @private
+     */
+    _moveFireFlies(z, x) {
+        if(this.isInCave) {
+            this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
+            this.fireflies.updateFireflyPosition(z, x)
+        }
+    }
+
+
+    /**
+     * Used to trigger return of the fireflies
+     *
+     * If the fireflies are in their initial position and the cat is outside the cave,
+     * no need to increment outsideCaveTime
+     *
+     * If the cat is outside the cave for less than 5 sec, just increment outsideCaveTime
+     *
+     * If the cat is outside the cave for more than 5 sec, fireflies will return to their initial position
+     * @private
+     */
+    _onOutsideCave() {
+        if(this.fireflies.isInInitialPosition()) {
+            return;
+        }
+        this.outsideCaveTime += OUTSIDE_CAVE_TIME_INCREMENT;
+        if(this.outsideCaveTime > 5000) {
+            this.fireflies.returnToInitialPosition();
         }
     }
 }
