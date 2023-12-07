@@ -5,7 +5,7 @@ import WorldModel from "./objectClasses/WorldModel.js";
 import {LoopOnce, Vector3} from "three";
 import {MAIN_ANIMATIONS} from "./constants/ANIMATIONS.js";
 import {
-    DOWN_FACING_RAYCASTER_POS,
+    DOWN_FACING_RAYCASTER_POS, FRONT_FACING_RAYCASTER_OBJECTS,
     FRONT_FACING_RAYCASTER_POS,
     KEY_ACTION,
     KEY_EVENTS, LANDSCAPE_MESH, MOVING_UNIT, NECK_BONE_INITIAL_ROTATION, NECK_BONE_LEFT_LIMIT, NECK_BONE_RIGHT_LIMIT,
@@ -28,9 +28,9 @@ class MainObject extends WorldModel {
      * @param name
      * @param downFacingRaycaster
      * @param frontFacingRaycaster
-     * @param fireflies
+     * @param otherObjects
      */
-    constructor(name, downFacingRaycaster, frontFacingRaycaster, fireflies) {
+    constructor(name, downFacingRaycaster, frontFacingRaycaster, otherObjects) {
         super(name);
         this.moveController = {
             up: false,
@@ -41,7 +41,11 @@ class MainObject extends WorldModel {
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
         this.downFacingRaycaster = downFacingRaycaster;
         this.frontFacingRaycaster = frontFacingRaycaster;
-        this.fireflies = fireflies;
+        this.fireflies = otherObjects.fireflies;
+        this.jobWSS = otherObjects.jobWSS;
+        this.jobDB = otherObjects.jobDB;
+        this.easterEgg = otherObjects.easterEgg;
+        this.questionMark = otherObjects.questionMark;
         this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
         this.isInCave = false;
     }
@@ -224,7 +228,7 @@ class MainObject extends WorldModel {
             if(key === MAIN_ANIMATIONS.FLIP || key === MAIN_ANIMATIONS.HEAD_TURN) {
                 this.modelAnimations[key].setLoop(LoopOnce);
             }
-        })
+        });
     }
 
     /**
@@ -379,6 +383,8 @@ class MainObject extends WorldModel {
 
     /**
      * Move front facing raycaster position based on cat's position
+     *
+     * If frontal raycaster detects something, activate that animated object
      * @param z
      * @param x
      * @private
@@ -388,7 +394,23 @@ class MainObject extends WorldModel {
 
         const frontCollision = this.frontFacingRaycaster.hasCollied();
         if(frontCollision) {
-            console.log(frontCollision)
+            frontCollision.forEach(el => {
+                switch (el.object.name) {
+                    case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
+                        this.jobWSS.activateAnimationFlag();
+                        break;
+                    case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
+                        this.jobDB.activateAnimationFlag();
+                        break;
+                    case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
+                        //TODO: this will be triggered by click
+                        this.easterEgg.activateAnimationFlag();
+                        this.questionMark.activateAnimationFlag();
+                        break;
+                    default:
+                        break;
+                }
+            })
         }
     }
 

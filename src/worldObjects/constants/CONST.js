@@ -75,3 +75,16 @@ export const DOWN_FACING_RAYCASTER_POS = {
 }
 
 export const NO_OF_FIREFLIES = 20;
+
+export const ANIMATED_NODE = {
+    "db": "Cube-DB",
+    "wss": "Cube-WSS",
+    "question-mark": "Text"
+}
+
+export const FRONT_FACING_RAYCASTER_OBJECTS = {
+    JOB_WSS: "Base-WSS",
+    JOB_DB: "Base-DB",
+    EASTER_EGG: "Sphere_1"
+}
+

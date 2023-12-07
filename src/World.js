@@ -2,8 +2,14 @@ import WorldLight from "./worldObjects/objectClasses/WorldLight.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_PROPS, DIRECTIONAL_LIGHT_PROPS_2,
-    DIRECTIONAL_LIGHT_SHADOW_PROPS, DOWN_FACING_RAYCASTER, FRONT_FACING_RAYCASTER, JOB_DB_PROPS, JOB_WSS_PROPS
+    DIRECTIONAL_LIGHT_PROPS,
+    DIRECTIONAL_LIGHT_PROPS_2,
+    DIRECTIONAL_LIGHT_SHADOW_PROPS,
+    DOWN_FACING_RAYCASTER,
+    EASTER_EGG_PROP,
+    FRONT_FACING_RAYCASTER,
+    JOB_DB_PROPS,
+    JOB_WSS_PROPS, QUESTION_MARK_PROP
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
@@ -28,9 +34,11 @@ class World {
 
         this._addFireFlies();
 
-        this._addMainObject();
-
         this._addJobs();
+
+        this._addEasterEgg();
+
+        this._addMainObject();
     }
 
     start() {}
@@ -43,8 +51,10 @@ class World {
     updateWorld(delta, elapsedTime) {
         this.mainObject.update(delta);
         this.landscape.update(elapsedTime);
-        this.jobWSS.rotateOnLoop();
-        this.jobDB.rotateOnLoop();
+        this.jobWSS.update(delta);
+        this.jobDB.update(delta);
+        this.easterEgg.update(delta);
+        this.questionMark.update(delta);
         this.fireflies.update(elapsedTime);
     }
 
@@ -81,7 +91,14 @@ class World {
      * @private
      */
     _addMainObject() {
-        this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster, this.fireflies);
+        const otherObjects = {
+            fireflies: this.fireflies,
+            jobWSS: this.jobWSS,
+            jobDB: this.jobDB,
+            easterEgg: this.easterEgg,
+            questionMark: this.questionMark
+        }
+        this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster, otherObjects);
         this.mainObject.initialize();
     }
 
@@ -118,6 +135,14 @@ class World {
     _addFireFlies() {
         this.fireflies = new Firefly("firefly");
         this.fireflies.initialize();
+    }
+
+    _addEasterEgg() {
+        this.easterEgg = new WorldAnimatedObject("easter-egg", this.frontFacingRaycaster, EASTER_EGG_PROP);
+        this.easterEgg.initialize();
+
+        this.questionMark = new WorldAnimatedObject("question-mark", this.frontFacingRaycaster, QUESTION_MARK_PROP);
+        this.questionMark.initialize();
     }
 }
 

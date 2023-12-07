@@ -64,8 +64,8 @@ export const DOWN_FACING_RAYCASTER = {
 }
 
 export const FRONT_FACING_RAYCASTER = {
-    ORIGIN: new Vector3(0, 0.5, 0),
-    DIRECTION: new Vector3(-1, 0, 0)
+    ORIGIN: new Vector3(0, 0, 0),
+    DIRECTION: new Vector3(0, 0, -1)
 }
 
 export const JOB_DB_PROPS = {
@@ -84,6 +84,27 @@ export const JOB_WSS_PROPS = {
         y: Math.PI / 3
     }
 }
+
+export const EASTER_EGG_PROP = {
+    position: {
+        z: 15,
+        y: 0.6,
+        x: -10
+    },
+    rotation: {
+        y: 3 * Math.PI/4
+    }
+}
+export const QUESTION_MARK_PROP = {
+    position: {
+        z: 14.7,
+        x: -10.3
+    },
+    rotation: {
+        y: 3 * Math.PI/4
+    }
+}
+
 
 
 
