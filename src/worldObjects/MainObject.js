@@ -130,7 +130,7 @@ class MainObject extends WorldModel {
         this.standingTime += STANDING_TIME_INCREMENT;
 
         if(!this.isInCave) {
-            this._onOutsideCave();
+            this._handleOutsideCaveLogic();
         }
 
         this._updatePosition();
@@ -212,7 +212,8 @@ class MainObject extends WorldModel {
     _moveOtherObjects(z, x) {
         //change other objects
         this._moveCamera(z, x);
-        this._moveFrontRaycaster(this.modelInstance.position.z, this.modelInstance.position.x);
+        this.frontFacingRaycaster.changeOrigin(new Vector3(this.modelInstance.position.x, FRONT_FACING_RAYCASTER_POS.Y ,this.modelInstance.position.z));
+        this._detectFrontalCollision();
         this._moveFireFlies(this.modelInstance.position.z, this.modelInstance.position.x);
 
         //update controller
@@ -354,7 +355,8 @@ class MainObject extends WorldModel {
      */
     _onMovingLeft() {
         this.modelInstance.rotation.y += ROTATION_UNIT;
-        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS)
+        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS);
+        this._detectFrontalCollision();
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
     }
 
@@ -366,7 +368,8 @@ class MainObject extends WorldModel {
      */
     _onMovingRight() {
         this.modelInstance.rotation.y -= ROTATION_UNIT;
-        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS)
+        this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS);
+        this._detectFrontalCollision();
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
     }
 
@@ -385,13 +388,9 @@ class MainObject extends WorldModel {
      * Move front facing raycaster position based on cat's position
      *
      * If frontal raycaster detects something, activate that animated object
-     * @param z
-     * @param x
      * @private
      */
-    _moveFrontRaycaster(z, x) {
-        this.frontFacingRaycaster.changeOrigin(new Vector3(x, FRONT_FACING_RAYCASTER_POS.Y ,z));
-
+    _detectFrontalCollision() {
         const frontCollision = this.frontFacingRaycaster.hasCollied();
         if(frontCollision) {
             frontCollision.forEach(el => {
@@ -427,7 +426,6 @@ class MainObject extends WorldModel {
         }
     }
 
-
     /**
      * Used to trigger return of the fireflies
      *
@@ -439,7 +437,7 @@ class MainObject extends WorldModel {
      * If the cat is outside the cave for more than 5 sec, fireflies will return to their initial position
      * @private
      */
-    _onOutsideCave() {
+    _handleOutsideCaveLogic() {
         if(this.fireflies.isInInitialPosition()) {
             return;
         }
