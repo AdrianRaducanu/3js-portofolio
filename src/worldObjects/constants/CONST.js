@@ -60,6 +60,15 @@ export const STARTING_POSITION_FIREFLIES = {
     Z: 10
 }
 
+export const STARTING_POSITION_NOTES = {
+    // X: 0,
+    // Y: 2,
+    // Z: 68
+    X: 30,
+    Y: 2,
+    Z: -75
+}
+
 export const SPINE_TO_ROTATE = "spine005";
 
 export const FRONT_FACING_RAYCASTER_POS = {
@@ -76,15 +85,19 @@ export const DOWN_FACING_RAYCASTER_POS = {
 
 export const NO_OF_FIREFLIES = 20;
 
+export const NO_OF_NOTES = 5;
+
 export const ANIMATED_NODE = {
     "db": "Cube-DB",
     "wss": "Cube-WSS",
-    "question-mark": "Text"
+    "question-mark": "Text",
+    "pickup": "PickUp"
 }
 
 export const FRONT_FACING_RAYCASTER_OBJECTS = {
     JOB_WSS: "Base-WSS",
     JOB_DB: "Base-DB",
-    EASTER_EGG: "Sphere_1"
+    EASTER_EGG: "Sphere_1",
+    PICK_UP: "Base"
 }
 

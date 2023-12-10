@@ -2,7 +2,7 @@ import WorldModel from "./WorldModel.js";
 import {ANIMATED_NODE} from "../constants/CONST.js";
 import {
     ANIMATED_OBJECT_TWEEN,
-    ANIMATED_OBJECT_ANIMATION, ANIMATED_NODE_INITIAL_PROPS, ANIMATED_OBJECT_MODEL_ANIMATIONS_PREPARE
+    ANIMATED_OBJECT_ANIMATION, ANIMATED_NODE_INITIAL_PROPS, ANIMATED_OBJECT_MODEL_ANIMATIONS_PREPARE,
 } from "../constants/ANIMATIONS.js";
 
 /**
@@ -16,7 +16,7 @@ class WorldAnimatedObject extends WorldModel {
      * @param raycaster
      * @param props
      */
-    constructor(name, raycaster, props = null) {
+    constructor(name, props, raycaster = null) {
         super(name);
         this.raycaster = raycaster;
         this.props = props;
@@ -36,8 +36,10 @@ class WorldAnimatedObject extends WorldModel {
     callbackAfterLoading() {
         this._traverseModel();
         this._prepareAnimations();
-        this.raycaster.addMultipleObjectsToIntersect(this.modelInstance);
-        this.props ? this.updatePositionAndRotation(this.props) : null;
+        this.updatePositionAndRotation(this.props);
+        if(this.raycaster) {
+            this.raycaster.addMultipleObjectsToIntersect(this.modelInstance);
+        }
     }
 
     /**
@@ -65,7 +67,9 @@ class WorldAnimatedObject extends WorldModel {
         this.modelInstance.traverse((node) => {
             if(node.name.includes(ANIMATED_NODE[this.name])) {
                 this.animatedNode = node;
-                ANIMATED_NODE_INITIAL_PROPS[this.name](this.animatedNode);
+                if (ANIMATED_NODE_INITIAL_PROPS[this.name]) {
+                    ANIMATED_NODE_INITIAL_PROPS[this.name](this.animatedNode);
+                }
             }
         });
     }

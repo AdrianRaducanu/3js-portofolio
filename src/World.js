@@ -9,7 +9,7 @@ import {
     EASTER_EGG_PROP,
     FRONT_FACING_RAYCASTER,
     JOB_DB_PROPS,
-    JOB_WSS_PROPS, QUESTION_MARK_PROP
+    JOB_WSS_PROPS, PICKUP_PROP, QUESTION_MARK_PROP
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
@@ -17,6 +17,7 @@ import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
 import {JOBS_NAME, LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 import Firefly from "./worldObjects/Firefly.js";
+import MusicNotes from "./worldObjects/MusicNotes.js";
 
 class World {
 
@@ -38,6 +39,8 @@ class World {
 
         this._addEasterEgg();
 
+        this._addMusicObjects();
+
         this._addMainObject();
     }
 
@@ -56,6 +59,7 @@ class World {
         this.easterEgg.update(delta);
         this.questionMark.update(delta);
         this.fireflies.update(elapsedTime);
+        this.musicNotes.update(elapsedTime);
     }
 
     /**
@@ -96,7 +100,9 @@ class World {
             jobWSS: this.jobWSS,
             jobDB: this.jobDB,
             easterEgg: this.easterEgg,
-            questionMark: this.questionMark
+            questionMark: this.questionMark,
+            musicNotes: this.musicNotes,
+            pickup: this.pickup
         }
         this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster, otherObjects);
         this.mainObject.initialize();
@@ -120,11 +126,11 @@ class World {
      */
     _addJobs() {
         //db
-        this.jobDB = new WorldAnimatedObject(JOBS_NAME.DB, this.frontFacingRaycaster, JOB_DB_PROPS);
+        this.jobDB = new WorldAnimatedObject(JOBS_NAME.DB, JOB_DB_PROPS, this.frontFacingRaycaster);
         this.jobDB.initialize();
 
         //wss
-        this.jobWSS = new WorldAnimatedObject(JOBS_NAME.WSS, this.frontFacingRaycaster, JOB_WSS_PROPS);
+        this.jobWSS = new WorldAnimatedObject(JOBS_NAME.WSS, JOB_WSS_PROPS, this.frontFacingRaycaster);
         this.jobWSS.initialize();
     }
 
@@ -138,11 +144,19 @@ class World {
     }
 
     _addEasterEgg() {
-        this.easterEgg = new WorldAnimatedObject("easter-egg", this.frontFacingRaycaster, EASTER_EGG_PROP);
+        this.easterEgg = new WorldAnimatedObject("easter-egg", EASTER_EGG_PROP, this.frontFacingRaycaster);
         this.easterEgg.initialize();
 
-        this.questionMark = new WorldAnimatedObject("question-mark", this.frontFacingRaycaster, QUESTION_MARK_PROP);
+        this.questionMark = new WorldAnimatedObject("question-mark", QUESTION_MARK_PROP, this.frontFacingRaycaster);
         this.questionMark.initialize();
+    }
+
+    _addMusicObjects() {
+        this.pickup = new WorldAnimatedObject("pickup", PICKUP_PROP, this.frontFacingRaycaster);
+        this.pickup.initialize();
+
+        this.musicNotes = new MusicNotes("notes");
+        this.musicNotes.initialize();
     }
 }
 

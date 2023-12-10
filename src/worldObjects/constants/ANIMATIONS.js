@@ -33,7 +33,8 @@ function rotateAnimatedNode(animatedNode) {
 export const ANIMATED_NODE_INITIAL_PROPS = {
     "wss": setNodeScaleToZero,
     "db": setNodeScaleToZero,
-    "question-mark": setNodeScaleToZero
+    "question-mark": setNodeScaleToZero,
+    "pickup": setNodeScaleToZero
 };
 
 function setNodeScaleToZero(animatedNode) {
@@ -45,12 +46,13 @@ function setNodeScaleToZero(animatedNode) {
  * @type {{wss: (function(*, *): Tween<*>), "question-mark": (function(*, *): Tween<*>), db: (function(*, *): Tween<*>)}}
  */
 export const ANIMATED_OBJECT_TWEEN = {
-    "wss": createGrowingTweenDelayOptional(1, 1, 1),
-    "db": createGrowingTweenDelayOptional(1, 1, 1),
-    "question-mark": createGrowingTweenDelayOptional(1, 1, 1, 1000)
+    "wss": createGrowingTween(1, 1, 1),
+    "db": createGrowingTween(1, 1, 1),
+    "pickup": createGrowingTween(1,1,1),
+    "question-mark": createGrowingTween(1, 1, 1, 1000)
 };
 
-function createGrowingTweenDelayOptional(x, y, z, delay = 0) {
+function createGrowingTween(x, y, z, delay = 0) {
     return function (animatedNode, onComplete) {
         return new Tween(animatedNode.scale)
             .to({ x, y, z }, 1000)

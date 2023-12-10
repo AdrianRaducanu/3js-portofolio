@@ -8,20 +8,24 @@ import {AnimationMixer} from "three";
  */
 class WorldModel extends WorldObjects {
 
-    constructor(name) {
+    constructor(name, props = null) {
         super(name);
         this.url = `../../static/models/bin/${this.name}.glb`;
         this.modelInstance = {};
         this.modelAnimations = {};
         this.mixer = null;
+        this.props = props;
     }
 
     /**
      * Called from outside of this class
      * @param callback {function}
      */
-    initialize(callback) {
-        this.importModel(() => callback());
+    initialize(callback = null) {
+        this.importModel(() => {
+            if(callback) callback();
+            if(this.props) this.updatePositionAndRotation(this.props);
+        });
     }
 
     /**
@@ -39,6 +43,18 @@ class WorldModel extends WorldObjects {
      */
     setPosition(axis, value) {
         this.modelInstance.position[axis] = value
+    }
+
+    /**
+     * Update position and rotation based
+     * @param props {object}
+     */
+    updatePositionAndRotation(props) {
+        Object.keys(props).forEach(prop => {
+            Object.keys(props[prop]).forEach(axis => {
+                this.modelInstance[prop][axis] = props[prop][axis];
+            })
+        })
     }
 
     /**

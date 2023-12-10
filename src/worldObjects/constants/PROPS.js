@@ -105,6 +105,17 @@ export const QUESTION_MARK_PROP = {
     }
 }
 
+export const PICKUP_PROP = {
+    position: {
+        z: -71,
+        x: 3
+    },
+    rotation: {
+        y: 3 * Math.PI / 4
+    }
+}
+
+
 
 
 

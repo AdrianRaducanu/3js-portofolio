@@ -41,11 +41,7 @@ class MainObject extends WorldModel {
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
         this.downFacingRaycaster = downFacingRaycaster;
         this.frontFacingRaycaster = frontFacingRaycaster;
-        this.fireflies = otherObjects.fireflies;
-        this.jobWSS = otherObjects.jobWSS;
-        this.jobDB = otherObjects.jobDB;
-        this.easterEgg = otherObjects.easterEgg;
-        this.questionMark = otherObjects.questionMark;
+        this.otherObjects = otherObjects;
         this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
         this.isInCave = false;
     }
@@ -343,7 +339,7 @@ class MainObject extends WorldModel {
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
 
         if(this.isInCave) {
-            this.fireflies.goToPosition(this.modelInstance.position.z, this.modelInstance.position.x);
+            this.otherObjects.fireflies.goToPosition(this.modelInstance.position.z, this.modelInstance.position.x);
         }
     }
 
@@ -396,15 +392,19 @@ class MainObject extends WorldModel {
             frontCollision.forEach(el => {
                 switch (el.object.name) {
                     case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
-                        this.jobWSS.activateAnimationFlag();
+                        this.otherObjects.jobWSS.activateAnimationFlag();
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
-                        this.jobDB.activateAnimationFlag();
+                        this.otherObjects.jobDB.activateAnimationFlag();
+                        break;
+                    case FRONT_FACING_RAYCASTER_OBJECTS.PICK_UP:
+                        this.otherObjects.pickup.activateAnimationFlag();
+                        this.otherObjects.musicNotes.startPlaying();
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
                         //TODO: this will be triggered by click
-                        this.easterEgg.activateAnimationFlag();
-                        this.questionMark.activateAnimationFlag();
+                        this.otherObjects.easterEgg.activateAnimationFlag();
+                        this.otherObjects.questionMark.activateAnimationFlag();
                         break;
                     default:
                         break;
@@ -422,7 +422,7 @@ class MainObject extends WorldModel {
     _moveFireFlies(z, x) {
         if(this.isInCave) {
             this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
-            this.fireflies.updateFireflyPosition(z, x)
+            this.otherObjects.fireflies.updateFireflyPosition(z, x);
         }
     }
 
@@ -438,12 +438,12 @@ class MainObject extends WorldModel {
      * @private
      */
     _handleOutsideCaveLogic() {
-        if(this.fireflies.isInInitialPosition()) {
+        if(this.otherObjects.fireflies.isInInitialPosition()) {
             return;
         }
         this.outsideCaveTime += OUTSIDE_CAVE_TIME_INCREMENT;
         if(this.outsideCaveTime > 5000) {
-            this.fireflies.returnToInitialPosition();
+            this.otherObjects.fireflies.returnToInitialPosition();
         }
     }
 }
