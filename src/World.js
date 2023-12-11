@@ -116,8 +116,8 @@ class World {
      * @private
      */
     _addRaycaster() {
-        this.downFacingRaycaster = new CustomRaycaster(DOWN_FACING_RAYCASTER.ORIGIN, DOWN_FACING_RAYCASTER.DIRECTION);
-        this.frontFacingRaycaster = new CustomRaycaster(FRONT_FACING_RAYCASTER.ORIGIN, FRONT_FACING_RAYCASTER.DIRECTION);
+        this.downFacingRaycaster = new CustomRaycaster("down-facing-raycaster", DOWN_FACING_RAYCASTER.ORIGIN, DOWN_FACING_RAYCASTER.DIRECTION);
+        this.frontFacingRaycaster = new CustomRaycaster("front-facing-raycaster", FRONT_FACING_RAYCASTER.ORIGIN, FRONT_FACING_RAYCASTER.DIRECTION);
     }
 
     /**

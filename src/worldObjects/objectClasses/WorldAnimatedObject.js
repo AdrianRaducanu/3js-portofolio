@@ -38,7 +38,7 @@ class WorldAnimatedObject extends WorldModel {
         this._prepareAnimations();
         this.updatePositionAndRotation(this.props);
         if(this.raycaster) {
-            this.raycaster.addMultipleObjectsToIntersect(this.modelInstance);
+            this.raycaster.addInObjectsToIntersect(this.modelInstance);
         }
     }
 

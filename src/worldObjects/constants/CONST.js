@@ -21,7 +21,7 @@ export const KEY_EVENTS = {
     KEY_UP: "keyup"
 }
 
-export const MOVING_UNIT = 0.05;
+export const MOVING_UNIT = 0.5;
 
 export const ROTATION_UNIT = Math.PI / 256;
 

@@ -29,8 +29,8 @@ class Landscape extends WorldModel{
     callbackAfterModelLoad() {
         const road = this.modelInstance.children.find(child => child.name === LANDSCAPE_MESH.ROAD_MESH);
         const caveRoof = this.modelInstance.children.find(child => child.name === LANDSCAPE_MESH.CAVE_ROOF_MESH);
-        this.raycaster.addMultipleObjectsToIntersect(road);
-        this.raycaster.addMultipleObjectsToIntersect(caveRoof);
+        this.raycaster.addInObjectsToIntersect(road);
+        this.raycaster.addInObjectsToIntersect(caveRoof);
 
         this.modelInstance.traverse((node) => {
             if(node.name === LANDSCAPE_MESH.WATERFALL) {

@@ -5,7 +5,8 @@ import {Raycaster, Vector3} from "three";
  */
 class CustomRaycaster {
 
-    constructor(origin, direction, near = 0, far = 10) {
+    constructor(name, origin, direction, near = 0, far = 10) {
+        this.name = name;
         this.raycastingOrigin = origin;
         this.raycastingDirection = direction;
         this.raycastingDirection.normalize();
@@ -18,10 +19,10 @@ class CustomRaycaster {
     /**
      * Add multiple objects to intersect
      * Used for front facing raycaster
-     * @param mesh
+     * @param obj
      */
-    addMultipleObjectsToIntersect(mesh) {
-        this.objectsToIntersect.push(mesh);
+    addInObjectsToIntersect(obj) {
+        this.objectsToIntersect.push(obj);
     }
 
     /**
