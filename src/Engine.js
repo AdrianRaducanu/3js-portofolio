@@ -73,6 +73,9 @@ class Engine {
         //tick fcn
         this.previousTime = 0;
         this.clock = new Clock();
+
+        //freeze
+        this.tickId = 0;
     }
 
     /**
@@ -178,7 +181,15 @@ class Engine {
         TWEEN.update();
         this.world.updateWorld(deltaTime, elapsedTime);
         this.renderer.renderApp();
-        requestAnimationFrame(() => this.tick());
+        this.tickId = requestAnimationFrame(() => this.tick());
+    }
+
+    freezeApp() {
+        cancelAnimationFrame(this.tickId);
+    }
+
+    unfreezeApp() {
+        this.tickId = requestAnimationFrame(() => this.tick());
     }
 
     /**
