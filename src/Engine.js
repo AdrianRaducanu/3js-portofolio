@@ -181,7 +181,7 @@ class Engine {
         TWEEN.update();
         this.world.updateWorld(deltaTime, elapsedTime);
         this.renderer.renderApp();
-        this.tickId = requestAnimationFrame(() => this.tick());
+        this.unfreezeApp();
     }
 
     freezeApp() {

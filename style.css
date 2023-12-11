@@ -46,6 +46,29 @@ h1 {
   background: #535bf2;
 }
 
+.text-module {
+  position: absolute;
+  width: 33.33vw;
+  height: 33.33vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid red;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.text-module h1 {
+  margin: 0;
+  text-align: center;
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
