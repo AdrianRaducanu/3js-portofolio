@@ -143,6 +143,10 @@ class World {
         this.fireflies.initialize();
     }
 
+    /**
+     * Add easter egg and its question mark
+     * @private
+     */
     _addEasterEgg() {
         this.easterEgg = new WorldAnimatedObject("easter-egg", EASTER_EGG_PROP, this.frontFacingRaycaster);
         this.easterEgg.initialize();
@@ -151,12 +155,30 @@ class World {
         this.questionMark.initialize();
     }
 
+    /**
+     * Add pick up and its music notes
+     * @private
+     */
     _addMusicObjects() {
         this.pickup = new WorldAnimatedObject("pickup", PICKUP_PROP, this.frontFacingRaycaster);
         this.pickup.initialize();
 
         this.musicNotes = new MusicNotes("notes");
         this.musicNotes.initialize();
+    }
+
+    /**
+     * Freeze the main object
+     */
+    onFreeze() {
+        this.mainObject.onFreeze();
+    }
+
+    /**
+     * Unfreeze the main object
+     */
+    onUnfreeze() {
+        this.mainObject.onUnfreeze();
     }
 }
 

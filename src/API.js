@@ -1,24 +1,20 @@
 import Engine from "./Engine.js";
 import domManagement from "./domManagement.js";
 
-export const API = {
-    GAME: {
-        freeze: function () {
-            Engine.instance.freezeApp();
-        },
-
-        unfreeze: function () {
-            Engine.instance.unfreezeApp();
-        }
+/**
+ * Can be tested in console
+ *
+ * Combine the engine and the dom manipulation
+ * @type {{openModal: API.openModal, closeModal: API.closeModal}}
+ */
+export let API = {
+    closeModal: function () {
+        domManagement.instance.hide();
+        Engine.instance.unfreezeApp();
     },
 
-    DOM: {
-        hide: function () {
-            domManagement.instance.hide();
-        },
-
-        show: function () {
-            domManagement.instance.show();
-        }
+    openModal: function () {
+        Engine.instance.freezeApp();
+        domManagement.instance.show();
     }
 }

@@ -44,6 +44,8 @@ class MainObject extends WorldModel {
         this.otherObjects = otherObjects;
         this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
         this.isInCave = false;
+
+        this.isFrozen = false;
     }
 
     /**
@@ -69,11 +71,19 @@ class MainObject extends WorldModel {
 
     /**
      * Used to listen to keys pressed/released
+     *
+     * Early returns:
+     * While is doing flip animation, don't move
+     * While is frozen, don't move
      * @private
      */
     _keyListener() {
         window.addEventListener(KEY_EVENTS.KEY_DOWN, (event) => {
             if(this.modelAnimations[MAIN_ANIMATIONS.FLIP].isRunning()) {
+                return;
+            }
+
+            if(this.isFrozen) {
                 return;
             }
 
@@ -120,6 +130,8 @@ class MainObject extends WorldModel {
 
     /**
      * Used to update the main object and its animations
+     *
+     * While is frozen, don't move
      * @param delta
      */
     update(delta) {
@@ -129,7 +141,10 @@ class MainObject extends WorldModel {
             this._handleOutsideCaveLogic();
         }
 
-        this._updatePosition();
+        if(!this.isFrozen) {
+            this._updatePosition();
+        }
+
         this.updateMixer(delta);
 
         if(Math.round(this.standingTime) % STANDING_TIME_LOOP_TIME === 0 && !this.modelAnimations[MAIN_ANIMATIONS.HEAD_TURN]?.isRunning()) {
@@ -445,6 +460,25 @@ class MainObject extends WorldModel {
         if(this.outsideCaveTime > 5000) {
             this.otherObjects.fireflies.returnToInitialPosition();
         }
+    }
+
+    /**
+     * Make the cat stop walking and set flag to true
+     */
+    onFreeze() {
+        this.isFrozen = true;
+
+        this.moveController.left = false;
+        this.moveController.right = false;
+        this.moveController.up = false;
+        this.moveController.down = false;
+    }
+
+    /**
+     * Set flag to false
+     */
+    onUnfreeze() {
+        this.isFrozen = false;
     }
 }
 

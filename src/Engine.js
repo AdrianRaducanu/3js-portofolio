@@ -34,9 +34,14 @@ class Engine {
 
     /**
      * Initialize the main components of the app
+     *
+     * @param canvas
      */
-    initialize() {
+    initialize(canvas) {
         this._manageLoading();
+
+        //canvas
+        this.canvas = canvas;
 
         // ColorManagement.enabled = false;
         //sizes
@@ -46,9 +51,6 @@ class Engine {
         //debugger
         this.debugger = new Debugger();
         this.debugger.initialize();
-
-        //canvas
-        this.canvas = document.getElementById('canvas');
 
         //scene
         this.scene = new Scene();
@@ -181,17 +183,26 @@ class Engine {
         TWEEN.update();
         this.world.updateWorld(deltaTime, elapsedTime);
         this.renderer.renderApp();
-        this.unfreezeApp();
+        requestAnimationFrame(() => this.tick());
     }
 
+    /**
+     * Called from API
+     *
+     * Will make the cat unable to move
+     */
     freezeApp() {
-        cancelAnimationFrame(this.tickId);
+        this.world.onFreeze();
     }
 
+    /**
+     * Called from API
+     *
+     * Will make the cat able to move
+     */
     unfreezeApp() {
-        this.tickId = requestAnimationFrame(() => this.tick());
+        this.world.onUnfreeze();
     }
-
     /**
      * This will start the app after all the models are loaded
      * in order to avoid [violation] requestAnimationFrame errors
