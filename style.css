@@ -35,6 +35,39 @@ h1 {
   color: #3c3c41;
 }
 
+.header {
+  position: absolute;
+  width: 100vw;
+  height: 5vh;
+  top: 0;
+  background-color: rgba(52, 52, 52, 0.82);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .image-container {
+  box-sizing: border-box;
+  margin: 0 3%;
+  width: 4vh;
+  height: 4vh;
+  padding: 4px;
+  border-radius: 3px;
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header img {
+  box-sizing: border-box;
+  width: 90%;
+  height: auto;
+  object-fit: contain;
+}
+
 #canvas-div {
   height: 100vh;
   width: 100%;

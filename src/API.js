@@ -8,13 +8,17 @@ import domManagement from "./domManagement.js";
  * @type {{openModal: API.openModal, closeModal: API.closeModal}}
  */
 export let API = {
-    closeModal: function () {
+    closeModal: function() {
         domManagement.instance.hide();
         Engine.instance.unfreezeApp();
     },
 
-    openModal: function () {
+    openModal: function() {
         Engine.instance.freezeApp();
         domManagement.instance.show();
+    },
+
+    changeText: function(text) {
+        domManagement.instance.changeText(text);
     }
 }

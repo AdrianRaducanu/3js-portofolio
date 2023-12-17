@@ -30,6 +30,7 @@ class domManagement {
     initialize() {
         this.textModal = document.getElementById("text-modal-id");
         this.closeBtn = document.getElementById("close-btn-id");
+        this.text = document.getElementById("text-id");
         this._listenToBtns();
     }
 
@@ -45,6 +46,18 @@ class domManagement {
      */
     show() {
         this.textModal.classList.remove('hidden');
+    }
+
+    /**
+     *
+     * @param text
+     */
+    changeText(text) {
+        console.log(text)
+        console.log(this.text)
+        this.text.innerText = text.textDescription;
+        this.closeBtn.innerText = text.textBtn;
+        API.openModal();
     }
 
     /**
