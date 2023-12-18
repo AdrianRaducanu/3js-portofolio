@@ -1,5 +1,5 @@
 import Engine from "./Engine.js";
-import domManagement from "./domManagement.js";
+import DomManagement from "./DomManagement.js";
 
 /**
  * Can be tested in console
@@ -9,16 +9,16 @@ import domManagement from "./domManagement.js";
  */
 export let API = {
     closeModal: function() {
-        domManagement.instance.hide();
+        DomManagement.instance.hide();
         Engine.instance.unfreezeApp();
     },
 
     openModal: function() {
         Engine.instance.freezeApp();
-        domManagement.instance.show();
+        DomManagement.instance.show();
     },
 
-    changeText: function(text) {
-        domManagement.instance.changeText(text);
+    unlockObjective: function(obj) {
+        DomManagement.instance.unlockObjective(obj);
     }
 }

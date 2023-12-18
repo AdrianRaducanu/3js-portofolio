@@ -14,6 +14,7 @@ import {
     STANDING_TIME_INITIAL_VALUE,
     STANDING_TIME_LOOP_TIME, STARTING_POSITION,
 } from "./constants/CONST.js";
+import {OBJECTIVES} from "../constants/DOM_CONSTANTS.js";
 
 class MainObject extends WorldModel {
 
@@ -399,6 +400,8 @@ class MainObject extends WorldModel {
      * Move front facing raycaster position based on cat's position
      *
      * If frontal raycaster detects something, activate that animated object
+     *
+     * First time when the cat finds some objective, it will be unlocked
      * @private
      */
     _detectFrontalCollision() {
@@ -408,18 +411,22 @@ class MainObject extends WorldModel {
                 switch (el.object.name) {
                     case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
                         this.otherObjects.jobWSS.activateAnimationFlag();
+                        API.unlockObjective(OBJECTIVES.WSS);
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
                         this.otherObjects.jobDB.activateAnimationFlag();
+                        API.unlockObjective(OBJECTIVES.DB);
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.PICK_UP:
                         this.otherObjects.pickup.activateAnimationFlag();
                         this.otherObjects.musicNotes.startPlaying();
+                        API.unlockObjective(OBJECTIVES.MUSIC);
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
                         //TODO: this will be triggered by click
                         this.otherObjects.easterEgg.activateAnimationFlag();
                         this.otherObjects.questionMark.activateAnimationFlag();
+                        API.unlockObjective(OBJECTIVES.EGG);
                         break;
                     default:
                         break;

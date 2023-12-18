@@ -8,22 +8,37 @@
   </head>
   <body>
     <div class="header">
-      <div class="image-container">
-        <img src="static/images/question.png" alt="Image 1">
+      <div class="image-container" id="wss-container">
+        <img src="static/images/wss.png" alt="Image 1" id="image-wss" class="hidden">
+        <div class="animation-block" id="image-wss-block"></div>
+        <img src="static/images/question.png" alt="Image 1-q" id="image-wss-q">
       </div>
-      <div class="image-container">
-        <img src="static/images/question.png" alt="Image 2">
+      <div class="image-container" id="db-container">
+        <img src="static/images/db.png" alt="Image 2" id="image-db" class="hidden">
+        <div class="animation-block" id="image-db-block"></div>
+        <img src="static/images/question.png" alt="Image 2-q" id="image-db-q">
       </div>
-      <div class="image-container">
-        <img src="static/images/question.png" alt="Image 3">
+      <div class="image-container" id="egg-container">
+        <img src="static/images/egg.png" alt="Image 3" id="image-egg" class="hidden">
+        <div class="animation-block" id="image-egg-block"></div>
+        <img src="static/images/question.png" alt="Image 3-q" id="image-egg-q">
       </div>
-      <div class="image-container">
-        <img src="static/images/question.png" alt="Image 4">
+      <div class="image-container" id="music-container">
+        <img src="static/images/music.png" alt="Image 4" id="image-music" class="hidden">
+        <div class="animation-block" id="image-music-block"></div>
+        <img src="static/images/question.png" alt="Image 4-q" id="image-music-q">
       </div>
     </div>
     <div class="text-module hidden" id="text-modal-id">
-      <h1 id="text-id">HELLO</h1>
-      <button id="close-btn-id">Close</button>
+      <p id="text-id">Hello, this is a usual phrase.</p>
+      <button id="close-btn-id">K Bye</button>
+    </div>
+    <div class="sound-div">
+      <p id="sound-status-id">Mute</p>
+      <label class="switch">
+        <input type="checkbox" id="sound-checker-id">
+        <span class="slider round"></span>
+      </label>
     </div>
     <div id="canvas-div">
       <canvas id="canvas"></canvas>
