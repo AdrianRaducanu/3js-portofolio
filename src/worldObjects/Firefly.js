@@ -98,7 +98,7 @@ class Firefly extends WorldObjects {
                 uY: {value: STARTING_POSITION_FIREFLIES.Y},
                 uZ: {value: STARTING_POSITION_FIREFLIES.Z}
             }
-        })
+        });
 
         this.fireflyBody = new Points(this.geometry, this.material)
     }

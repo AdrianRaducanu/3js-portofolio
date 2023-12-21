@@ -85,6 +85,8 @@ export const DOWN_FACING_RAYCASTER_POS = {
 
 export const NO_OF_FIREFLIES = 20;
 
+export const NO_OF_WEATHER_PARTICLES = 20000;
+
 export const NO_OF_NOTES = 5;
 
 export const ANIMATED_NODE = {

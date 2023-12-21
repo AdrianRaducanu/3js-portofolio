@@ -18,6 +18,7 @@ import {JOBS_NAME, LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 import Firefly from "./worldObjects/Firefly.js";
 import MusicNotes from "./worldObjects/MusicNotes.js";
+import Weather from "./worldObjects/Weather.js";
 
 class World {
 
@@ -41,6 +42,8 @@ class World {
 
         this._addMusicObjects();
 
+        this._addWeather();
+
         this._addMainObject();
     }
 
@@ -60,6 +63,7 @@ class World {
         this.questionMark.update(delta);
         this.fireflies.update(elapsedTime);
         this.musicNotes.update(elapsedTime);
+        this.weather.update(elapsedTime);
     }
 
     /**
@@ -83,7 +87,7 @@ class World {
      * @private
      */
     _addLandscape() {
-        this.landscape = new Landscape("landscape", this.downFacingRaycaster);
+        this.landscape = new Landscape("landscape-snow", this.downFacingRaycaster);
         this.landscape.initialize();
     }
 
@@ -165,6 +169,11 @@ class World {
 
         this.musicNotes = new MusicNotes("notes");
         this.musicNotes.initialize();
+    }
+
+    _addWeather() {
+        this.weather = new Weather("wather", "snow");
+        this.weather.initialize();
     }
 
     /**
