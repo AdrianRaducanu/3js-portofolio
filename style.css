@@ -174,11 +174,7 @@ h1 {
 
 /*sound*/
 
-.sound-div {
-  position: absolute;
-  bottom:0;
-  right: 0;
-
+.sound-checker {
   width: 55px;
   height: 27px;
   margin: 10px;
@@ -189,7 +185,12 @@ h1 {
   justify-content: space-around;
 }
 
-#sound-status-id{
+.sound-div {
+  position: absolute;
+  bottom:0;
+  right: 0;
+}
+.sound-name {
   position: absolute;
   transform: translate(20%, -150%);
 
@@ -257,6 +258,21 @@ input:checked + .slider:before {
 
 .sound-on {
   color: #a0c5bc !important;
+  transform: translate(10%, -150%) !important;
+}
+
+/* music */
+.music-div {
+  position: absolute;
+  bottom:0;
+  left: 0;
+}
+
+.music-on {
+  color: #a0c5bc !important;
+}
+
+.default-name {
   transform: translate(10%, -150%) !important;
 }
 

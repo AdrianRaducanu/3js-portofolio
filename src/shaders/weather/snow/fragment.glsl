@@ -1,14 +1,12 @@
 #define PI 3.1415926535897932384626433832795
 
-varying float vTime;
-
 void main()
 {
     float lineWidth = 0.15;
 
     vec2 center = vec2(gl_PointCoord.x - 0.5, gl_PointCoord.y - 0.5);
 
-    float angle = atan(center.y, center.x) + vTime;
+    float angle = atan(center.y, center.x);
 
     float circleToMask = step(0.55, distance(gl_PointCoord, vec2(0.5)) + 0.35);
     float circleInside = step(0.55, distance(gl_PointCoord, vec2(0.5)) + 0.45);

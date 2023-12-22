@@ -73,7 +73,9 @@ class DomManagement {
         this.eggBtn = document.getElementById("egg-container");
         this.musicBtn = document.getElementById("music-container");
         this.soundChecker = document.getElementById("sound-checker-id");
-        this.soundStatus = document.getElementById("sound-status-id")
+        this.soundStatus = document.getElementById("sound-status-id");
+        this.musicChecker = document.getElementById("music-checker-id");
+        this.musicStatus = document.getElementById("music-status-id");
     }
 
     /**
@@ -89,6 +91,7 @@ class DomManagement {
         this.musicBtn.addEventListener("click", () => this._onObjectiveClick(OBJECTIVES.MUSIC));
 
         this.soundChecker.addEventListener("change", () => this._onChangeSoundChecker());
+        this.musicChecker.addEventListener("change", () => this._onChangeMusicChecker());
     }
 
     /**
@@ -190,6 +193,22 @@ class DomManagement {
         } else {
             this.soundStatus.innerText = "Mute";
             this.soundStatus.classList.remove("sound-on");
+        }
+    }
+
+    /**
+     * Handles sounds (mute or unmute)
+     * @private
+     */
+    _onChangeMusicChecker() {
+        if(this.musicChecker.checked) {
+            this.musicStatus.innerText = "Puya";
+            this.musicStatus.classList.add("music-on");
+            this.musicStatus.classList.remove("default-name");
+        } else {
+            this.musicStatus.innerText = "Default";
+            this.musicStatus.classList.add("default-name");
+            this.musicStatus.classList.remove("music-on");
         }
     }
 
