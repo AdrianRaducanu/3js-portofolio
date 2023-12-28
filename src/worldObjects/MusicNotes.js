@@ -99,6 +99,7 @@ class MusicNotes extends WorldObjects {
      */
     startPlaying() {
         this.shouldPlay = true;
+        this.material.visible = true;
     }
 
     /**
@@ -106,6 +107,7 @@ class MusicNotes extends WorldObjects {
      */
     stopPlaying() {
         this.shouldPlay = false;
+        this.material.visible = false;
     }
 }
 

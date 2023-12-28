@@ -1,5 +1,6 @@
 import {API} from "./API.js";
 import {IMG_IDS, OBJECTIVES} from "./constants/DOM_CONSTANTS.js";
+import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 
 class Enforcer {}
 
@@ -76,6 +77,7 @@ class DomManagement {
         this.soundStatus = document.getElementById("sound-status-id");
         this.musicChecker = document.getElementById("music-checker-id");
         this.musicStatus = document.getElementById("music-status-id");
+        this.musicModal = document.getElementById("music-modal");
     }
 
     /**
@@ -190,9 +192,11 @@ class DomManagement {
         if(this.soundChecker.checked) {
             this.soundStatus.innerText = "Unmute";
             this.soundStatus.classList.add("sound-on");
+            API.unmuteAllSounds();
         } else {
             this.soundStatus.innerText = "Mute";
             this.soundStatus.classList.remove("sound-on");
+            API.muteAllSounds();
         }
     }
 
@@ -205,11 +209,17 @@ class DomManagement {
             this.musicStatus.innerText = "Puya";
             this.musicStatus.classList.add("music-on");
             this.musicStatus.classList.remove("default-name");
+            API.toggleMusic(SOUND_NAMES.PUYA);
         } else {
             this.musicStatus.innerText = "Default";
             this.musicStatus.classList.add("default-name");
             this.musicStatus.classList.remove("music-on");
+            API.toggleMusic(SOUND_NAMES.MAIN);
         }
+    }
+
+    unlockPuya() {
+        this.musicModal.classList.remove("hidden");
     }
 
 }

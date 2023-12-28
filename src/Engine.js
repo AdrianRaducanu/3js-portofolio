@@ -9,6 +9,7 @@ import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
 import {Clock, ColorManagement, DefaultLoadingManager} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
+import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 
 class Enforcer {
 }
@@ -212,6 +213,18 @@ class Engine {
         DefaultLoadingManager.onLoad = () => {
             Engine.instance.start();
             this.tick();
+        }
+    }
+
+    /**
+     * Used to make music notes visible or not based on music
+     * @param music
+     */
+    setMusicNotesVisibility(music) {
+        if(music === SOUND_NAMES.PUYA) {
+            this.world.setMusicNotesVisibility(true);
+        } else {
+            this.world.setMusicNotesVisibility(false);
         }
     }
 

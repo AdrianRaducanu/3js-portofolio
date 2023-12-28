@@ -15,6 +15,7 @@ import {
     STANDING_TIME_LOOP_TIME, STARTING_POSITION,
 } from "./constants/CONST.js";
 import {OBJECTIVES} from "../constants/DOM_CONSTANTS.js";
+import {SOUND_NAMES} from "../constants/SOUND_CONSTANTS.js";
 
 class MainObject extends WorldModel {
 
@@ -97,6 +98,7 @@ class MainObject extends WorldModel {
                     break;
                 case KEYBOARD_CODES.KEY_S:
                     this._onS(KEY_ACTION.DOWN)
+                    API.playSound(SOUND_NAMES.JUMP);
                     break;
                 case KEYBOARD_CODES.KEY_A:
                     this._onA(KEY_ACTION.DOWN)
@@ -410,22 +412,21 @@ class MainObject extends WorldModel {
             frontCollision.forEach(el => {
                 switch (el.object.name) {
                     case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
-                        this.otherObjects.jobWSS.activateAnimationFlag();
+                        this.otherObjects.jobWSS.onActivation();
                         API.unlockObjective(OBJECTIVES.WSS);
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
-                        this.otherObjects.jobDB.activateAnimationFlag();
+                        this.otherObjects.jobDB.onActivation();
                         API.unlockObjective(OBJECTIVES.DB);
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.PICK_UP:
-                        this.otherObjects.pickup.activateAnimationFlag();
-                        this.otherObjects.musicNotes.startPlaying();
+                        this.otherObjects.pickup.onActivation();
                         API.unlockObjective(OBJECTIVES.MUSIC);
                         break;
                     case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
                         //TODO: this will be triggered by click
-                        this.otherObjects.easterEgg.activateAnimationFlag();
-                        this.otherObjects.questionMark.activateAnimationFlag();
+                        this.otherObjects.easterEgg.onActivation();
+                        this.otherObjects.questionMark.onActivation();
                         API.unlockObjective(OBJECTIVES.EGG);
                         break;
                     default:

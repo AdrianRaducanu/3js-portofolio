@@ -172,7 +172,7 @@ class World {
     }
 
     _addWeather() {
-        this.weather = new Weather("wather", "snow");
+        this.weather = new Weather("weather", "snow");
         this.weather.initialize();
     }
 
@@ -188,6 +188,18 @@ class World {
      */
     onUnfreeze() {
         this.mainObject.onUnfreeze();
+    }
+
+    /**
+     * Used to manage the music notes (based on theme picked)
+     * @param flag
+     */
+    setMusicNotesVisibility(flag) {
+        if(flag) {
+            this.musicNotes.startPlaying();
+        } else {
+            this.musicNotes.stopPlaying();
+        }
     }
 }
 
