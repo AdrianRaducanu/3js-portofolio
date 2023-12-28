@@ -87,10 +87,10 @@ class DomManagement {
     _listenToBtns() {
         this.closeBtn.addEventListener('click', () => this._closeTextModal());
 
-        this.wssBtn.addEventListener("click", () => this._onObjectiveClick(OBJECTIVES.WSS));
-        this.dbBtn.addEventListener("click", () => this._onObjectiveClick(OBJECTIVES.DB));
-        this.eggBtn.addEventListener("click", () => this._onObjectiveClick(OBJECTIVES.EGG));
-        this.musicBtn.addEventListener("click", () => this._onObjectiveClick(OBJECTIVES.MUSIC));
+        this.wssBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.WSS));
+        this.dbBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.DB));
+        this.eggBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.EGG));
+        this.musicBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.MUSIC));
 
         this.soundChecker.addEventListener("change", () => this._onChangeSoundChecker());
         this.musicChecker.addEventListener("change", () => this._onChangeMusicChecker());
@@ -155,9 +155,8 @@ class DomManagement {
     /**
      * Change the text inside the modal based on the discovered objective
      * @param obj
-     * @private
      */
-    _onObjectiveClick(obj) {
+    openObjectiveModal(obj) {
         switch (obj) {
             case OBJECTIVES.DB:
                 if(this.dbActive) {

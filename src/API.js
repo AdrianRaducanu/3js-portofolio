@@ -41,12 +41,11 @@ export const API = {
     },
 
     unlockObjective: function(obj) {
-        if(!ActivationManager.getIsActive(obj)) {
-            SoundManagement.instance.playSound(SOUND_NAMES.OBJECTIVE);
-            DomManagement.instance.unlockObjective(obj);
-            if(obj === OBJECTIVES.MUSIC) {
-                DomManagement.instance.unlockPuya();
-            }
+        SoundManagement.instance.playSound(SOUND_NAMES.OBJECTIVE);
+        DomManagement.instance.unlockObjective(obj);
+        DomManagement.instance.openObjectiveModal(obj);
+        if(obj === OBJECTIVES.MUSIC) {
+            DomManagement.instance.unlockPuya();
         }
     }
 }
@@ -54,7 +53,7 @@ export const API = {
 /**
  * Used to manage the activation process (first time when an objective is viewed)
  */
-class ActivationManager {
+export class ActivationManager {
     static jobWSSActivated = false;
     static jobDBActivated = false;
     static eggActivated = false;
@@ -88,7 +87,7 @@ class ActivationManager {
 /**
  * Used to manage the music (main vs puya)
  */
-class MusicManager {
+export class MusicManager {
     static music = SOUND_NAMES.MAIN;
 
     static toggleMusic(newMusic) {

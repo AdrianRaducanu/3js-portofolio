@@ -16,6 +16,7 @@ import {
 } from "./constants/CONST.js";
 import {OBJECTIVES} from "../constants/DOM_CONSTANTS.js";
 import {SOUND_NAMES} from "../constants/SOUND_CONSTANTS.js";
+import {ActivationManager} from "../API.js";
 
 class MainObject extends WorldModel {
 
@@ -409,30 +410,35 @@ class MainObject extends WorldModel {
     _detectFrontalCollision() {
         const frontCollision = this.frontFacingRaycaster.hasCollied();
         if(frontCollision) {
-            frontCollision.forEach(el => {
-                switch (el.object.name) {
-                    case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
+            switch (frontCollision[0].object.name) {
+                case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
+                    if(!ActivationManager.getIsActive(OBJECTIVES.WSS)) {
                         this.otherObjects.jobWSS.onActivation();
                         API.unlockObjective(OBJECTIVES.WSS);
-                        break;
-                    case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
+                    }
+                    break;
+                case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
+                    if(!ActivationManager.getIsActive(OBJECTIVES.DB)) {
                         this.otherObjects.jobDB.onActivation();
                         API.unlockObjective(OBJECTIVES.DB);
-                        break;
-                    case FRONT_FACING_RAYCASTER_OBJECTS.PICK_UP:
+                    }
+                    break;
+                case FRONT_FACING_RAYCASTER_OBJECTS.PICK_UP:
+                    if(!ActivationManager.getIsActive(OBJECTIVES.MUSIC)) {
                         this.otherObjects.pickup.onActivation();
                         API.unlockObjective(OBJECTIVES.MUSIC);
-                        break;
-                    case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
-                        //TODO: this will be triggered by click
+                    }
+                    break
+                case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
+                    if(!ActivationManager.getIsActive(OBJECTIVES.EGG)) {
                         this.otherObjects.easterEgg.onActivation();
                         this.otherObjects.questionMark.onActivation();
                         API.unlockObjective(OBJECTIVES.EGG);
-                        break;
-                    default:
-                        break;
-                }
-            })
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

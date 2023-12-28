@@ -92,14 +92,11 @@ class WorldAnimatedObject extends WorldModel {
      * If there is no external animation, play its tween
      */
     onActivation() {
-        if(!this.isActive) {
-            if(Object.keys(this.modelAnimations).length) {
-                this._playModelAnimationOnActivate();
-            }  else {
-                this._playTweenAnimationOnActivate();
-            }
+        if(Object.keys(this.modelAnimations).length) {
+            this._playModelAnimationOnActivate();
+        } else {
+            this._playTweenAnimationOnActivate();
         }
-
     }
 
     /**
