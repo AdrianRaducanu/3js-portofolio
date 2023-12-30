@@ -7,7 +7,7 @@ import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 /**
  * Can be tested in console
  *
- * Combine the engine and the dom manipulation
+ * Combine the engine and management classes
  * @type {{openModal: API.openModal, closeModal: API.closeModal}}
  */
 export const API = {

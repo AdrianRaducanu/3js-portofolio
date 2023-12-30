@@ -68,6 +68,14 @@ class Scene extends RequiredObjects{
         this.sceneInstance[key].set(value);
     }
 
+    /**
+     * Change background color
+     * @param value
+     */
+    changeBackground(value) {
+        this.sceneInstance.background.set(value);
+    }
+
 
 }
 

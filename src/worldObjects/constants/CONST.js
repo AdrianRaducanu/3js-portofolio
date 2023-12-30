@@ -103,3 +103,9 @@ export const FRONT_FACING_RAYCASTER_OBJECTS = {
     PICK_UP: "Base"
 }
 
+export const WEATHER = {
+    SNOW: "SNOW",
+    RAIN: "RAIN",
+    CLEAR: "CLEAR"
+}
+

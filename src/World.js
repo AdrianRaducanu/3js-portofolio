@@ -14,15 +14,23 @@ import {
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
 import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
-import {JOBS_NAME, LIGHT_WITH_SHADOW} from "./worldObjects/constants/CONST.js";
+import {JOBS_NAME, LIGHT_WITH_SHADOW, WEATHER} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 import Firefly from "./worldObjects/Firefly.js";
 import MusicNotes from "./worldObjects/MusicNotes.js";
 import Weather from "./worldObjects/Weather.js";
+import {OBJECT_PROPERTIES} from "./constants/OBJECT_PROPERTIES.js";
+import {SCENARIOS, TIME_SCENARIOS} from "./constants/SCENARIOS.js";
+import Engine from "./Engine.js";
 
 class World {
 
-    constructor() {}
+    /**
+     * hasWeather = is Raining or Snowing
+     */
+    constructor() {
+        this.hasWeather = false;
+    }
 
     /**
      * Initialize world related objects
@@ -41,8 +49,6 @@ class World {
         this._addEasterEgg();
 
         this._addMusicObjects();
-
-        this._addWeather();
 
         this._addMainObject();
     }
@@ -63,7 +69,9 @@ class World {
         this.questionMark.update(delta);
         this.fireflies.update(elapsedTime);
         this.musicNotes.update(elapsedTime);
-        this.weather.update(elapsedTime);
+        if(this.hasWeather) {
+            this.weather.update(elapsedTime);
+        }
     }
 
     /**
@@ -171,8 +179,26 @@ class World {
         this.musicNotes.initialize();
     }
 
-    _addWeather() {
-        this.weather = new Weather("weather", "snow");
+    /**
+     * Used to add weather based on scenario
+     * RAIN/SNOW -> has weather
+     * LAVA/CLEAR -> no weather
+     *
+     * Everytime the scenario is changed, the old this.weather must be removed from the scene
+     * and recreated and added (this way I wont have snow and rain at the same time on screen)
+     * @param value
+     * @private
+     */
+    _addWeather(value) {
+        if(this.weather) {
+            this.weather.remove();
+        }
+        if(value === WEATHER.CLEAR) {
+            this.hasWeather = false;
+            return
+        }
+        this.hasWeather = true;
+        this.weather = new Weather("weather", value);
         this.weather.initialize();
     }
 
@@ -200,6 +226,114 @@ class World {
         } else {
             this.musicNotes.stopPlaying();
         }
+    }
+
+    /**
+     * Modify scene based on night scenario
+     */
+    onNightTime() {
+        this.isNight = true;
+        this._modifySceneBasedOnScenario(
+            TIME_SCENARIOS.NIGHT.background,
+            TIME_SCENARIOS.NIGHT.directionalLight,
+            TIME_SCENARIOS.NIGHT.ambientLight
+        );
+
+        this.mainObject.setIsNight(true);
+    }
+
+    /**
+     * Modify scene based on day scenario
+     */
+    onDayTime() {
+        this.isNight = false
+        this._modifySceneBasedOnScenario(
+            TIME_SCENARIOS.DAY.background,
+            TIME_SCENARIOS.DAY.directionalLight,
+            TIME_SCENARIOS.DAY.ambientLight
+        );
+
+        this.mainObject.setIsNight(false);
+    }
+
+    /**
+     * Modify scene based on rain scenario only for daytime
+     *
+     * If night -> don't modify it, just add rain
+     */
+    onRain() {
+        if(!this.isNight) {
+            this._modifySceneBasedOnScenario(
+                SCENARIOS.RAIN.background,
+                SCENARIOS.RAIN.directionalLight,
+                SCENARIOS.RAIN.ambientLight
+            );
+        }
+        //Todo modify landscape material so it looks wet
+        this._addWeather(WEATHER.RAIN);
+    }
+
+    /**
+     * Modify scene based on snow scenario only for daytime
+     *
+     * If night -> don't modify it, just add snow
+     */
+    onSnow() {
+        if(!this.isNight) {
+            this._modifySceneBasedOnScenario(
+                SCENARIOS.SNOW.background,
+                SCENARIOS.SNOW.directionalLight,
+                SCENARIOS.SNOW.ambientLight
+            );
+        }
+        //Todo modify snow on landscape and color of glass + modify color of shaders (they're too white rn)
+        this._addWeather(WEATHER.SNOW);
+    }
+
+    /**
+     * Don't modify the changes made by TIME_SCENARIO, just clear the weather
+     */
+    onClear() {
+        if(this.isNight) {
+            this.onNightTime();
+        } else {
+            this.onDayTime();
+        }
+        this._addWeather(WEATHER.CLEAR);
+    }
+
+    /**
+     * Modify scene based on lava scenario
+     *
+     * There is no night nor day here, just some dark-redish scene and the
+     * fireflies can move all over the map
+     */
+    onLava() {
+        this.isNight = true;
+        this._modifySceneBasedOnScenario(
+            SCENARIOS.LAVA.background,
+            SCENARIOS.LAVA.directionalLight,
+            SCENARIOS.LAVA.ambientLight
+        );
+
+        this.mainObject.setIsNight(true);
+    }
+
+    /**
+     * Used to modify scene props based on scenario input
+     * @param background
+     * @param directionalLightProps
+     * @param ambientLightProps
+     * @private
+     */
+    _modifySceneBasedOnScenario(background, directionalLightProps, ambientLightProps) {
+        Engine.instance.changeBackground(background);
+
+        this.directionalLight.setProperty(OBJECT_PROPERTIES.COLOR, directionalLightProps.color);
+        this.directionalLight.setProperty(OBJECT_PROPERTIES.INTENSITY, directionalLightProps.intensity);
+
+        this.ambientLight.setProperty(OBJECT_PROPERTIES.COLOR, ambientLightProps.color);
+        this.ambientLight.setProperty(OBJECT_PROPERTIES.INTENSITY, ambientLightProps.intensity);
     }
 }
 

@@ -10,6 +10,8 @@ import Debugger from "./utils/Debugger.js";
 import {Clock, ColorManagement, DefaultLoadingManager} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
+import {TIME} from "./constants/DATE_AND_LOCATION.js";
+import {getWeatherScenario, WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 
 class Enforcer {
 }
@@ -37,9 +39,13 @@ class Engine {
      * Initialize the main components of the app
      *
      * @param canvas
+     * @param weather
+     * @param time
      */
-    initialize(canvas) {
+    initialize(canvas, weather, time) {
         this._manageLoading();
+        this.weather = weather;
+        this.time = time;
 
         //canvas
         this.canvas = canvas;
@@ -76,9 +82,6 @@ class Engine {
         //tick fcn
         this.previousTime = 0;
         this.clock = new Clock();
-
-        //freeze
-        this.tickId = 0;
     }
 
     /**
@@ -142,6 +145,14 @@ class Engine {
      */
     addInScene(obj) {
         this.scene.addInScene(obj);
+    }
+
+    /**
+     * Remove obj from scene
+     * @param obj
+     */
+    removeFromScene(obj) {
+        this.scene.removeFromScene(obj);
     }
 
     /**
@@ -212,6 +223,8 @@ class Engine {
     _manageLoading() {
         DefaultLoadingManager.onLoad = () => {
             Engine.instance.start();
+            //will not be here since I dont start the app based on user info
+            this._manageScenario(this.weather, this.time);
             this.tick();
         }
     }
@@ -226,6 +239,114 @@ class Engine {
         } else {
             this.world.setMusicNotesVisibility(false);
         }
+    }
+
+    /**
+     * Manage the scenarios
+     * @param weather
+     * @param time
+     * @private
+     */
+    _manageScenario(weather, time) {
+        if(time === TIME.NIGHT) {
+            this._onDayTime();
+        } else {
+            this._onDayTime();
+        }
+
+        const weatherScenario = getWeatherScenario(weather);
+        console.log(weatherScenario)
+        switch (weatherScenario) {
+            case WEATHER_SCENARIOS.CLEAR:
+                this._onClearScenario();
+                break;
+            case WEATHER_SCENARIOS.SNOW:
+                this._onSnowScenario();
+                break;
+            case WEATHER_SCENARIOS.LAVA:
+                this._onLavaScenario();
+                break;
+            case WEATHER_SCENARIOS.RAIN:
+                this._onSnowScenario();
+                // setTimeout(() => {
+                //     this._onRainScenario();
+                // }, 5000)
+                // setTimeout(() => {
+                //     this._onClearScenario();
+                // }, 10000)
+                // setTimeout(() => {
+                //     this._onLavaScenario();
+                // }, 12000)
+                break;
+            case WEATHER_SCENARIOS.INVALID:
+                this._onClearScenario();
+                alert("Couldn't get your location, enjoy the clear scenario")
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Change background of the scene
+     * @param value
+     */
+    changeBackground(value) {
+        this.scene.changeBackground(value);
+    }
+
+    /**
+     * Called when night time scenario is selected
+     * @private
+     */
+    _onNightTime() {
+        console.log("is Night");
+        this.world.onNightTime();
+    }
+
+    /**
+     * Called when day time scenario is selected
+     * @private
+     */
+    _onDayTime() {
+        console.log("is Day");
+        this.world.onDayTime();
+    }
+
+    /**
+     * Called when sky is clear (no rain nor snow)
+     * @private
+     */
+    _onClearScenario() {
+        console.log("Is clear");
+        this.world.onClear();
+    }
+
+    /**
+     * Called when Lava scenario is selected
+     * @private
+     */
+    _onLavaScenario() {
+        console.log("Is LAVA!!");
+        this.world.onLava();
+    }
+
+    /**
+     * Called when snow scenario is selected
+     * @private
+     */
+    _onSnowScenario() {
+        console.log("Is snowing");
+        this.world.onSnow();
+    }
+
+    /**
+     * Called when rain scenario is selected
+     * @private
+     */
+    _onRainScenario() {
+        console.log("Is raining");
+        this.world.onRain();
     }
 
 }

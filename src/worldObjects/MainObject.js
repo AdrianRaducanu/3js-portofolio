@@ -47,7 +47,7 @@ class MainObject extends WorldModel {
         this.otherObjects = otherObjects;
         this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
         this.isInCave = false;
-
+        this.isNight = false;
         this.isFrozen = false;
     }
 
@@ -56,6 +56,16 @@ class MainObject extends WorldModel {
      */
     initialize() {
         super.initialize(() => this.callbackAfterModelLoad())
+    }
+
+    /**
+     * Set isNight boolean
+     *
+     * Used to move fireflies all over the map when is night
+     * @param value
+     */
+    setIsNight(value = false) {
+        this.isNight = value;
     }
 
     /**
@@ -351,14 +361,19 @@ class MainObject extends WorldModel {
 
     /**
      * Called when moveController.up is true, meaning that the cat should make flip animation
-     * that will trigger to fireflies to follow her in cave only on nighttime
+     * that will trigger to fireflies to follow her in cave only on daytime,
+     * cuz on nighttime they will follow the cat everywhere
      * @private
      */
     _onMovingBack() {
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
 
-        if(this.isInCave) {
+        if(this.isNight) {
             this.otherObjects.fireflies.goToPosition(this.modelInstance.position.z, this.modelInstance.position.x);
+        } else {
+            if(this.isInCave) {
+                this.otherObjects.fireflies.goToPosition(this.modelInstance.position.z, this.modelInstance.position.x);
+            }
         }
     }
 
@@ -444,15 +459,23 @@ class MainObject extends WorldModel {
 
     /**
      * Will move fireflies based on cat's position
+     *
+     * If is night, fireflies can move anywhere
      * @param z
      * @param x
      * @private
      */
     _moveFireFlies(z, x) {
-        if(this.isInCave) {
+        if(this.isNight) {
             this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
             this.otherObjects.fireflies.updateFireflyPosition(z, x);
+        } else {
+            if(this.isInCave) {
+                this.outsideCaveTime = OUTSIDE_CAVE_TIME_INITIAL_VALUE;
+                this.otherObjects.fireflies.updateFireflyPosition(z, x);
+            }
         }
+
     }
 
     /**
@@ -461,13 +484,14 @@ class MainObject extends WorldModel {
      * If the fireflies are in their initial position and the cat is outside the cave,
      * no need to increment outsideCaveTime
      *
+     * JUST FOR DAY TIME
      * If the cat is outside the cave for less than 5 sec, just increment outsideCaveTime
      *
      * If the cat is outside the cave for more than 5 sec, fireflies will return to their initial position
      * @private
      */
     _handleOutsideCaveLogic() {
-        if(this.otherObjects.fireflies.isInInitialPosition()) {
+        if(this.otherObjects.fireflies.isInInitialPosition() || this.isNight) {
             return;
         }
         this.outsideCaveTime += OUTSIDE_CAVE_TIME_INCREMENT;

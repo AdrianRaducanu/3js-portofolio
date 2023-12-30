@@ -1,7 +1,7 @@
 import WorldObjects from "./objectClasses/WorldObjects.js";
 import Engine from "../Engine.js";
 import {AdditiveBlending, BufferAttribute, BufferGeometry, Points, ShaderMaterial} from "three";
-import {NO_OF_WEATHER_PARTICLES} from "./constants/CONST.js";
+import {NO_OF_WEATHER_PARTICLES, WEATHER} from "./constants/CONST.js";
 import vertexShaderRain from "../shaders/weather/rain/vertex.glsl";
 import fragmentShaderRain from "../shaders/weather/rain/fragment.glsl";
 import vertexShaderSnow from "../shaders/weather/snow/vertex.glsl";
@@ -24,6 +24,13 @@ class Weather extends WorldObjects {
      */
     initialize() {
         this._addInScene();
+    }
+
+    /**
+     * Remove weather on scenario swap
+     */
+    remove() {
+        Engine.instance.removeFromScene(this.weather);
     }
 
     /**
@@ -84,7 +91,7 @@ class Weather extends WorldObjects {
      * @private
      */
     _getWeatherType(type) {
-        if(type === "snow") {
+        if(type === WEATHER.SNOW) {
             this.vertex = vertexShaderSnow;
             this.fragment = fragmentShaderSnow;
         } else {

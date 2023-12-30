@@ -2,17 +2,13 @@ import {Vector3} from "three";
 
 export const AMBIENT_LIGHT_PROPS = {
     color: "#f4e9db",
-    intensity: 1
+    intensity: 0.4
 }
 
-export const FIREFLY_LIGHT_PROPS = {
-    color: "#ff0000",
-    intensity: 10
-}
 
 export const DIRECTIONAL_LIGHT_PROPS = {
-    color: "#bdbdbd",
-    intensity: 1,
+    color: "#ffffff",
+    intensity: 0.9,
     position: {
         x: 30,
         y: 50,
