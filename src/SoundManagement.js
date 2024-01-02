@@ -47,13 +47,13 @@ class SoundManagement {
                     console.log("Sound " + sound.name + " has a problem while trying to load " + err);
                 },
                 onplay: () => {
-                    console.log("Sound " + sound.name + " has started");
+                    // console.log("Sound " + sound.name + " has started");
                 },
                 onend: () => {
-                    console.log("Sound " + sound.name + " has ended");
+                    // console.log("Sound " + sound.name + " has ended");
                 },
                 onstop: () => {
-                    console.log("Sound " + sound.name + " has stopped");
+                    // console.log("Sound " + sound.name + " has stopped");
                 },
                 onplayerror: (err) => {
                     console.log("Sound " + sound.name + " has a problem while trying to play " + err);

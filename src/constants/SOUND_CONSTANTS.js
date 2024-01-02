@@ -7,13 +7,13 @@ export const SOUNDS_ARRAY = [
     },
     {
         name: "lava",
-        autoplay: false,
+        autoplay: true,
         volume: 1,
         loop: true,
     },
     {
         name: "main",
-        autoplay: true,
+        autoplay: false,
         volume: 1,
         loop: true,
     },

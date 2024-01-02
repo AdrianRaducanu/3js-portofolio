@@ -16,7 +16,6 @@ import {
 } from "./constants/CONST.js";
 import {OBJECTIVES} from "../constants/DOM_CONSTANTS.js";
 import {SOUND_NAMES} from "../constants/SOUND_CONSTANTS.js";
-import {ActivationManager} from "../API.js";
 
 class MainObject extends WorldModel {
 
@@ -109,7 +108,7 @@ class MainObject extends WorldModel {
                     break;
                 case KEYBOARD_CODES.KEY_S:
                     this._onS(KEY_ACTION.DOWN)
-                    API.playSound(SOUND_NAMES.JUMP);
+                    Manager.playSound(SOUND_NAMES.JUMP);
                     break;
                 case KEYBOARD_CODES.KEY_A:
                     this._onA(KEY_ACTION.DOWN)
@@ -427,28 +426,28 @@ class MainObject extends WorldModel {
         if(frontCollision) {
             switch (frontCollision[0].object.name) {
                 case FRONT_FACING_RAYCASTER_OBJECTS.JOB_WSS:
-                    if(!ActivationManager.getIsActive(OBJECTIVES.WSS)) {
+                    if(!Manager.checkObjectiveActive(OBJECTIVES.WSS)) {
                         this.otherObjects.jobWSS.onActivation();
-                        API.unlockObjective(OBJECTIVES.WSS);
+                        Manager.unlockObjective(OBJECTIVES.WSS);
                     }
                     break;
                 case FRONT_FACING_RAYCASTER_OBJECTS.JOB_DB:
-                    if(!ActivationManager.getIsActive(OBJECTIVES.DB)) {
+                    if(!Manager.checkObjectiveActive(OBJECTIVES.DB)) {
                         this.otherObjects.jobDB.onActivation();
-                        API.unlockObjective(OBJECTIVES.DB);
+                        Manager.unlockObjective(OBJECTIVES.DB);
                     }
                     break;
                 case FRONT_FACING_RAYCASTER_OBJECTS.PICK_UP:
-                    if(!ActivationManager.getIsActive(OBJECTIVES.MUSIC)) {
+                    if(!Manager.checkObjectiveActive(OBJECTIVES.MUSIC)) {
                         this.otherObjects.pickup.onActivation();
-                        API.unlockObjective(OBJECTIVES.MUSIC);
+                        Manager.unlockObjective(OBJECTIVES.MUSIC);
                     }
                     break
                 case FRONT_FACING_RAYCASTER_OBJECTS.EASTER_EGG:
-                    if(!ActivationManager.getIsActive(OBJECTIVES.EGG)) {
+                    if(!Manager.checkObjectiveActive(OBJECTIVES.EGG)) {
                         this.otherObjects.easterEgg.onActivation();
                         this.otherObjects.questionMark.onActivation();
-                        API.unlockObjective(OBJECTIVES.EGG);
+                        Manager.unlockObjective(OBJECTIVES.EGG);
                     }
                     break;
                 default:

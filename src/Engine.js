@@ -10,7 +10,9 @@ import Debugger from "./utils/Debugger.js";
 import {Clock, ColorManagement, DefaultLoadingManager} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import {TIME} from "./constants/DATE_AND_LOCATION.js";
-import {getWeatherScenario, WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
+import {WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
+import {Manager} from "./Manager.js";
+import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 
 class Enforcer {
 }
@@ -38,13 +40,10 @@ class Engine {
      * Initialize the main components of the app
      *
      * @param canvas
-     * @param weather
-     * @param time
+     * @param callbackAfterLoad
      */
-    initialize(canvas, weather, time) {
-        this._manageLoading();
-        this.weather = weather;
-        this.time = time;
+    initialize(canvas, callbackAfterLoad) {
+        this._manageLoading(callbackAfterLoad);
 
         //canvas
         this.canvas = canvas;
@@ -198,7 +197,7 @@ class Engine {
     }
 
     /**
-     * Called from API
+     * Called from Manager
      *
      * Will make the cat unable to move
      */
@@ -207,7 +206,7 @@ class Engine {
     }
 
     /**
-     * Called from API
+     * Called from Manager
      *
      * Will make the cat able to move
      */
@@ -217,13 +216,17 @@ class Engine {
     /**
      * This will start the app after all the models are loaded
      * in order to avoid [violation] requestAnimationFrame errors
+     *
+     * @param callbackAfterLoad
      * @private
      */
-    _manageLoading() {
+    _manageLoading(callbackAfterLoad) {
         DefaultLoadingManager.onLoad = () => {
             Engine.instance.start();
             //will not be here since I dont start the app based on user info
-            this.manageScenario(this.weather, this.time);
+            Manager.changeWeatherScenario(SOUND_NAMES.LAVA, WEATHER_SCENARIOS.LAVA);
+            Manager.changeTimeScenario(TIME.NIGHT);
+            callbackAfterLoad();
             this.tick();
         }
     }
@@ -243,16 +246,12 @@ class Engine {
      * @private
      */
     manageScenario(weather, time) {
-        console.log("weather: ", weather);
-        console.log("time: ", time);
         if(time === TIME.NIGHT) {
             this.onNightTime();
         } else {
             this.onDayTime();
         }
-
-        const weatherScenario = getWeatherScenario(weather);
-        switch (weatherScenario) {
+        switch (weather) {
             case WEATHER_SCENARIOS.CLEAR:
                 this.onClearScenario();
                 break;
@@ -287,7 +286,7 @@ class Engine {
      * @public
      */
     onNightTime() {
-        console.log("is Night");
+        // console.log("is Night");
         this.world.onNightTime();
     }
 
@@ -296,7 +295,7 @@ class Engine {
      * @public
      */
     onDayTime() {
-        console.log("is Day");
+        // console.log("is Day");
         this.world.onDayTime();
     }
 
@@ -305,7 +304,7 @@ class Engine {
      * @public
      */
     onClearScenario() {
-        console.log("Is clear");
+        // console.log("Is clear");
         this.world.onClear();
     }
 
@@ -314,7 +313,7 @@ class Engine {
      * @public
      */
     onLavaScenario() {
-        console.log("Is LAVA!!");
+        // console.log("Is LAVA!!");
         this.world.onLava();
     }
 
@@ -323,7 +322,7 @@ class Engine {
      * @public
      */
     onSnowScenario() {
-        console.log("Is snowing");
+        // console.log("Is snowing");
         this.world.onSnow();
     }
 
@@ -332,7 +331,7 @@ class Engine {
      * @public
      */
     onRainScenario() {
-        console.log("Is raining");
+        // console.log("Is raining");
         this.world.onRain();
     }
 

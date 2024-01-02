@@ -24,20 +24,13 @@ export const WEATHER_CODES = {
     LAVA: [-1]
 };
 
-export const INVALID_WEATHER_CODE = -1;
+export const INVALID_WEATHER_CODE = 0;
 export const WEATHER_SCENARIOS = {
     CLEAR: "CLEAR",
     RAIN: "RAIN",
     SNOW: "SNOW",
     LAVA: "LAVA",
     INVALID: "INVALID"
-}
-
-export const WEATHER_SCENARIOS_CODE = {
-    CLEAR: 0,
-    RAIN: 45,
-    SNOW: 71,
-    LAVA: -1
 }
 
 export const getWeatherScenario = (code) => {

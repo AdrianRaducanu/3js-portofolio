@@ -1,7 +1,8 @@
-import {API} from "./API.js";
+import {Manager} from "./Manager.js";
 import {IMG_IDS, OBJECTIVES} from "./constants/DOM_CONSTANTS.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 import {WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
+import {TIME} from "./constants/DATE_AND_LOCATION.js";
 
 class Enforcer {}
 
@@ -40,26 +41,19 @@ class DomManagement {
     }
 
     /**
-     * Called in API to hide the modal
+     * Called in Manager to hide the modal
      */
     hide() {
         this.textModal.classList.add('hidden');
     }
 
     /**
-     * Called in API to display the modal
-     */
-    show() {
-        this.textModal.classList.remove('hidden');
-    }
-
-    /**
-     * Change the text for modal
+     * Change the text for modal and show it
      * @param text
      */
-    changeModalText(text) {
+    showModal(text) {
         this.text.innerText = text;
-        API.openModal();
+        this.textModal.classList.remove('hidden');
     }
 
     /**
@@ -85,6 +79,7 @@ class DomManagement {
         this.rainScenario = document.getElementById("weather-rain-id");
         this.snowScenario = document.getElementById("weather-snow-id");
         this.lavaScenario = document.getElementById("weather-lava-id");
+        this.scenarios = document.getElementById("scenarios-id");
     }
 
     /**
@@ -103,10 +98,10 @@ class DomManagement {
         this.musicChecker.addEventListener("change", () => this._onChangeMusicChecker());
 
         this.daytimeChecker.addEventListener("change", () => this._changeDaytimeScenario());
-        this.clearScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.CLEAR));
-        this.rainScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.RAIN));
-        this.snowScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.SNOW));
-        this.lavaScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.LAVA));
+        this.clearScenario.addEventListener("click", () => this.changeWeatherScenario(WEATHER_SCENARIOS.CLEAR));
+        this.rainScenario.addEventListener("click", () => this.changeWeatherScenario(WEATHER_SCENARIOS.RAIN));
+        this.snowScenario.addEventListener("click", () => this.changeWeatherScenario(WEATHER_SCENARIOS.SNOW));
+        this.lavaScenario.addEventListener("click", () => this.changeWeatherScenario(WEATHER_SCENARIOS.LAVA));
     }
 
     /**
@@ -114,7 +109,7 @@ class DomManagement {
      * @private
      */
     _closeTextModal() {
-        API.closeModal();
+        Manager.closeModal();
     }
 
     /**
@@ -173,22 +168,22 @@ class DomManagement {
         switch (obj) {
             case OBJECTIVES.DB:
                 if(this.dbActive) {
-                    this.changeModalText("1232");
+                    Manager.openModal("1232");
                 }
                 break;
             case OBJECTIVES.WSS:
                 if(this.wssActive) {
-                    this.changeModalText("324354");
+                    Manager.openModal("324354");
                 }
                 break;
             case OBJECTIVES.EGG:
                 if(this.eggActive) {
-                    this.changeModalText("3243567yhretgv");
+                    Manager.openModal("3243567yhretgv");
                 }
                 break;
             case OBJECTIVES.MUSIC:
                 if(this.musicActive) {
-                    this.changeModalText("oinvo");
+                    Manager.openModal("oinvo");
                 }
                 break;
             default:
@@ -204,11 +199,11 @@ class DomManagement {
         if(this.soundChecker.checked) {
             this.soundStatus.innerText = "Unmute";
             this.soundStatus.classList.add("sound-on");
-            API.unmuteAllSounds();
+            Manager.unmuteAllSounds();
         } else {
             this.soundStatus.innerText = "Mute";
             this.soundStatus.classList.remove("sound-on");
-            API.muteAllSounds();
+            Manager.muteAllSounds();
         }
     }
 
@@ -221,12 +216,12 @@ class DomManagement {
             this.musicStatus.innerText = "Puya";
             this.musicStatus.classList.add("music-on");
             this.musicStatus.classList.remove("default-name");
-            API.playPuya();
+            Manager.playPuya();
         } else {
             this.musicStatus.innerText = "Default";
             this.musicStatus.classList.add("default-name");
             this.musicStatus.classList.remove("music-on");
-            API.stopPuya();
+            Manager.stopPuya();
         }
     }
 
@@ -240,38 +235,33 @@ class DomManagement {
      */
     _changeDaytimeScenario() {
         if(this.daytimeChecker.checked) {
-            API.onNightTime();
+            Manager.changeTimeScenario(TIME.NIGHT);
         } else {
-            API.onDayTime();
+            Manager.changeTimeScenario(TIME.DAY);
         }
     }
 
     /**
      * Change weather scenarios from html
      * @param weather
-     * @private
      */
-    _changeWeatherScenario(weather) {
+    changeWeatherScenario(weather) {
         this._onScenarioChange();
         switch (weather) {
             case WEATHER_SCENARIOS.CLEAR:
-                API.onClearScenario();
-                API.toggleMainTheme(SOUND_NAMES.MAIN);
+                Manager.changeWeatherScenario(SOUND_NAMES.MAIN, WEATHER_SCENARIOS.CLEAR);
                 this.clearScenario.classList.add("weather-checked");
                 break;
             case WEATHER_SCENARIOS.RAIN:
-                API.onRainScenario();
-                API.toggleMainTheme(SOUND_NAMES.RAIN);
+                Manager.changeWeatherScenario(SOUND_NAMES.RAIN, WEATHER_SCENARIOS.RAIN);
                 this.rainScenario.classList.add("weather-checked");
                 break;
             case WEATHER_SCENARIOS.SNOW:
-                API.onSnowScenario();
-                API.toggleMainTheme(SOUND_NAMES.SNOW);
+                Manager.changeWeatherScenario(SOUND_NAMES.SNOW, WEATHER_SCENARIOS.SNOW);
                 this.snowScenario.classList.add("weather-checked");
                 break;
             case WEATHER_SCENARIOS.LAVA:
-                API.onLavaScenario();
-                API.toggleMainTheme(SOUND_NAMES.LAVA);
+                Manager.changeWeatherScenario(SOUND_NAMES.LAVA, WEATHER_SCENARIOS.LAVA);
                 this.lavaScenario.classList.add("weather-checked");
                 this.daytimeDiv.classList.add("unclickable");
                 break;
@@ -290,6 +280,21 @@ class DomManagement {
         this.snowScenario.classList.remove("weather-checked");
         this.lavaScenario.classList.remove("weather-checked");
         this.daytimeDiv.classList.remove("unclickable");
+    }
+
+    /**
+     * Used to set dayTime input checker
+     * @param flag
+     */
+    setDayTimeChecked(flag) {
+        this.daytimeChecker.checked = flag;
+    }
+
+    /**
+     * Show scenarios modal
+     */
+    unlockScenarios() {
+        this.scenarios.classList.remove("hidden");
     }
 
 }

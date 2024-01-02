@@ -1,9 +1,8 @@
 import { NIGHT_TIME, TIME } from "./constants/DATE_AND_LOCATION.js";
-import { INVALID_WEATHER_CODE } from "./constants/WEAHTER_CODES.js";
-import Engine from "./Engine.js";
+import {INVALID_WEATHER_CODE} from "./constants/WEAHTER_CODES.js";
 
 /**
- * API used for getting the weather
+ * Manager used for getting the weather
  * @param latitude
  * @param longitude
  * @returns {`https://api.open-meteo.com/v1/forecast?latitude=${string}&longitude=${string}&daily=weather_code&forecast_days=1`}
@@ -12,35 +11,36 @@ const returnUrl = (latitude, longitude) => {
     return `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code&forecast_days=1`
 }
 
-//TODO will change this, the game will begin with lava scenario and after all objectives are complemted => go to the user scenario
-// No need to call Engine.initialize here, will have something like Engine.setUserScenario
-export default class Starter {
-    static startEngineBasedOnWeatherAndTime(canvas) {
-        const time = getTime();
+export default class ClientDataGetter {
+    static setWeatherAndTime() {
+        const time = getUserTime();
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     fetchWeatherAPI(latitude, longitude).then(res => {
-                        const weather = getWeatherCode(res);
-                        Engine.instance.initialize(canvas, weather, time);
+                        const weatherCode = getWeatherCode(res);
+                        console.log("User's data: ", weatherCode, time)
+                        Manager.setWeatherAndTime(weatherCode, time);
                     })
                 },
                 function(error) {
                     console.error(`Error getting location: ${error.message}`);
-                    Engine.instance.initialize(canvas, INVALID_WEATHER_CODE, time);
+                    alert("Couldn't get your location, enjoy the clear scenario after you finish the game")
+                    Manager.setWeatherAndTime(INVALID_WEATHER_CODE, time);
                 }
             );
         } else {
             console.error('Geolocation is not supported by this browser.');
-            Engine.instance.initialize(canvas, INVALID_WEATHER_CODE, time);
+            alert("Couldn't get your location, enjoy the clear scenario after you finish the game")
+            Manager.setWeatherAndTime(INVALID_WEATHER_CODE, time);
         }
     }
 }
 
 /**
- * Fetch data from open-meteo API
+ * Fetch data from open-meteo api
  * @param latitude
  * @param longitude
  * @returns {Promise<number|any>}
@@ -68,7 +68,7 @@ const fetchWeatherAPI = async (latitude, longitude) => {
  * Get user's time of the day (day or night)
  * @returns {string}
  */
-const getTime = () => {
+const getUserTime = () => {
     const date = new Date().getHours();
     if(date > NIGHT_TIME.START || date < NIGHT_TIME.END) {
         return TIME.NIGHT;
@@ -78,7 +78,7 @@ const getTime = () => {
 }
 
 /**
- * Get just the weather code from the API
+ * Get just the weather code from the api
  * @param res
  * @returns {*}
  */

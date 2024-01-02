@@ -41,7 +41,7 @@
           <span class="slider round"></span>
         </label>
       </div>
-      <div class="scenarios">
+      <div class="scenarios hidden" id="scenarios-id">
         <div class="weather-scenarios">
           <div class="weather-scenario" id="weather-clear-id">
             <img src="static/images/sun.png" class="weather-img">
@@ -52,11 +52,11 @@
           <div class="weather-scenario" id="weather-snow-id">
             <img src="static/images/snow.png" class="weather-img">
           </div>
-          <div class="weather-scenario" id="weather-lava-id">
+          <div class="weather-scenario weather-checked" id="weather-lava-id">
             <img src="static/images/fire.png" class="weather-img">
           </div>
         </div>
-        <div class="daytime-scenarios daytime-checker" id="daytime-div">
+        <div class="daytime-scenarios daytime-checker unclickable" id="daytime-div">
           <label class="switch">
             <input type="checkbox" id="day-night-checker-id">
             <span class="slider round"></span>

@@ -1,18 +1,19 @@
-import {API} from "./src/API.js";
+import {Manager} from "./src/Manager.js";
 import DomManagement from "./src/DomManagement.js";
 import SoundManagement from "./src/SoundManagement.js";
-import Starter from "./src/Starter.js";
+import ClientDataGetter from "./src/ClientDataGetter.js";
+import Engine from "./src/Engine.js";
+
 
 const engineCanvas = document.getElementById('canvas');
-//Right now start the engine based on user location and time
-Starter.startEngineBasedOnWeatherAndTime(engineCanvas);
+Engine.instance.initialize(canvas, () => {ClientDataGetter.setWeatherAndTime();});
 
 DomManagement.instance.initialize();
 SoundManagement.instance.initialize();
 
-window.API = API;
+window.Manager = Manager;
 
-export default API;
+export default Manager;
 
 
 
