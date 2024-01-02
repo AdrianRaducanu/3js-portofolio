@@ -47,7 +47,31 @@ export const API = {
         if(obj === OBJECTIVES.MUSIC) {
             DomManagement.instance.unlockPuya();
         }
-    }
+    },
+
+    onRainScenario: function () {
+        Engine.instance.onRainScenario();
+    },
+
+    onClearScenario: function () {
+        Engine.instance.onClearScenario();
+    },
+
+    onSnowScenario: function () {
+        Engine.instance.onSnowScenario();
+    },
+
+    onLavaScenario: function () {
+        Engine.instance.onLavaScenario();
+    },
+
+    onNightTime: function () {
+        Engine.instance.onNightTime();
+    },
+
+    onDayTime: function () {
+        Engine.instance.onDayTime();
+    },
 }
 
 /**

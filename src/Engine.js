@@ -249,37 +249,37 @@ class Engine {
      */
     _manageScenario(weather, time) {
         if(time === TIME.NIGHT) {
-            this._onDayTime();
+            this.onNightTime();
         } else {
-            this._onDayTime();
+            this.onDayTime();
         }
 
         const weatherScenario = getWeatherScenario(weather);
         console.log(weatherScenario)
         switch (weatherScenario) {
             case WEATHER_SCENARIOS.CLEAR:
-                this._onClearScenario();
+                this.onClearScenario();
                 break;
             case WEATHER_SCENARIOS.SNOW:
-                this._onSnowScenario();
+                this.onSnowScenario();
                 break;
             case WEATHER_SCENARIOS.LAVA:
-                this._onLavaScenario();
+                this.onLavaScenario();
                 break;
             case WEATHER_SCENARIOS.RAIN:
-                this._onSnowScenario();
+                this.onRainScenario();
                 // setTimeout(() => {
-                //     this._onRainScenario();
+                //     this.onRainScenario();
                 // }, 5000)
                 // setTimeout(() => {
-                //     this._onClearScenario();
+                //     this.onClearScenario();
                 // }, 10000)
                 // setTimeout(() => {
-                //     this._onLavaScenario();
+                //     this.onLavaScenario();
                 // }, 12000)
                 break;
             case WEATHER_SCENARIOS.INVALID:
-                this._onClearScenario();
+                this.onClearScenario();
                 alert("Couldn't get your location, enjoy the clear scenario")
                 break;
             default:
@@ -297,54 +297,54 @@ class Engine {
 
     /**
      * Called when night time scenario is selected
-     * @private
+     * @public
      */
-    _onNightTime() {
+    onNightTime() {
         console.log("is Night");
         this.world.onNightTime();
     }
 
     /**
      * Called when day time scenario is selected
-     * @private
+     * @public
      */
-    _onDayTime() {
+    onDayTime() {
         console.log("is Day");
         this.world.onDayTime();
     }
 
     /**
      * Called when sky is clear (no rain nor snow)
-     * @private
+     * @public
      */
-    _onClearScenario() {
+    onClearScenario() {
         console.log("Is clear");
         this.world.onClear();
     }
 
     /**
      * Called when Lava scenario is selected
-     * @private
+     * @public
      */
-    _onLavaScenario() {
+    onLavaScenario() {
         console.log("Is LAVA!!");
         this.world.onLava();
     }
 
     /**
      * Called when snow scenario is selected
-     * @private
+     * @public
      */
-    _onSnowScenario() {
+    onSnowScenario() {
         console.log("Is snowing");
         this.world.onSnow();
     }
 
     /**
      * Called when rain scenario is selected
-     * @private
+     * @public
      */
-    _onRainScenario() {
+    onRainScenario() {
         console.log("Is raining");
         this.world.onRain();
     }

@@ -1,6 +1,7 @@
 import {API} from "./API.js";
 import {IMG_IDS, OBJECTIVES} from "./constants/DOM_CONSTANTS.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
+import {WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 
 class Enforcer {}
 
@@ -78,6 +79,11 @@ class DomManagement {
         this.musicChecker = document.getElementById("music-checker-id");
         this.musicStatus = document.getElementById("music-status-id");
         this.musicModal = document.getElementById("music-modal");
+        this.daytimeChecker = document.getElementById("day-night-checker-id");
+        this.clearScenario = document.getElementById("weather-clear-id");
+        this.rainScenario = document.getElementById("weather-rain-id");
+        this.snowScenario = document.getElementById("weather-snow-id");
+        this.lavaScenario = document.getElementById("weather-lava-id");
     }
 
     /**
@@ -94,6 +100,12 @@ class DomManagement {
 
         this.soundChecker.addEventListener("change", () => this._onChangeSoundChecker());
         this.musicChecker.addEventListener("change", () => this._onChangeMusicChecker());
+
+        this.daytimeChecker.addEventListener("change", () => this._changeDaytimeScenario());
+        this.clearScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.CLEAR));
+        this.rainScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.RAIN));
+        this.snowScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.SNOW));
+        this.lavaScenario.addEventListener("click", () => this._changeWeatherScenario(WEATHER_SCENARIOS.LAVA));
     }
 
     /**
@@ -219,6 +231,58 @@ class DomManagement {
 
     unlockPuya() {
         this.musicModal.classList.remove("hidden");
+    }
+
+    /**
+     * Change daytime scenarios from html
+     * @private
+     */
+    _changeDaytimeScenario() {
+        if(this.daytimeChecker.checked) {
+            API.onNightTime();
+        } else {
+            API.onDayTime();
+        }
+    }
+
+    /**
+     * Change weather scenarios from html
+     * @param weather
+     * @private
+     */
+    _changeWeatherScenario(weather) {
+        this._removeWeatherChecked();
+        switch (weather) {
+            case WEATHER_SCENARIOS.CLEAR:
+                API.onClearScenario();
+                this.clearScenario.classList.add("weather-checked");
+                break;
+            case WEATHER_SCENARIOS.RAIN:
+                API.onRainScenario();
+                this.rainScenario.classList.add("weather-checked");
+                break;
+            case WEATHER_SCENARIOS.SNOW:
+                API.onSnowScenario();
+                this.snowScenario.classList.add("weather-checked");
+                break;
+            case WEATHER_SCENARIOS.LAVA:
+                API.onLavaScenario();
+                this.lavaScenario.classList.add("weather-checked");
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Remove green border
+     * @private
+     */
+    _removeWeatherChecked() {
+        this.clearScenario.classList.remove("weather-checked");
+        this.rainScenario.classList.remove("weather-checked");
+        this.snowScenario.classList.remove("weather-checked");
+        this.lavaScenario.classList.remove("weather-checked");
     }
 
 }

@@ -33,19 +33,43 @@
       <p id="text-id">Hello, this is a usual phrase.</p>
       <button id="close-btn-id">K Bye</button>
     </div>
-    <div class="sound-div sound-checker">
-      <p id="sound-status-id" class="sound-name sound-on">Unmute</p>
-      <label class="switch">
-        <input type="checkbox" id="sound-checker-id" checked>
-        <span class="slider round"></span>
-      </label>
-    </div>
-    <div class="music-div sound-checker hidden" id="music-modal">
-      <p id="music-status-id" class="sound-name default-name">Default</p>
-      <label class="switch">
-        <input type="checkbox" id="music-checker-id">
-        <span class="slider round"></span>
-      </label>
+    <div class="footer">
+      <div class="sound-div sound-checker">
+        <p id="sound-status-id" class="sound-name sound-on">Unmute</p>
+        <label class="switch">
+          <input type="checkbox" id="sound-checker-id" checked>
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="scenarios">
+        <div class="weather-scenarios">
+          <div class="weather-scenario" id="weather-clear-id">
+            <img src="static/images/sun.png" class="weather-img">
+          </div>
+          <div class="weather-scenario" id="weather-rain-id">
+            <img src="static/images/rain.png" class="weather-img">
+          </div>
+          <div class="weather-scenario" id="weather-snow-id">
+            <img src="static/images/snow.png" class="weather-img">
+          </div>
+          <div class="weather-scenario" id="weather-lava-id">
+            <img src="static/images/fire.png" class="weather-img">
+          </div>
+        </div>
+        <div class="daytime-scenarios daytime-checker">
+          <label class="switch">
+            <input type="checkbox" id="day-night-checker-id">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+      <div class="music-div sound-checker hidden" id="music-modal">
+        <p id="music-status-id" class="sound-name default-name">Default</p>
+        <label class="switch">
+          <input type="checkbox" id="music-checker-id">
+          <span class="slider round"></span>
+        </label>
+      </div>
     </div>
     <div id="canvas-div">
       <canvas id="canvas"></canvas>
