@@ -20,7 +20,8 @@ export const WEATHER_CODES = {
     CLEAR: [
         0, // Clear sky
         1, 2, 3 // Mainly clear, overcast but no rain
-    ]
+    ],
+    LAVA: [-1]
 };
 
 export const INVALID_WEATHER_CODE = -1;
@@ -30,6 +31,13 @@ export const WEATHER_SCENARIOS = {
     SNOW: "SNOW",
     LAVA: "LAVA",
     INVALID: "INVALID"
+}
+
+export const WEATHER_SCENARIOS_CODE = {
+    CLEAR: 0,
+    RAIN: 45,
+    SNOW: 71,
+    LAVA: -1
 }
 
 export const getWeatherScenario = (code) => {

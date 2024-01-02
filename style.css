@@ -19,6 +19,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+img {
+  user-select: none;
+}
+
 body {
   display: flex;
   place-items: center;
@@ -133,6 +137,11 @@ h1 {
 
 .hidden {
   display: none !important;
+}
+
+.unclickable {
+  pointer-events: none;
+  filter: grayscale(100%);
 }
 
 /*animation block*/

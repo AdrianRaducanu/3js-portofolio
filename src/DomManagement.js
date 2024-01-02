@@ -80,6 +80,7 @@ class DomManagement {
         this.musicStatus = document.getElementById("music-status-id");
         this.musicModal = document.getElementById("music-modal");
         this.daytimeChecker = document.getElementById("day-night-checker-id");
+        this.daytimeDiv = document.getElementById("daytime-div");
         this.clearScenario = document.getElementById("weather-clear-id");
         this.rainScenario = document.getElementById("weather-rain-id");
         this.snowScenario = document.getElementById("weather-snow-id");
@@ -220,12 +221,12 @@ class DomManagement {
             this.musicStatus.innerText = "Puya";
             this.musicStatus.classList.add("music-on");
             this.musicStatus.classList.remove("default-name");
-            API.toggleMusic(SOUND_NAMES.PUYA);
+            API.playPuya();
         } else {
             this.musicStatus.innerText = "Default";
             this.musicStatus.classList.add("default-name");
             this.musicStatus.classList.remove("music-on");
-            API.toggleMusic(SOUND_NAMES.MAIN);
+            API.stopPuya();
         }
     }
 
@@ -251,23 +252,28 @@ class DomManagement {
      * @private
      */
     _changeWeatherScenario(weather) {
-        this._removeWeatherChecked();
+        this._onScenarioChange();
         switch (weather) {
             case WEATHER_SCENARIOS.CLEAR:
                 API.onClearScenario();
+                API.toggleMainTheme(SOUND_NAMES.MAIN);
                 this.clearScenario.classList.add("weather-checked");
                 break;
             case WEATHER_SCENARIOS.RAIN:
                 API.onRainScenario();
+                API.toggleMainTheme(SOUND_NAMES.RAIN);
                 this.rainScenario.classList.add("weather-checked");
                 break;
             case WEATHER_SCENARIOS.SNOW:
                 API.onSnowScenario();
+                API.toggleMainTheme(SOUND_NAMES.SNOW);
                 this.snowScenario.classList.add("weather-checked");
                 break;
             case WEATHER_SCENARIOS.LAVA:
                 API.onLavaScenario();
+                API.toggleMainTheme(SOUND_NAMES.LAVA);
                 this.lavaScenario.classList.add("weather-checked");
+                this.daytimeDiv.classList.add("unclickable");
                 break;
             default:
                 break;
@@ -278,11 +284,12 @@ class DomManagement {
      * Remove green border
      * @private
      */
-    _removeWeatherChecked() {
+    _onScenarioChange() {
         this.clearScenario.classList.remove("weather-checked");
         this.rainScenario.classList.remove("weather-checked");
         this.snowScenario.classList.remove("weather-checked");
         this.lavaScenario.classList.remove("weather-checked");
+        this.daytimeDiv.classList.remove("unclickable");
     }
 
 }

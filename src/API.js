@@ -3,6 +3,8 @@ import DomManagement from "./DomManagement.js";
 import {OBJECTIVES} from "./constants/DOM_CONSTANTS.js";
 import SoundManagement from "./SoundManagement.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
+import {WEATHER_SCENARIOS_CODE} from "./constants/WEAHTER_CODES.js";
+import {TIME} from "./constants/DATE_AND_LOCATION.js";
 
 /**
  * Can be tested in console
@@ -33,10 +35,24 @@ export const API = {
         SoundManagement.instance.unmuteAll();
     },
 
-    toggleMusic: function (music) {
-        const {newMusic, oldMusic} = MusicManager.toggleMusic(music);
+    toggleMainTheme: function (music) {
+        const {newMusic, oldMusic} = MusicManager.toggleMainTheme(music);
         console.log(newMusic, oldMusic)
         Engine.instance.setMusicNotesVisibility(newMusic);
+        SoundManagement.instance.toggleMusic(newMusic, oldMusic);
+    },
+
+    playPuya: function() {
+        const {newMusic, oldMusic} = MusicManager.playPuya();
+        console.log(newMusic, oldMusic)
+        Engine.instance.setMusicNotesVisibility(true);
+        SoundManagement.instance.toggleMusic(newMusic, oldMusic);
+    },
+
+    stopPuya: function() {
+        const {newMusic, oldMusic} = MusicManager.stopPuya();
+        console.log(newMusic, oldMusic)
+        Engine.instance.setMusicNotesVisibility(false);
         SoundManagement.instance.toggleMusic(newMusic, oldMusic);
     },
 
@@ -50,27 +66,39 @@ export const API = {
     },
 
     onRainScenario: function () {
-        Engine.instance.onRainScenario();
+        WeatherManager.changeWeather(WEATHER_SCENARIOS_CODE.RAIN);
+        const {time, weather} = WeatherManager.getWeatherAndTime();
+        Engine.instance.manageScenario(weather, time);
     },
 
     onClearScenario: function () {
-        Engine.instance.onClearScenario();
+        WeatherManager.changeWeather(WEATHER_SCENARIOS_CODE.CLEAR);
+        const {time, weather} = WeatherManager.getWeatherAndTime();
+        Engine.instance.manageScenario(weather, time);
     },
 
     onSnowScenario: function () {
-        Engine.instance.onSnowScenario();
+        WeatherManager.changeWeather(WEATHER_SCENARIOS_CODE.SNOW);
+        const {time, weather} = WeatherManager.getWeatherAndTime();
+        Engine.instance.manageScenario(weather, time);
     },
 
     onLavaScenario: function () {
-        Engine.instance.onLavaScenario();
+        WeatherManager.changeWeather(WEATHER_SCENARIOS_CODE.LAVA);
+        const {time, weather} = WeatherManager.getWeatherAndTime();
+        Engine.instance.manageScenario(weather, time);
     },
 
     onNightTime: function () {
-        Engine.instance.onNightTime();
+        WeatherManager.changeTime(TIME.NIGHT);
+        const {time, weather} = WeatherManager.getWeatherAndTime();
+        Engine.instance.manageScenario(weather, time);
     },
 
     onDayTime: function () {
-        Engine.instance.onDayTime();
+        WeatherManager.changeTime(TIME.DAY);
+        const {time, weather} = WeatherManager.getWeatherAndTime();
+        Engine.instance.manageScenario(weather, time);
     },
 }
 
@@ -109,14 +137,42 @@ export class ActivationManager {
 }
 
 /**
- * Used to manage the music (main vs puya)
+ * Used to manage the music
  */
 export class MusicManager {
-    static music = SOUND_NAMES.MAIN;
+    static mainTheme = SOUND_NAMES.MAIN;
 
-    static toggleMusic(newMusic) {
-        const oldMusic = this.music;
-        this.music = newMusic;
-        return {newMusic: this.music, oldMusic: oldMusic};
+    static toggleMainTheme(newMusic) {
+        const oldMusic = this.mainTheme;
+        this.mainTheme = newMusic;
+        return {newMusic: this.mainTheme, oldMusic: oldMusic};
+    }
+
+    static playPuya() {
+        return {newMusic: SOUND_NAMES.PUYA, oldMusic: this.mainTheme};
+    }
+
+    static stopPuya() {
+        return {newMusic: this.mainTheme, oldMusic: SOUND_NAMES.PUYA};
+    }
+}
+
+/**
+ * Used to manage scenarios swap
+ */
+export class WeatherManager {
+    static weather = WEATHER_SCENARIOS_CODE.CLEAR;
+    static time = TIME.DAY;
+
+    static changeWeather(weather) {
+        this.weather = weather;
+    }
+
+    static changeTime(time) {
+        this.time = time;
+    }
+
+    static getWeatherAndTime() {
+        return {weather: this.weather, time: this.time}
     }
 }

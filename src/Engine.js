@@ -9,7 +9,6 @@ import World from "./World.js";
 import Debugger from "./utils/Debugger.js";
 import {Clock, ColorManagement, DefaultLoadingManager} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
-import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 import {TIME} from "./constants/DATE_AND_LOCATION.js";
 import {getWeatherScenario, WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 
@@ -224,21 +223,17 @@ class Engine {
         DefaultLoadingManager.onLoad = () => {
             Engine.instance.start();
             //will not be here since I dont start the app based on user info
-            this._manageScenario(this.weather, this.time);
+            this.manageScenario(this.weather, this.time);
             this.tick();
         }
     }
 
     /**
      * Used to make music notes visible or not based on music
-     * @param music
+     * @param flag
      */
-    setMusicNotesVisibility(music) {
-        if(music === SOUND_NAMES.PUYA) {
-            this.world.setMusicNotesVisibility(true);
-        } else {
-            this.world.setMusicNotesVisibility(false);
-        }
+    setMusicNotesVisibility(flag) {
+        this.world.setMusicNotesVisibility(flag);
     }
 
     /**
@@ -247,7 +242,9 @@ class Engine {
      * @param time
      * @private
      */
-    _manageScenario(weather, time) {
+    manageScenario(weather, time) {
+        console.log("weather: ", weather);
+        console.log("time: ", time);
         if(time === TIME.NIGHT) {
             this.onNightTime();
         } else {
@@ -255,7 +252,6 @@ class Engine {
         }
 
         const weatherScenario = getWeatherScenario(weather);
-        console.log(weatherScenario)
         switch (weatherScenario) {
             case WEATHER_SCENARIOS.CLEAR:
                 this.onClearScenario();
@@ -268,15 +264,6 @@ class Engine {
                 break;
             case WEATHER_SCENARIOS.RAIN:
                 this.onRainScenario();
-                // setTimeout(() => {
-                //     this.onRainScenario();
-                // }, 5000)
-                // setTimeout(() => {
-                //     this.onClearScenario();
-                // }, 10000)
-                // setTimeout(() => {
-                //     this.onLavaScenario();
-                // }, 12000)
                 break;
             case WEATHER_SCENARIOS.INVALID:
                 this.onClearScenario();

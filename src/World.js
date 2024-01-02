@@ -315,7 +315,7 @@ class World {
             SCENARIOS.LAVA.directionalLight,
             SCENARIOS.LAVA.ambientLight
         );
-
+        this._addWeather(WEATHER.CLEAR);
         this.mainObject.setIsNight(true);
     }
 
