@@ -110,6 +110,7 @@ class DomManagement {
      */
     _closeTextModal() {
         Manager.closeModal();
+        this._removeModalChecked();
     }
 
     /**
@@ -165,30 +166,46 @@ class DomManagement {
      * @param obj
      */
     openObjectiveModal(obj) {
+        this._removeModalChecked();
         switch (obj) {
             case OBJECTIVES.DB:
                 if(this.dbActive) {
                     Manager.openModal("1232");
+                    this.dbBtn.classList.add("modal-checked");
                 }
                 break;
             case OBJECTIVES.WSS:
                 if(this.wssActive) {
                     Manager.openModal("324354");
+                    this.wssBtn.classList.add("modal-checked");
                 }
                 break;
             case OBJECTIVES.EGG:
                 if(this.eggActive) {
                     Manager.openModal("3243567yhretgv");
+                    this.eggBtn.classList.add("modal-checked");
                 }
                 break;
             case OBJECTIVES.MUSIC:
                 if(this.musicActive) {
                     Manager.openModal("oinvo");
+                    this.musicBtn.classList.add("modal-checked");
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * Remove check style from all objectives
+     * @private
+     */
+    _removeModalChecked() {
+        this.dbBtn.classList.remove("modal-checked");
+        this.wssBtn.classList.remove("modal-checked");
+        this.eggBtn.classList.remove("modal-checked");
+        this.musicBtn.classList.remove("modal-checked");
     }
 
     /**

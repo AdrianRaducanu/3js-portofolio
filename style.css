@@ -81,9 +81,8 @@ h1 {
 
 .header img {
   box-sizing: border-box;
-  width: 90%;
+  width: 100%;
   height: auto;
-  object-fit: contain;
 }
 
 /*Text Module */
@@ -95,8 +94,8 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 2px solid #a537ff;
+  background-color: rgba(239, 239, 239, 0.9);
+  border: 2px solid #7d7d7e;
   border-radius: 10px;
   box-sizing: border-box;
   padding: 3%;
@@ -108,14 +107,14 @@ h1 {
 }
 
 .text-module p {
-  color: #6b6b6b;
+  color: #757575;
 }
 
 #close-btn-id {
   margin: 0 auto;
-  padding: 10px 20px;
-  background-color: #a537ff;
-  color: white;
+  padding: 7px 15px;
+  background-color: #6c6c6c;
+  color: #e5e5e5;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -375,6 +374,12 @@ input:checked + .slider:before {
 
 .weather-checked {
   border: 1px solid #2db494;
+  box-shadow: 0px 0px 5px 5px rgba(45, 180, 148, 0.20);
+}
+
+.modal-checked {
+  border: 2px solid #9c21cc;
+  box-shadow: 0px 0px 5px 5px rgba(156, 33, 204, 0.20);
 }
 
 @media (prefers-color-scheme: light) {
