@@ -14,6 +14,7 @@ class Landscape extends WorldModel{
         this.waterfallUniforms = {
             uTime: {value: 0}
         };
+        this.defaultColors = {}
     }
 
     /**
@@ -27,17 +28,35 @@ class Landscape extends WorldModel{
      * Called after model is loaded
      */
     callbackAfterModelLoad() {
-        const road = this.modelInstance.children.find(child => child.name === LANDSCAPE_MESH.ROAD_MESH);
-        const caveRoof = this.modelInstance.children.find(child => child.name === LANDSCAPE_MESH.CAVE_ROOF_MESH);
-        this.raycaster.addInObjectsToIntersect(road);
-        this.raycaster.addInObjectsToIntersect(caveRoof);
-
         this.modelInstance.traverse((node) => {
             if(node.name === LANDSCAPE_MESH.WATERFALL) {
-                this._modifyWaterMaterial(node)
+                this.waterfall = node;
+                this.defaultColors.waterfall = {...node.material.color};
+                this._modifyWaterMaterial(node);
+            }
+            if(node.name === LANDSCAPE_MESH.SNOW) {
+                this.snow = node;
+            }
+            if(node.name === LANDSCAPE_MESH.ROAD_MESH) {
+                this.defaultColors.road = {...node.material.color};
+                this.road = node;
+            }
+            if(node.name === LANDSCAPE_MESH.CAVE_ROOF_MESH) {
+                this.caveRoof = node;
+            }
+            if(node.name === LANDSCAPE_MESH.GRASS_MESH) {
+                this.defaultColors.grass = {...node.material.color};
+                this.grass = node;
+            }
+            if(node.name === LANDSCAPE_MESH.LEAF_MESH) {
+                this.defaultColors.leaf = {...node.material.color};
+                this.leaf = node;
             }
             this._addShadow(node);
         })
+
+        this.raycaster.addInObjectsToIntersect(this.road);
+        this.raycaster.addInObjectsToIntersect(this.caveRoof);
     }
 
     /**
@@ -99,6 +118,77 @@ class Landscape extends WorldModel{
      */
     update(elapsed) {
         this.waterfallUniforms.uTime.value = elapsed;
+    }
+
+    /**
+     * Show snow on the ground
+     */
+    showSnow() {
+        this.snow.visible = true;
+
+        this.road.material.color.set("#9ead84");
+        this.grass.material.color.set("#b7c0a4");
+        this.leaf.material.color.set("#99b7a1");
+    }
+
+    /**
+     * Hide snow on the ground
+     */
+    hideSnow() {
+        this.snow.visible = false;
+        this.road.material.color.set(this.defaultColors.road);
+        this.grass.material.color.set(this.defaultColors.grass);
+        this.leaf.material.color.set(this.defaultColors.leaf);
+    }
+
+    /**
+     * Show tree's leaf
+     */
+    showLeaf() {
+        this.leaf.visible = true;
+    }
+
+    /**
+     * Hide tree's leaf
+     */
+    hideLeaf() {
+        this.leaf.visible = false;
+    }
+
+    /**
+     * Change material on rain
+     */
+    onRainMaterial() {
+        this.road.material.metalness = 1;
+
+        this.grass.material.metalness = 1;
+
+        this.leaf.material.metalness = 1;
+    }
+
+    /**
+     * Set default material when there is no rain
+     */
+    offRainMaterial() {
+        this.road.material.metalness = 0;
+
+        this.grass.material.metalness = 0;
+
+        this.leaf.material.metalness = 0;
+    }
+
+    /**
+     * Change waterfall to Lava
+     */
+    onLava() {
+        this.waterfall.material.color.set("#ff0000");
+    }
+
+    /**
+     * Change lava to waterfall
+     */
+    offLava() {
+        this.waterfall.material.color.set(this.defaultColors.waterfall);
     }
 
 }

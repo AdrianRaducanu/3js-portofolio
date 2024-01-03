@@ -262,6 +262,7 @@ class World {
      * If night -> don't modify it, just add rain
      */
     onRain() {
+        this._beforeChangeScenario();
         if(!this.isNight) {
             this._modifySceneBasedOnScenario(
                 SCENARIOS.RAIN.background,
@@ -271,6 +272,8 @@ class World {
         }
         //Todo modify landscape material so it looks wet
         this._addWeather(WEATHER.RAIN);
+
+        this.landscape.onRainMaterial();
     }
 
     /**
@@ -279,6 +282,8 @@ class World {
      * If night -> don't modify it, just add snow
      */
     onSnow() {
+        this._beforeChangeScenario();
+
         if(!this.isNight) {
             this._modifySceneBasedOnScenario(
                 SCENARIOS.SNOW.background,
@@ -288,12 +293,15 @@ class World {
         }
         //Todo modify snow on landscape and color of glass + modify color of shaders (they're too white rn)
         this._addWeather(WEATHER.SNOW);
+        this.landscape.showSnow();
     }
 
     /**
      * Don't modify the changes made by TIME_SCENARIO, just clear the weather
      */
     onClear() {
+        this._beforeChangeScenario();
+
         if(this.isNight) {
             this.onNightTime();
         } else {
@@ -309,6 +317,8 @@ class World {
      * fireflies can move all over the map
      */
     onLava() {
+        this._beforeChangeScenario();
+
         this.isNight = true;
         this._modifySceneBasedOnScenario(
             SCENARIOS.LAVA.background,
@@ -317,6 +327,8 @@ class World {
         );
         this._addWeather(WEATHER.CLEAR);
         this.mainObject.setIsNight(true);
+        this.landscape.onLava();
+        this.landscape.hideLeaf();
     }
 
     /**
@@ -334,6 +346,17 @@ class World {
 
         this.ambientLight.setProperty(OBJECT_PROPERTIES.COLOR, ambientLightProps.color);
         this.ambientLight.setProperty(OBJECT_PROPERTIES.INTENSITY, ambientLightProps.intensity);
+    }
+
+    /**
+     * Reset the landscape to the default properties
+     * @private
+     */
+    _beforeChangeScenario() {
+        this.landscape.hideSnow();
+        this.landscape.showLeaf();
+        this.landscape.offRainMaterial();
+        this.landscape.offLava();
     }
 }
 

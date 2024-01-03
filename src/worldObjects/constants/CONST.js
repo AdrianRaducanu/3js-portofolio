@@ -35,7 +35,8 @@ export const LANDSCAPE_MESH = {
     CAVE_ROOF_MESH: "cave-roof",
     TREE_MESH: "tree-base",
     WATERFALL: "waterfall",
-    WATER: "water"
+    WATER: "water",
+    SNOW: "snow"
 }
 
 export const JOBS_NAME = {

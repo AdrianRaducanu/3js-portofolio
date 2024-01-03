@@ -53,23 +53,25 @@ h1 {
 
 .header {
   position: absolute;
-  width: 100vw;
+  width: 300px;
   height: 5vh;
   top: 0;
-  background-color: rgba(52, 52, 52, 0.82);
+  left: 50%;
+  transform: translate(-50%, 0);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 10px;
 }
 
 .header .image-container {
   box-sizing: border-box;
   margin: 0 3%;
-  width: 4vh;
-  height: 4vh;
+  width: 25px;
+  height: 25px;
   padding: 4px;
-  border-radius: 3px;
+  border-radius: 50%;
   background: #ffffff;
 
   display: flex;
@@ -151,7 +153,7 @@ h1 {
   height: 4vh;
   background: #ffffff;
   position: absolute;
-  border-radius: 3px;
+  border-radius: 50%;
   opacity: 0;
 }
 
@@ -296,7 +298,7 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-between;
   height: 80px;
-  width: 15%;
+  width: 150px;
 }
 
 .weather-scenarios {

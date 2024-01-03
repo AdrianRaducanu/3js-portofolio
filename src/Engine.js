@@ -256,7 +256,7 @@ class Engine {
                 this.onClearScenario();
                 break;
             case WEATHER_SCENARIOS.SNOW:
-                this.onSnowScenario();
+                this.onSnowScenario(time === TIME.DAY);
                 break;
             case WEATHER_SCENARIOS.LAVA:
                 this.onLavaScenario();
@@ -306,6 +306,7 @@ class Engine {
     onClearScenario() {
         // console.log("Is clear");
         this.world.onClear();
+        this.scene.setDefaultFog();
     }
 
     /**
@@ -315,15 +316,21 @@ class Engine {
     onLavaScenario() {
         // console.log("Is LAVA!!");
         this.world.onLava();
+        this.scene.setDefaultFog();
     }
 
     /**
      * Called when snow scenario is selected
      * @public
      */
-    onSnowScenario() {
+    onSnowScenario(isFog) {
         // console.log("Is snowing");
         this.world.onSnow();
+        if(isFog) {
+            this.scene.setSpecialFog();
+        } else {
+            this.scene.setDefaultFog();
+        }
     }
 
     /**
@@ -333,6 +340,7 @@ class Engine {
     onRainScenario() {
         // console.log("Is raining");
         this.world.onRain();
+        this.scene.setDefaultFog();
     }
 
 }

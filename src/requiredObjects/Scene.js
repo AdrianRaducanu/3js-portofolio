@@ -1,13 +1,19 @@
 import RequiredObjects from "./RequiredObjects.js";
 import * as THREE from "three";
 import Engine from "../Engine.js";
-import {SCENE_PROPS} from "../constants/SCENE_PROPS.js";
+import {FOG_PROPS, SCENE_PROPS} from "../constants/SCENE_PROPS.js";
+import {Fog} from "three";
 
 class Scene extends RequiredObjects{
     constructor() {
         super();
         this.sceneInstance = new THREE.Scene();
         this.sceneProperties = SCENE_PROPS;
+        this.sceneInstance.fog = new Fog(
+            FOG_PROPS.DEFAULT.color,
+            FOG_PROPS.DEFAULT.near,
+            FOG_PROPS.DEFAULT.far,
+        );
     }
 
     /**
@@ -76,6 +82,27 @@ class Scene extends RequiredObjects{
         this.sceneInstance.background.set(value);
     }
 
+    /**
+     * Set rain's fog
+     */
+    setSpecialFog() {
+        this.sceneInstance.fog = new Fog(
+            FOG_PROPS.SNOW.color,
+            FOG_PROPS.SNOW.near,
+            FOG_PROPS.SNOW.far,
+        );
+    }
+
+    /**
+     * Set default fog
+     */
+    setDefaultFog() {
+        this.sceneInstance.fog = new Fog(
+            FOG_PROPS.DEFAULT.color,
+            FOG_PROPS.DEFAULT.near,
+            FOG_PROPS.DEFAULT.far,
+        );
+    }
 
 }
 

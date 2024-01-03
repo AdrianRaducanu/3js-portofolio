@@ -167,7 +167,7 @@ export const Manager = {
         //the second if will not work since I don't change any attribute from WeatherManager
         if(gameFinished) {
             Engine.instance.manageScenario(weather, time);
-            DomManagement.instance.setDayTimeChecked(true);
+            DomManagement.instance.setDayTimeChecked(dayTime !== TIME.DAY);
             return;
         }
 
