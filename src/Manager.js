@@ -3,8 +3,9 @@ import DomManagement from "./DomManagement.js";
 import {OBJECTIVES} from "./constants/DOM_CONSTANTS.js";
 import SoundManagement from "./SoundManagement.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
-import {getWeatherScenario, WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
+import {getWeatherScenario, INVALID_WEATHER_CODE, WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 import {TIME} from "./constants/DATE_AND_LOCATION.js";
+import ClientDataGetter from "./ClientDataGetter.js";
 
 /**
  * Can be tested in console
@@ -13,6 +14,29 @@ import {TIME} from "./constants/DATE_AND_LOCATION.js";
  * @type {{openModal: Manager.openModal, closeModal: Manager.closeModal}}
  */
 export const Manager = {
+
+    /**
+     * The game is already started, just unfreeze it and unmute sounds (after trainer)
+     * User's data
+     */
+    startGameWithLocation: function() {
+        ClientDataGetter.setWeatherAndTime();
+        this.unmuteAllSounds();
+        SoundManagement.instance.playSound(SOUND_NAMES.LAVA);
+        Engine.instance.unfreezeApp();
+    },
+
+    /**
+     * The game is already started, just unfreeze it and unmute sounds (after trainer)
+     * Mockup data
+     */
+    startGameWithoutLocation: function() {
+        this.setWeatherAndTime(INVALID_WEATHER_CODE, TIME.DAY);
+        this.unmuteAllSounds();
+        SoundManagement.instance.playSound(SOUND_NAMES.LAVA);
+        Engine.instance.unfreezeApp();
+    },
+
     /**
      * Will close the modal and restart the cat's movement
      */
@@ -35,6 +59,13 @@ export const Manager = {
      */
     playSound: function(sound) {
         SoundManagement.instance.playSound(sound);
+    },
+
+    /**
+     * Called when 3d models have been loaded
+     */
+    finishLoading: function() {
+        DomManagement.instance.stopLoading();
     },
 
     /**
@@ -127,10 +158,13 @@ export const Manager = {
 
     /**
      * Will change scenarios based on the weather and the theme
+     *
+     * Is in training -> used so the theme won't start before the user have finished the training
      * @param theme
      * @param scenario
+     * @param isInTraining
      */
-    changeWeatherScenario(theme, scenario) {
+    changeWeatherScenario(theme, scenario, isInTraining = false) {
         const oldWeather = WeatherManager.getWeatherAndTime().weather;
         WeatherManager.setWeather(scenario);
         const {time, weather} = WeatherManager.getWeatherAndTime();
@@ -147,7 +181,7 @@ export const Manager = {
 
         //by doing that, I prevent clicking multiple times on the same scenario
         if(oldWeather !== weather) {
-            this.toggleMainTheme(theme)
+            !isInTraining? this.toggleMainTheme(theme) : null;
             Engine.instance.manageScenario(weather, time);
         }
     },
@@ -252,7 +286,7 @@ export class ActivationManager {
  * Used to manage the music
  */
 export class MusicManager {
-    static mainTheme = SOUND_NAMES.MAIN;
+    static mainTheme = SOUND_NAMES.LAVA;
 
     static toggleMainTheme(newMusic) {
         const oldMusic = this.mainTheme;

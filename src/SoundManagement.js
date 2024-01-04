@@ -41,7 +41,7 @@ class SoundManagement {
             this.sounds[sound.name] = new Howl({
                 src: [`../static/sounds/mp3/${sound.name}.mp3`],
                 volume: sound.volume,
-                autoplay: sound.autoplay,
+                autoplay: false,
                 loop: sound.loop,
                 onloaderror: (err) => {
                     console.log("Sound " + sound.name + " has a problem while trying to load " + err);

@@ -80,6 +80,17 @@ class DomManagement {
         this.snowScenario = document.getElementById("weather-snow-id");
         this.lavaScenario = document.getElementById("weather-lava-id");
         this.scenarios = document.getElementById("scenarios-id");
+
+        this.beginBtn = document.getElementById("begin-btn");
+        this.returnBtn = document.getElementById("return-btn-id");
+        this.loadBtn = document.getElementById("load-btn");
+
+        this.acceptBtn = document.getElementById("accept-btn-id");
+        this.declineBtn = document.getElementById("decline-btn-id");
+        this.training = document.getElementById("training-id");
+
+        this.loadPage = document.getElementById("loader-page");
+        this.mainPage = document.getElementById("main-page");
     }
 
     /**
@@ -88,6 +99,11 @@ class DomManagement {
      */
     _listenToBtns() {
         this.closeBtn.addEventListener('click', () => this._closeTextModal());
+        this.beginBtn.addEventListener('click', () => this._exitLoaderPage());
+        this.returnBtn.addEventListener('click', () => this._exitMainPage());
+
+        this.acceptBtn.addEventListener('click', () => this._startGameWithLocation());
+        this.declineBtn.addEventListener('click', () => this._startGameWithoutLocation());
 
         this.wssBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.WSS));
         this.dbBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.DB));
@@ -312,6 +328,50 @@ class DomManagement {
      */
     unlockScenarios() {
         this.scenarios.classList.remove("hidden");
+    }
+
+    /**
+     * Remove the loading btn
+     */
+    stopLoading() {
+        this.loadBtn.classList.add("hidden");
+        this.beginBtn.classList.remove("hidden");
+    }
+
+    /**
+     * Exit loader page (move it to the left)
+     * @private
+     */
+    _exitLoaderPage() {
+        this.loadPage.classList.add("translated-left");
+        this.mainPage.classList.remove("translated-right");
+    }
+
+    /**
+     * Exit main page (move it to the right)
+     * @private
+     */
+    _exitMainPage() {
+        this.loadPage.classList.remove("translated-left");
+        this.mainPage.classList.add("translated-right");
+    }
+
+    /**
+     * Get user's info
+     * @private
+     */
+    _startGameWithLocation() {
+        Manager.startGameWithLocation();
+        this.training.classList.add("hidden");
+    }
+
+    /**
+     * No user's info
+     * @private
+     */
+    _startGameWithoutLocation() {
+        Manager.startGameWithoutLocation();
+        this.training.classList.add("hidden");
     }
 
 }

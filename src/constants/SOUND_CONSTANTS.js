@@ -7,7 +7,7 @@ export const SOUNDS_ARRAY = [
     },
     {
         name: "lava",
-        autoplay: true,
+        autoplay: false,
         volume: 1,
         loop: true,
     },

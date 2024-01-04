@@ -40,10 +40,9 @@ class Engine {
      * Initialize the main components of the app
      *
      * @param canvas
-     * @param callbackAfterLoad
      */
-    initialize(canvas, callbackAfterLoad) {
-        this._manageLoading(callbackAfterLoad);
+    initialize(canvas) {
+        this._manageLoading();
 
         //canvas
         this.canvas = canvas;
@@ -216,17 +215,19 @@ class Engine {
     /**
      * This will start the app after all the models are loaded
      * in order to avoid [violation] requestAnimationFrame errors
-     *
-     * @param callbackAfterLoad
      * @private
      */
-    _manageLoading(callbackAfterLoad) {
+    _manageLoading() {
         DefaultLoadingManager.onLoad = () => {
             Engine.instance.start();
+
+            //this in order to not starting the game without training
+            Engine.instance.freezeApp();
+            Manager.muteAllSounds();
             //will not be here since I dont start the app based on user info
-            Manager.changeWeatherScenario(SOUND_NAMES.LAVA, WEATHER_SCENARIOS.LAVA);
+            Manager.changeWeatherScenario(SOUND_NAMES.LAVA, WEATHER_SCENARIOS.LAVA, true);
             Manager.changeTimeScenario(TIME.NIGHT);
-            callbackAfterLoad();
+            Manager.finishLoading();
             this.tick();
         }
     }

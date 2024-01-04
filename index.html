@@ -7,10 +7,24 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-  <div class="loader-page">
+  <div class="loader-page" id="loader-page">
     <div class="loader-content">
-      <h1 class="loader-title">Dora's Journey</h1>
-      <h2 class="loader-subtitle">"Step into the paws of Dora, one of my cats, <br>completing all the objectives that <br>unveil information about me."</h2>
+      <h1 class="loader-title">Pawesome Journey</h1>
+      <h2 class="loader-subtitle">"Step into the paws of Dora, one of my cats, <br>and complete all the objectives that <br>unveil information about me."</h2>
+      <div class="links">
+        <a target="_blank" href="https://github.com/AdrianRaducanu" class="links-link" id="git-icon-container">
+          <img class="link-icon" src="static/icons/git.svg" id="git-icon">
+        </a>
+        <a target="_blank" href="https://www.linkedin.com/in/adrian-raducanu/" class="links-link" id="ld-icon-container">
+          <img class="link-icon" src="static/icons/linkedin.svg" id="ld-icon">
+        </a>
+        <a target="_blank" href="https://github.com/AdrianRaducanu" class="links-link" id="twitter-icon-container">
+          <img class="link-icon" src="static/icons/twitter.svg" id="twitter-icon">
+        </a>
+        <a target="_blank" href="https://github.com/AdrianRaducanu" class="links-link" id="mail-icon-container">
+          <img class="link-icon" src="static/icons/mail.svg" id="mail-icon">
+        </a>
+      </div>
       <div class="loader-footer">
         <div class="loader-text">
           <div class="loader-paragraph">
@@ -23,16 +37,41 @@
             <p>Enjoy the soundtrack</p>
           </div>
           <div class="loader-paragraph">
-            <p>Discover my experience</p>
+            <p>Get to know me better</p>
           </div>
       </div>
-        <div class="loader-btn">
+        <div class="loader-btn hidden" id="begin-btn">
           <img class="loader-btn-img" src="static/icons/play.svg">
+        </div>
+        <div class="loader-btn loader-btn-loading" id="load-btn">
+          <img class="loader-btn-img loader-btn-img-loading" src="static/icons/wait.svg">
         </div>
       </div>
     </div>
   </div>
-  <div class="main-page">
+  <div class="main-page translated-right" id="main-page">
+    <div class="training" id="training-id">
+      <p class="about-objectives">Uncover objectives as you explore the island. Once an objective is unlocked, click on it to reveal some details about me.</p>
+      <p class="about-scenarios">After saving the World, you have the choice to explore the map with various scenarios.<br>When "Lava" is on, you won't be able to select the time of the day</p>
+      <p class="about-sounds">To enjoy a better experience, keep the sound activated.</p>
+      <p class="about-back">Feel free to return to the starting page whenever you want, your progress will remain intact.</p>
+      <div class="about-game">
+        <p>The volcano has erupted! To save the World, you must unlock all the objectives! Best of luck!</p>
+        <p>Once the World is rescued, the default scenario will be linked to the weather and time of day at your location</p>
+        <p>Weather is based on open-meteo API and the night is between 7pm and 7am.</p>
+        <p>If you choose not to disclose your location, you'll be placed into a random scenario.</p>
+        <div class="location-option">
+          Up for providing your location?
+          <div class="location-btns">
+            <div class="accept-btn location-btn" id="accept-btn-id">Sure</div>
+            <div class="decline-btn location-btn" id="decline-btn-id">Neah</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="return-btn" id="return-btn-id">
+      <img class="return-btn-img" src="static/icons/play.svg">
+    </div>
     <div class="header">
       <div class="image-container" id="wss-container">
         <img src="static/images/wss.png" alt="Image 1" id="image-wss" class="hidden">
