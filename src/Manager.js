@@ -6,6 +6,7 @@ import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 import {getWeatherScenario, INVALID_WEATHER_CODE, WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 import {TIME} from "./constants/DATE_AND_LOCATION.js";
 import ClientDataGetter from "./ClientDataGetter.js";
+import {MODAL_TEXT} from "./constants/MODAL_TEXT.js";
 
 /**
  * Can be tested in console
@@ -48,9 +49,9 @@ export const Manager = {
     /**
      * Will open the modal and stop the cat's movement
      */
-    openModal: function(text) {
+    openModal: function(text, callback) {
         Engine.instance.freezeApp();
-        DomManagement.instance.showModal(text);
+        DomManagement.instance.showModal(text, callback);
     },
 
     /**
@@ -134,7 +135,8 @@ export const Manager = {
             DomManagement.instance.unlockPuya();
         }
         if(ActivationManager.checkAllObjectives()) {
-            this.onFinishObjectives();
+            this.playSound(SOUND_NAMES.WIN);
+            this.openModal(MODAL_TEXT.WIN, () => this.onFinishObjectives());
         }
     },
 
@@ -144,7 +146,6 @@ export const Manager = {
      * Change the scenario from Lava to the user's data
      */
     onFinishObjectives: function() {
-        this.openModal("U finished the game, now its time to explore");
         const {weather, time} = WeatherManager.getWeatherAndTime();
         ActivationManager.setGameFinished();
         if(time === TIME.DAY) {

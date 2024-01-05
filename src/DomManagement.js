@@ -3,6 +3,7 @@ import {IMG_IDS, OBJECTIVES} from "./constants/DOM_CONSTANTS.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
 import {WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 import {TIME} from "./constants/DATE_AND_LOCATION.js";
+import {MODAL_TEXT} from "./constants/MODAL_TEXT.js";
 
 class Enforcer {}
 
@@ -36,6 +37,7 @@ class DomManagement {
         this.wssActive = false;
         this.eggActive = false;
         this.musicActive = false;
+        this.callbackOnCloseModal = null;
         this._getElements();
         this._listenToBtns();
     }
@@ -49,11 +51,17 @@ class DomManagement {
 
     /**
      * Change the text for modal and show it
+     *
+     * Can add a callback that will be played one time after closing the modal
      * @param text
+     * @param callback
      */
-    showModal(text) {
+    showModal(text, callback = null) {
         this.text.innerText = text;
         this.textModal.classList.remove('hidden');
+        if(callback) {
+            this.callbackOnCloseModal = callback;
+        }
     }
 
     /**
@@ -122,11 +130,17 @@ class DomManagement {
 
     /**
      * Called on exit btn from text modal
+     *
+     * If the modal was opened with callback option, trigger it then clean the attribute
      * @private
      */
     _closeTextModal() {
         Manager.closeModal();
         this._removeModalChecked();
+        if(this.callbackOnCloseModal) {
+            this.callbackOnCloseModal();
+            this.callbackOnCloseModal = null;
+        }
     }
 
     /**
@@ -186,25 +200,25 @@ class DomManagement {
         switch (obj) {
             case OBJECTIVES.DB:
                 if(this.dbActive) {
-                    Manager.openModal("1232");
+                    Manager.openModal(MODAL_TEXT.DB);
                     this.dbBtn.classList.add("modal-checked");
                 }
                 break;
             case OBJECTIVES.WSS:
                 if(this.wssActive) {
-                    Manager.openModal("324354");
+                    Manager.openModal(MODAL_TEXT.WSS);
                     this.wssBtn.classList.add("modal-checked");
                 }
                 break;
             case OBJECTIVES.EGG:
                 if(this.eggActive) {
-                    Manager.openModal("3243567yhretgv");
+                    Manager.openModal(MODAL_TEXT.EGG);
                     this.eggBtn.classList.add("modal-checked");
                 }
                 break;
             case OBJECTIVES.MUSIC:
                 if(this.musicActive) {
-                    Manager.openModal("oinvo");
+                    Manager.openModal(MODAL_TEXT.MUSIC);
                     this.musicBtn.classList.add("modal-checked");
                 }
                 break;

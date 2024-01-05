@@ -69,7 +69,7 @@ h2 {
 
 .loader-content {
   background: url("/static/images/cover.png") no-repeat center;
-  background-size: cover; /* Resize the background image to cover the entire container */
+  background-size: cover;
 
   height: 100%;
   width: 100%;
@@ -90,9 +90,8 @@ h2 {
   content: '';
   display: block;
   border-bottom: 2px solid #af2fa4;
-  margin-bottom: 8px;
-  width: 50%;
-  margin-left: 5px;
+  margin-bottom: 10px;
+  width: 47%;
 }
 
 .loader-subtitle {
@@ -282,7 +281,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.5;
+  opacity: 1;
   cursor: pointer;
   z-index: 101;
 }
@@ -335,6 +334,8 @@ h2 {
 
 .text-module p {
   color: #757575;
+  margin-bottom: 10px;
+  font-size: 2.1vh;
 }
 
 #close-btn-id {
@@ -609,6 +610,7 @@ input:checked + .slider:before {
   box-shadow: 0px 0px 5px 5px rgba(156, 33, 204, 0.20);
 }
 
+/*Training*/
 .training {
   position: absolute;
   width: 100%;
@@ -616,6 +618,8 @@ input:checked + .slider:before {
   background: rgba(63, 63, 63, 0.72);
   z-index: 100;
   color: white;
+  user-select: none;
+  font-size: 2.1vh;
 }
 
 .training {
@@ -684,10 +688,62 @@ input:checked + .slider:before {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .about-game p::before {
+  content: '\2022';
+  color: #ffffff;
+  display: inline-block;
+  width: 1em;
+  margin-right: 0.5em;
+}
+
+.about-game a{
+  color: white;
+}
+
+.about-move {
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  width: 15%;
+  height: 20%;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.about-move p::before {
+  content: '\2022';
+  color: #ffffff;
+  display: inline-block;
+  width: 1em;
+  margin-right: 0.5em;
+}
+
+.about-fireflies {
+  position: absolute;
+  top: 5%;
+  right: 0;
+  width: 20%;
+  height: 50%;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.about-fireflies p::before {
   content: '\2022';
   color: #ffffff;
   display: inline-block;
@@ -707,7 +763,7 @@ input:checked + .slider:before {
 .location-btn {
   background: #f9f9f9;
   padding: 2px 12px;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
@@ -720,7 +776,7 @@ input:checked + .slider:before {
 }
 
 .accept-btn {
-  background: #2db494;
+  background: #1c8168;
   color: #f9f9f9;
 }
 
