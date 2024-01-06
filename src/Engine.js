@@ -13,6 +13,7 @@ import {TIME} from "./constants/DATE_AND_LOCATION.js";
 import {WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
 import {Manager} from "./Manager.js";
 import {SOUND_NAMES} from "./constants/SOUND_CONSTANTS.js";
+import {CAMERA_ANGLE, CAMERA_OFFSET, STARTING_POSITION} from "./worldObjects/constants/CONST.js";
 
 class Enforcer {
 }
@@ -69,8 +70,8 @@ class Engine {
         this.renderer.initialize();
 
         //orbitController
-        this.orbitController = new OrbitController();
-        this.orbitController.initialize();
+        // this.orbitController = new OrbitController();
+        // this.orbitController.initialize();
 
         //the world
         this.world = new World();
@@ -85,7 +86,11 @@ class Engine {
      * Called after initialize
      */
     start() {
-        this.camera.setPosition({x: 0, y: 3, z: 77});
+        this.camera.setPosition({
+            x: STARTING_POSITION.X + Math.sin(CAMERA_ANGLE) * CAMERA_OFFSET.X,
+            y: STARTING_POSITION.Y + CAMERA_OFFSET.Y,
+            z: STARTING_POSITION.Z + Math.cos(CAMERA_ANGLE) * CAMERA_OFFSET.Z
+        });
 
         this.world.start();
 
@@ -162,11 +167,21 @@ class Engine {
     }
 
     /**
-     * Used for orbit controller
-     * @param pos
+     * Rotate camera when main object is rotating
+     * @param value
+     * @param mainX
+     * @param mainZ
      */
-    setOrbitPosition(pos) {
-        this.orbitController.setTarget(pos);
+    rotateCamera(value, mainX, mainZ) {
+        this.camera.rotate(value, mainX, mainZ);
+    }
+
+    /**
+     * Tween camera for when entering or exiting the cave
+     * @param isInCave
+     */
+    tweenCamera(isInCave) {
+        this.camera.tweenCamera(isInCave);
     }
 
     /**

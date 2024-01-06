@@ -4,11 +4,15 @@ import RequiredObjects from "./RequiredObjects.js";
 import Engine from "../Engine.js";
 import {REQUIRED_OBJECT_TYPES} from "../constants/OBJECT_TYPES.js";
 import {AXIS} from "../constants/UNITS.js";
+import {CAMERA_CAVE_OFFSET, CAMERA_OFFSET} from "../worldObjects/constants/CONST.js";
+import {Tween} from "@tweenjs/tween.js";
 
 class Camera extends RequiredObjects{
     constructor(type) {
         super();
         this.cameraType = type;
+        this.angle = 0;
+        this.isInCave = false;
     }
 
     /**
@@ -27,7 +31,7 @@ class Camera extends RequiredObjects{
     _returnCameraType() {
         switch (this.cameraType) {
             case CAMERA.PERSPECTIVE:
-                return new PerspectiveCamera(90, this.sizes.width/this.sizes.height, 0.1, 1000);
+                return new PerspectiveCamera(60, this.sizes.width/this.sizes.height, 0.1, 1000);
             default:
                 return null;
         }
@@ -41,8 +45,8 @@ class Camera extends RequiredObjects{
         this.cameraInstance.position.set(pos.x, pos.y, pos.z);
 
         //need to do that so the orbitController could work
-        const orbitController = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER);
-        orbitController.update();
+        // const orbitController = Engine.instance.getRequiredObjectInstance(REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER);
+        // orbitController.update();
     }
 
     /**
@@ -80,6 +84,86 @@ class Camera extends RequiredObjects{
      */
     getInstance() {
         return this.cameraInstance;
+    }
+
+    /**
+     * When camera is rotated, beside the rotation on Y, it should move (trigonometric stuff)
+     * @param value
+     * @param mainX
+     * @param mainZ
+     */
+    rotate(value, mainX, mainZ) {
+        this.angle +=value;
+        this.cameraInstance.rotation.y += value;
+
+        if(!this.isInCave) {
+            this.cameraInstance.position.set(
+                mainX + Math.sin(this.angle) * CAMERA_OFFSET.X,
+                CAMERA_OFFSET.Y,
+                mainZ + Math.cos(this.angle) * CAMERA_OFFSET.Z,
+            );
+        } else  {
+            this.cameraInstance.position.set(
+                mainX + Math.sin(this.angle) * -CAMERA_CAVE_OFFSET,
+                CAMERA_OFFSET.Y,
+                mainZ + Math.cos(this.angle) * -CAMERA_CAVE_OFFSET,
+            );
+        }
+    }
+
+    /**
+     * Tween animation from 3rd person to first person
+     *
+     * Freeze the app until the tween animation is done
+     * @private
+     */
+    _enterCave() {
+        Engine.instance.freezeApp();
+        const tween = new Tween(this.cameraInstance.position)
+            .to({
+                x: this.cameraInstance.position.x - Math.sin(this.angle) * (CAMERA_OFFSET.X + CAMERA_CAVE_OFFSET),
+                y: CAMERA_OFFSET.Y,
+                z: this.cameraInstance.position.z - Math.cos(this.angle) * (CAMERA_OFFSET.Z + CAMERA_CAVE_OFFSET)
+            }, 200)
+            .onComplete(() => {
+                Engine.instance.unfreezeApp()
+            })
+        tween.start();
+    }
+
+    /**
+     * Tween animation from 3rd person to first person
+     *
+     * Freeze the app until the tween animation is done
+     * @private
+     */
+    _exitCave() {
+        Engine.instance.freezeApp();
+        const tween = new Tween(this.cameraInstance.position)
+            .to({
+                x: this.cameraInstance.position.x + Math.sin(this.angle) * (CAMERA_OFFSET.X + CAMERA_CAVE_OFFSET),
+                y: CAMERA_OFFSET.Y,
+                z: this.cameraInstance.position.z + Math.cos(this.angle) * (CAMERA_OFFSET.Z + CAMERA_CAVE_OFFSET)
+            }, 200)
+            .onComplete(() => {
+                Engine.instance.unfreezeApp()
+            });
+        tween.start();
+    }
+
+    //TODO: there is a small offset when exit the cave and rotate
+
+    /**
+     * Called from outside of this class
+     * @param isInCave
+     */
+    tweenCamera(isInCave) {
+        if(isInCave) {
+            this._enterCave();
+        } else {
+            this._exitCave();
+        }
+        this.isInCave = isInCave;
     }
 }
 

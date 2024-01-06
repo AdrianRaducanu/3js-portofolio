@@ -78,7 +78,7 @@ class MainObject extends WorldModel {
         this.modelInstance.position.z = STARTING_POSITION.Z;
 
         //set orbit controller to gravitate around the main object
-        Engine.instance.setOrbitPosition(new Vector3(0, 0, 0));
+        // Engine.instance.setOrbitPosition(new Vector3(0, 0, 0));
     }
 
     /**
@@ -209,7 +209,11 @@ class MainObject extends WorldModel {
         }
 
         //check if is in cave
-        this.isInCave = !!roadCollision.find(el => el.object.name === LANDSCAPE_MESH.CAVE_ROOF_MESH);
+        const caveCollision = !!roadCollision.find(el => el.object.name === LANDSCAPE_MESH.CAVE_ROOF_MESH);
+        if(caveCollision !== this.isInCave) {
+            Engine.instance.tweenCamera(caveCollision);
+        }
+        this.isInCave = caveCollision;
 
         //change position
         this.modelInstance.position.z -= incrementalZ;
@@ -241,7 +245,7 @@ class MainObject extends WorldModel {
         this._moveFireFlies(this.modelInstance.position.z, this.modelInstance.position.x);
 
         //update controller
-        Engine.instance.setOrbitPosition(this.modelInstance.position);
+        // Engine.instance.setOrbitPosition(this.modelInstance.position);
     }
 
     /**
@@ -384,6 +388,7 @@ class MainObject extends WorldModel {
      */
     _onMovingLeft() {
         this.modelInstance.rotation.y += ROTATION_UNIT;
+        Engine.instance.rotateCamera(ROTATION_UNIT, this.modelInstance.position.x, this.modelInstance.position.z);
         this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS);
         this._detectFrontalCollision();
         this.standingTime = STANDING_TIME_INITIAL_VALUE;
@@ -397,6 +402,7 @@ class MainObject extends WorldModel {
      */
     _onMovingRight() {
         this.modelInstance.rotation.y -= ROTATION_UNIT;
+        Engine.instance.rotateCamera(-ROTATION_UNIT, this.modelInstance.position.x, this.modelInstance.position.z);
         this.frontFacingRaycaster.changeDirectionBasedOnAngle(this.modelInstance.rotation.y, FRONT_FACING_RAYCASTER_POS);
         this._detectFrontalCollision();
         this.standingTime = STANDING_TIME_INITIAL_VALUE;

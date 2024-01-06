@@ -52,8 +52,19 @@ export const KEY_ACTION = {
 export const STARTING_POSITION = {
     X: 0,
     Y: 0,
-    Z: 70
+    Z: 80
 }
+
+
+export const CAMERA_OFFSET = {
+    X: 10,
+    Y: 2.5,
+    Z: 10
+}
+
+export const CAMERA_ANGLE = 0;
+
+export const CAMERA_CAVE_OFFSET = 3;
 
 export const STARTING_POSITION_FIREFLIES = {
     X: 0,
