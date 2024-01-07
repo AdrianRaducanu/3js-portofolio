@@ -3,11 +3,9 @@ import Camera from "./requiredObjects/Camera.js";
 import {CAMERA} from "./constants/CAMERA_TYPE.js";
 import Scene from "./requiredObjects/Scene.js";
 import Sizes from "./requiredObjects/Sizes.js";
-import OrbitController from "./requiredObjects/OrbitController.js";
 import {REQUIRED_OBJECT_TYPES} from "./constants/OBJECT_TYPES.js";
 import World from "./World.js";
-import Debugger from "./utils/Debugger.js";
-import {Clock, ColorManagement, DefaultLoadingManager} from "three";
+import {Clock, DefaultLoadingManager} from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import {TIME} from "./constants/DATE_AND_LOCATION.js";
 import {WEATHER_SCENARIOS} from "./constants/WEAHTER_CODES.js";
@@ -48,14 +46,9 @@ class Engine {
         //canvas
         this.canvas = canvas;
 
-        // ColorManagement.enabled = false;
         //sizes
         this.sizes = new Sizes();
         this.sizes.initialize();
-
-        //debugger
-        this.debugger = new Debugger();
-        this.debugger.initialize();
 
         //scene
         this.scene = new Scene();
@@ -68,10 +61,6 @@ class Engine {
         //renderer
         this.renderer = new Renderer();
         this.renderer.initialize();
-
-        //orbitController
-        // this.orbitController = new OrbitController();
-        // this.orbitController.initialize();
 
         //the world
         this.world = new World();
@@ -112,8 +101,6 @@ class Engine {
                 return this.scene;
             case REQUIRED_OBJECT_TYPES.RENDERER:
                 return this.renderer;
-            case REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER:
-                return this.orbitController;
             default:
                 throw new Error("Wrong object type")
         }
@@ -132,10 +119,6 @@ class Engine {
                 return this.scene.getInstance();
             case REQUIRED_OBJECT_TYPES.RENDERER:
                 return this.renderer.getInstance();
-            case REQUIRED_OBJECT_TYPES.ORBIT_CONTROLLER:
-                return this.orbitController.getInstance();
-            case REQUIRED_OBJECT_TYPES.DEBUGGER:
-                return this.debugger.getInstance();
             default:
                 throw new Error("Wrong object type");
         }
@@ -182,16 +165,6 @@ class Engine {
      */
     tweenCamera(isInCave) {
         this.camera.tweenCamera(isInCave);
-    }
-
-    /**
-     * Used for debugging
-     * @param folderTitle
-     * @param props
-     * @param callback
-     */
-    createDebuggingFolder(folderTitle, props, callback) {
-        this.debugger.createFolder(folderTitle, props, callback);
     }
 
     /**
@@ -357,6 +330,14 @@ class Engine {
         // console.log("Is raining");
         this.world.onRain();
         this.scene.setDefaultFog();
+    }
+
+    /**
+     * Called when cat should change its visibility
+     * @param bool
+     */
+    setCatVisible(bool) {
+        this.world.setCatVisible(bool);
     }
 
 }

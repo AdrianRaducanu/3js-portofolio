@@ -63,6 +63,14 @@ export const Manager = {
     },
 
     /**
+     * Stop a sound
+     * @param sound
+     */
+    stopSound: function(sound) {
+        SoundManagement.instance.stopSound(sound);
+    },
+
+    /**
      * Called when 3d models have been loaded
      */
     finishLoading: function() {
@@ -89,7 +97,8 @@ export const Manager = {
      */
     toggleMainTheme: function (music) {
         const {newMusic, oldMusic} = MusicManager.toggleMainTheme(music);
-        SoundManagement.instance.toggleMusic(newMusic, oldMusic);
+        const puyaPlaying = MusicManager.getPuya();
+        SoundManagement.instance.toggleMusic(newMusic, oldMusic, puyaPlaying);
     },
 
     /**
@@ -135,8 +144,11 @@ export const Manager = {
             DomManagement.instance.unlockPuya();
         }
         if(ActivationManager.checkAllObjectives()) {
-            this.playSound(SOUND_NAMES.WIN);
-            this.openModal(MODAL_TEXT.WIN, () => this.onFinishObjectives());
+            this.stopSound(SOUND_NAMES.LAVA);
+            setTimeout(() => {
+                this.playSound(SOUND_NAMES.WIN);
+                this.openModal(MODAL_TEXT.WIN, () => this.onFinishObjectives());
+            }, 1000);
         }
     },
 
@@ -288,6 +300,7 @@ export class ActivationManager {
  */
 export class MusicManager {
     static mainTheme = SOUND_NAMES.LAVA;
+    static playingPuya = false;
 
     static toggleMainTheme(newMusic) {
         const oldMusic = this.mainTheme;
@@ -296,11 +309,17 @@ export class MusicManager {
     }
 
     static playPuya() {
+        this.playingPuya = true;
         return {newMusic: SOUND_NAMES.PUYA, oldMusic: this.mainTheme};
     }
 
     static stopPuya() {
+        this.playingPuya = false;
         return {newMusic: this.mainTheme, oldMusic: SOUND_NAMES.PUYA};
+    }
+
+    static getPuya() {
+        return this.playingPuya;
     }
 }
 

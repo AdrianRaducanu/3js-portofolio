@@ -62,7 +62,7 @@ class Firefly extends WorldObjects {
      * @private
      */
     _createLight() {
-        this.fireflyLight = new PointLight(0xaa7132, 3, 15);
+        this.fireflyLight = new PointLight(0xaa7132, 1, 15);
     }
 
     /**

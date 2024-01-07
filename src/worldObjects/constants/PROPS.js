@@ -66,15 +66,15 @@ export const FRONT_FACING_RAYCASTER = {
 
 export const JOB_DB_PROPS = {
     position: {
-        x: -88,
-        z: 20
+        x: -10,
+        z: 15
     }
 }
 
 export const JOB_WSS_PROPS = {
     position: {
-        x: -81,
-        z: 37
+        x: 81,
+        z: 60
     },
     rotation: {
         y: Math.PI / 3
@@ -83,9 +83,9 @@ export const JOB_WSS_PROPS = {
 
 export const EASTER_EGG_PROP = {
     position: {
-        z: 15,
+        x: -81,
         y: 0.6,
-        x: -10
+        z: 37
     },
     rotation: {
         y: 3 * Math.PI/4
@@ -93,8 +93,8 @@ export const EASTER_EGG_PROP = {
 }
 export const QUESTION_MARK_PROP = {
     position: {
-        z: 14.7,
-        x: -10.3
+        z: 36.5,
+        x: -81.2
     },
     rotation: {
         y: 3 * Math.PI/4

@@ -1,6 +1,5 @@
 import RequiredObjects from "./RequiredObjects.js";
 import * as THREE from "three";
-import Engine from "../Engine.js";
 import {FOG_PROPS, SCENE_PROPS} from "../constants/SCENE_PROPS.js";
 import {Fog} from "three";
 
@@ -21,7 +20,6 @@ class Scene extends RequiredObjects{
      */
     initialize() {
         this._createInitialSceneProperties();
-        this._setupDebugger();
     }
 
     /**
@@ -49,29 +47,11 @@ class Scene extends RequiredObjects{
     }
 
     /**
-     * Add debugger
-     * @private
-     */
-    _setupDebugger() {
-        Engine.instance.createDebuggingFolder("Scene", this.sceneProperties, (key, value) => this._setProperty(key, value));
-    }
-
-    /**
      * Scene properties
      * @private
      */
     _createInitialSceneProperties() {
         this.sceneInstance.background = new THREE.Color(this.sceneProperties.background);
-    }
-
-    /**
-     * Set property based on key and value
-     * @param key
-     * @param value
-     * @private
-     */
-    _setProperty(key, value) {
-        this.sceneInstance[key].set(value);
     }
 
     /**

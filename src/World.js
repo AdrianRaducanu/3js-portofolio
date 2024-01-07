@@ -3,7 +3,6 @@ import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
     AMBIENT_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
-    DIRECTIONAL_LIGHT_PROPS_2,
     DIRECTIONAL_LIGHT_SHADOW_PROPS,
     DOWN_FACING_RAYCASTER,
     EASTER_EGG_PROP,
@@ -85,9 +84,6 @@ class World {
         this.directionalLight = new WorldLight("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS, LIGHT_WITH_SHADOW);
         this.directionalLight.initialize();
         this.directionalLight.addShadow(DIRECTIONAL_LIGHT_SHADOW_PROPS);
-
-        // this.directionalLight = new WorldLight("World directional light 2", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS_2);
-        // this.directionalLight.initialize();
     }
 
     /**
@@ -357,6 +353,14 @@ class World {
         this.landscape.showLeaf();
         this.landscape.offRainMaterial();
         this.landscape.offLava();
+    }
+
+    /**
+     * Change cat's visibility
+     * @param bool
+     */
+    setCatVisible(bool) {
+        this.mainObject.setVisible(bool);
     }
 }
 

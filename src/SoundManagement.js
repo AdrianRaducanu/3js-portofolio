@@ -111,15 +111,26 @@ class SoundManagement {
     playSound(soundName) {
         this.sounds[soundName].play();
     }
+    /**
+     * Stop a sound based on name
+     * @param soundName
+     */
+    stopSound(soundName) {
+        this.sounds[soundName].stop();
+    }
+
 
     /**
      * Toggle music (puya vs default theme)
      * @param newMusic
      * @param oldMusic
+     * @param playingPuya
      */
-    toggleMusic(newMusic, oldMusic) {
+    toggleMusic(newMusic, oldMusic, playingPuya) {
         this.sounds[oldMusic].stop();
-        this.sounds[newMusic].play();
+        if(!playingPuya) {
+            this.sounds[newMusic].play();
+        }
     }
 }
 

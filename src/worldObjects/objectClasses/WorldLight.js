@@ -21,7 +21,6 @@ class WorldLight extends WorldObjects{
      */
     initialize() {
         this._addInScene();
-        this._setupDebugger();
     }
 
     /**
@@ -30,14 +29,6 @@ class WorldLight extends WorldObjects{
      */
     _addInScene() {
         Engine.instance.addInScene(this.lightInstance);
-    }
-
-    /**
-     * Add light instance to the debugger
-     * @private
-     */
-    _setupDebugger() {
-        Engine.instance.createDebuggingFolder(this.name, this.properties, (key, value) => this.setProperty(key, value));
     }
 
     /**

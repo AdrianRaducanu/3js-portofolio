@@ -1,12 +1,12 @@
 export const SOUNDS_ARRAY = [
     {
         name: "jump",
-        volume: 1,
+        volume: 0.5,
         loop: false,
     },
     {
         name: "win",
-        volume: 1,
+        volume: 0.3,
         loop: false
     },
     {
@@ -21,12 +21,12 @@ export const SOUNDS_ARRAY = [
     },
     {
         name: "objective",
-        volume: 1,
+        volume: 0.6,
         loop: false,
     },
     {
         name: "puya",
-        volume: 1,
+        volume: 0.7,
         loop: true,
     },
     {

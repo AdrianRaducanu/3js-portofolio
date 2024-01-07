@@ -523,6 +523,14 @@ class MainObject extends WorldModel {
     onUnfreeze() {
         this.isFrozen = false;
     }
+
+    /**
+     * Modify visibility of cat
+     * @param bool
+     */
+    setVisible(bool) {
+        this.modelInstance.visible = bool;
+    }
 }
 
 export default MainObject
