@@ -219,6 +219,8 @@ class MainObject extends WorldModel {
         this.modelInstance.position.z -= incrementalZ;
         this.modelInstance.position.x -= incrementalX;
 
+        this._distanceToObjectives();
+
         this._moveOtherObjects(incrementalZ, incrementalX);
     }
 
@@ -510,7 +512,8 @@ class MainObject extends WorldModel {
      */
     onFreeze() {
         this.isFrozen = true;
-
+        this.stopAnimationByName(MAIN_ANIMATIONS.WALK);
+        this.stopAnimationByName(MAIN_ANIMATIONS.HEAD_WALK);
         this.moveController.left = false;
         this.moveController.right = false;
         this.moveController.up = false;
@@ -530,6 +533,17 @@ class MainObject extends WorldModel {
      */
     setVisible(bool) {
         this.modelInstance.visible = bool;
+    }
+
+    /**
+     * Calculate the distance to objectives
+     * @private
+     */
+    _distanceToObjectives() {
+        this.otherObjects.lightWSS.checkDistance(this.modelInstance.position);
+        this.otherObjects.lightDB.checkDistance(this.modelInstance.position);
+        this.otherObjects.lightEgg.checkDistance(this.modelInstance.position);
+        this.otherObjects.lightMusic.checkDistance(this.modelInstance.position);
     }
 }
 

@@ -68,7 +68,7 @@ class Camera extends RequiredObjects{
     }
 
     /**
-     * Update camera on tick fcn
+     * Update camera on resize
      */
     update() {
         this.cameraInstance.aspect = this.sizes.width / this.sizes.height;

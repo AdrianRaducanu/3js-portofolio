@@ -1,19 +1,19 @@
 import WorldLight from "./worldObjects/objectClasses/WorldLight.js";
 import {LIGHT_TYPE} from "./constants/LIGHT_TYPE.js";
 import {
-    AMBIENT_LIGHT_PROPS,
+    AMBIENT_LIGHT_PROPS, DB_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_PROPS,
     DIRECTIONAL_LIGHT_SHADOW_PROPS,
     DOWN_FACING_RAYCASTER,
-    EASTER_EGG_PROP,
+    EASTER_EGG_PROP, EGG_LIGHT_PROPS,
     FRONT_FACING_RAYCASTER,
     JOB_DB_PROPS,
-    JOB_WSS_PROPS, PICKUP_PROP, QUESTION_MARK_PROP
+    JOB_WSS_PROPS, MUSIC_LIGHT_PROPS, PICKUP_PROP, QUESTION_MARK_PROP, WSS_LIGHT_PROPS
 } from "./worldObjects/constants/PROPS.js";
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
 import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
-import {JOBS_NAME, LIGHT_WITH_SHADOW, WEATHER} from "./worldObjects/constants/CONST.js";
+import {JOBS_NAME, WEATHER} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 import Firefly from "./worldObjects/Firefly.js";
 import MusicNotes from "./worldObjects/MusicNotes.js";
@@ -21,6 +21,7 @@ import Weather from "./worldObjects/Weather.js";
 import {OBJECT_PROPERTIES} from "./constants/OBJECT_PROPERTIES.js";
 import {SCENARIOS, TIME_SCENARIOS} from "./constants/SCENARIOS.js";
 import Engine from "./Engine.js";
+import ObjectiveLight from "./worldObjects/ObjectiveLight.js";
 
 class World {
 
@@ -81,7 +82,7 @@ class World {
         this.ambientLight = new WorldLight("World ambient light", LIGHT_TYPE.AMBIENT, AMBIENT_LIGHT_PROPS);
         this.ambientLight.initialize();
 
-        this.directionalLight = new WorldLight("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS, LIGHT_WITH_SHADOW);
+        this.directionalLight = new WorldLight("World directional light", LIGHT_TYPE.DIRECTIONAL, DIRECTIONAL_LIGHT_PROPS);
         this.directionalLight.initialize();
         this.directionalLight.addShadow(DIRECTIONAL_LIGHT_SHADOW_PROPS);
     }
@@ -110,7 +111,11 @@ class World {
             easterEgg: this.easterEgg,
             questionMark: this.questionMark,
             musicNotes: this.musicNotes,
-            pickup: this.pickup
+            pickup: this.pickup,
+            lightDB: this.lightDB,
+            lightWSS: this.lightWSS,
+            lightEgg: this.lightEgg,
+            lightMusic: this.lightMusic,
         }
         this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster, otherObjects);
         this.mainObject.initialize();
@@ -136,10 +141,14 @@ class World {
         //db
         this.jobDB = new WorldAnimatedObject(JOBS_NAME.DB, JOB_DB_PROPS, this.frontFacingRaycaster);
         this.jobDB.initialize();
+        this.lightDB = new ObjectiveLight("db light", LIGHT_TYPE.POINT, DB_LIGHT_PROPS);
+        this.lightDB.initialize();
 
         //wss
         this.jobWSS = new WorldAnimatedObject(JOBS_NAME.WSS, JOB_WSS_PROPS, this.frontFacingRaycaster);
         this.jobWSS.initialize();
+        this.lightWSS = new ObjectiveLight("wss light", LIGHT_TYPE.POINT, WSS_LIGHT_PROPS);
+        this.lightWSS.initialize();
     }
 
     /**
@@ -158,6 +167,8 @@ class World {
     _addEasterEgg() {
         this.easterEgg = new WorldAnimatedObject("easter-egg", EASTER_EGG_PROP, this.frontFacingRaycaster);
         this.easterEgg.initialize();
+        this.lightEgg = new ObjectiveLight("egg light", LIGHT_TYPE.POINT, EGG_LIGHT_PROPS);
+        this.lightEgg.initialize();
 
         this.questionMark = new WorldAnimatedObject("question-mark", QUESTION_MARK_PROP, this.frontFacingRaycaster);
         this.questionMark.initialize();
@@ -170,6 +181,8 @@ class World {
     _addMusicObjects() {
         this.pickup = new WorldAnimatedObject("pickup", PICKUP_PROP, this.frontFacingRaycaster);
         this.pickup.initialize();
+        this.lightMusic = new ObjectiveLight("music light", LIGHT_TYPE.POINT, MUSIC_LIGHT_PROPS);
+        this.lightMusic.initialize();
 
         this.musicNotes = new MusicNotes("notes");
         this.musicNotes.initialize();

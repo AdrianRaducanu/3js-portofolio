@@ -69,18 +69,34 @@ class DomManagement {
      * @private
      */
     _getElements() {
+        // Loader and main page elements
+        this.loadPage = document.getElementById("loader-page");
+        this.mainPage = document.getElementById("main-page");
+
+        //Loading Text
+        this.itemsLoaded = document.getElementById("items-loaded");
+        this.itemsTotal = document.getElementById("items-loaded");
+        this.loadingText = document.getElementById("loading-text-id");
+        this.loadingReady = document.getElementById("loading-ready");
+        // Modal elements
         this.textModal = document.getElementById("text-modal-id");
         this.closeBtn = document.getElementById("close-btn-id");
         this.text = document.getElementById("text-id");
+
+        // Button containers
         this.wssBtn = document.getElementById("wss-container");
         this.dbBtn = document.getElementById("db-container");
         this.eggBtn = document.getElementById("egg-container");
         this.musicBtn = document.getElementById("music-container");
+
+        // Sound and music elements
         this.soundChecker = document.getElementById("sound-checker-id");
         this.soundStatus = document.getElementById("sound-status-id");
         this.musicChecker = document.getElementById("music-checker-id");
         this.musicStatus = document.getElementById("music-status-id");
         this.musicModal = document.getElementById("music-modal");
+
+        // Daytime and weather elements
         this.daytimeChecker = document.getElementById("day-night-checker-id");
         this.daytimeDiv = document.getElementById("daytime-div");
         this.clearScenario = document.getElementById("weather-clear-id");
@@ -89,17 +105,17 @@ class DomManagement {
         this.lavaScenario = document.getElementById("weather-lava-id");
         this.scenarios = document.getElementById("scenarios-id");
 
+        // Control buttons
         this.beginBtn = document.getElementById("begin-btn");
         this.returnBtn = document.getElementById("return-btn-id");
         this.loadBtn = document.getElementById("load-btn");
 
+        // Training elements
         this.acceptBtn = document.getElementById("accept-btn-id");
         this.declineBtn = document.getElementById("decline-btn-id");
         this.training = document.getElementById("training-id");
-
-        this.loadPage = document.getElementById("loader-page");
-        this.mainPage = document.getElementById("main-page");
     }
+
 
     /**
      * Here are added on btn listeners
@@ -350,6 +366,9 @@ class DomManagement {
     stopLoading() {
         this.loadBtn.classList.add("hidden");
         this.beginBtn.classList.remove("hidden");
+
+        this.loadingText.classList.add("hidden");
+        this.loadingReady.classList.remove("hidden");
     }
 
     /**
@@ -386,6 +405,24 @@ class DomManagement {
     _startGameWithoutLocation() {
         Manager.startGameWithoutLocation();
         this.training.classList.add("hidden");
+    }
+
+    /**
+     * Show loading info with total items to load
+     * @param totalItems
+     */
+    showLoadingInfo(totalItems) {
+        console.log(this.loadingText)
+        this.loadingText.classList.remove("hidden");
+        this.itemsTotal.innerText = totalItems;
+    }
+
+    /**
+     * Update no of items loaded
+     * @param itemsLoaded
+     */
+    updateLoadingInfo(itemsLoaded) {
+        this.itemsLoaded.innerText = itemsLoaded;
     }
 
 }

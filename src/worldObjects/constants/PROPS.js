@@ -41,16 +41,52 @@ export const DIRECTIONAL_LIGHT_SHADOW_PROPS = {
     }
 }
 
-export const POINT_LIGHT_PROPS = {
-    color: "#33ff11",
+export const DB_LIGHT_PROPS = {
+    color: "#ffffff",
     intensity: 1,
-    distance: 2,
+    distance: 10,
     decay: 2,
     position: {
-        x: 3,
-        y: 1,
-        z: -2
+        x: -10,
+        y: 4,
+        z: 15
     }
+}
+
+export const WSS_LIGHT_PROPS = {
+    color: "#ffffff",
+    intensity: 1,
+    distance: 10,
+    decay: 2,
+    position: {
+        x: 78,
+        y: 4,
+        z: 60
+    },
+}
+
+export const EGG_LIGHT_PROPS = {
+    color: "#ffffff",
+    intensity: 1,
+    distance: 10,
+    decay: 2,
+    position: {
+        x: -81,
+        y: 2,
+        z: 36
+    },
+}
+
+export const MUSIC_LIGHT_PROPS = {
+    color: "#ffffff",
+    intensity: 1,
+    distance: 10,
+    decay: 2,
+    position: {
+        z: -75,
+        y: 2,
+        x: -1
+    },
 }
 
 

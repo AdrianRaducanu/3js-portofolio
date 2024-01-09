@@ -233,6 +233,14 @@ export const Manager = {
     setWeatherAndTime: function(weather, time) {
         WeatherManager.setWeather(getWeatherScenario(weather));
         WeatherManager.setTime(time);
+    },
+
+    showLoadingInfo(totalItems) {
+        DomManagement.instance.showLoadingInfo(totalItems);
+    },
+
+    updateLoadingInfo(itemsLoaded) {
+        DomManagement.instance.updateLoadingInfo(itemsLoaded);
     }
 }
 

@@ -13,16 +13,16 @@
       <h2 class="loader-subtitle">"Step into the paws of Dora, one of my cats, <br>and complete all the objectives that <br>unveil information about me."</h2>
       <div class="links">
         <a target="_blank" href="https://github.com/AdrianRaducanu" class="links-link" id="git-icon-container">
-          <img class="link-icon" src="static/icons/git.svg" id="git-icon">
+          <img class="link-icon" src="static/icons/git.svg" id="git-icon" alt="gitLink">
         </a>
         <a target="_blank" href="https://www.linkedin.com/in/adrian-raducanu/" class="links-link" id="ld-icon-container">
-          <img class="link-icon" src="static/icons/linkedin.svg" id="ld-icon">
+          <img class="link-icon" src="static/icons/linkedin.svg" id="ld-icon" alt="ldLink">
         </a>
         <a target="_blank" href="https://github.com/AdrianRaducanu" class="links-link" id="twitter-icon-container">
-          <img class="link-icon" src="static/icons/twitter.svg" id="twitter-icon">
+          <img class="link-icon" src="static/icons/twitter.svg" id="twitter-icon" alt="twitterLink">
         </a>
         <a target="_blank" href="https://github.com/AdrianRaducanu" class="links-link" id="mail-icon-container">
-          <img class="link-icon" src="static/icons/mail.svg" id="mail-icon">
+          <img class="link-icon" src="static/icons/mail.svg" id="mail-icon" alt="mailLink">
         </a>
       </div>
       <div class="loader-footer">
@@ -40,11 +40,19 @@
             <p>Get to know me better</p>
           </div>
       </div>
-        <div class="loader-btn hidden" id="begin-btn">
-          <img class="loader-btn-img" src="static/icons/play.svg">
-        </div>
-        <div class="loader-btn loader-btn-loading" id="load-btn">
-          <img class="loader-btn-img loader-btn-img-loading" src="static/icons/wait.svg">
+        <div class="loader-loading">
+          <div class="loader-btn hidden" id="begin-btn">
+            <img class="loader-btn-img" src="static/icons/play.svg" alt="playBtn">
+          </div>
+          <div class="loader-btn loader-btn-loading" id="load-btn">
+            <img class="loader-btn-img loader-btn-img-loading" src="static/icons/wait.svg" alt="loadBtn">
+          </div>
+          <div class="loading-text hidden" id="loading-text-id">
+            <p id="items-loaded">12</p>
+            <p>models loaded out of </p>
+            <p id="total-items">17</p>
+          </div>
+          <p id="loading-ready" class="hidden">Ready</p>
         </div>
       </div>
     </div>
@@ -83,26 +91,26 @@
       </div>
     </div>
     <div class="return-btn" id="return-btn-id">
-      <img class="return-btn-img" src="static/icons/play.svg">
+      <img class="return-btn-img" src="static/icons/play.svg" alt="returnBtn">
     </div>
     <div class="header">
       <div class="image-container" id="wss-container">
-        <img src="static/images/wss.png" alt="Image 1" id="image-wss" class="hidden">
+        <img src="static/images/wss.png" alt="ImageWSS" id="image-wss" class="hidden">
         <div class="animation-block" id="image-wss-block"></div>
         <img src="static/images/question-mark.png" alt="Image 1-q" id="image-wss-q">
       </div>
       <div class="image-container" id="db-container">
-        <img src="static/images/db.png" alt="Image 2" id="image-db" class="hidden">
+        <img src="static/images/db.png" alt="ImageDB" id="image-db" class="hidden">
         <div class="animation-block" id="image-db-block"></div>
         <img src="static/images/question-mark.png" alt="Image 2-q" id="image-db-q">
       </div>
       <div class="image-container" id="egg-container">
-        <img src="static/images/egg.png" alt="Image 3" id="image-egg" class="hidden">
+        <img src="static/images/egg.png" alt="ImageEgg" id="image-egg" class="hidden">
         <div class="animation-block" id="image-egg-block"></div>
         <img src="static/images/question-mark.png" alt="Image 3-q" id="image-egg-q">
       </div>
       <div class="image-container" id="music-container">
-        <img src="static/images/music-note.png" alt="Image 4" id="image-music" class="hidden">
+        <img src="static/images/music-note.png" alt="ImageMusic" id="image-music" class="hidden">
         <div class="animation-block" id="image-music-block"></div>
         <img src="static/images/question-mark.png" alt="Image 4-q" id="image-music-q">
       </div>
@@ -122,16 +130,16 @@
       <div class="scenarios hidden" id="scenarios-id">
         <div class="weather-scenarios">
           <div class="weather-scenario" id="weather-clear-id">
-            <img src="static/images/sun.png" class="weather-img">
+            <img alt="imgScenarioSun" src="static/images/sun.png" class="weather-img">
           </div>
           <div class="weather-scenario" id="weather-rain-id">
-            <img src="static/images/rain.png" class="weather-img">
+            <img alt="imgScenarioRain" src="static/images/rain.png" class="weather-img">
           </div>
           <div class="weather-scenario" id="weather-snow-id">
-            <img src="static/images/snow.png" class="weather-img">
+            <img alt="imgScenarioSnow" src="static/images/snow.png" class="weather-img">
           </div>
           <div class="weather-scenario weather-checked" id="weather-lava-id">
-            <img src="static/images/fire.png" class="weather-img">
+            <img alt="imgScenarioLava" src="static/images/fire.png" class="weather-img">
           </div>
         </div>
         <div class="daytime-scenarios daytime-checker unclickable" id="daytime-div">

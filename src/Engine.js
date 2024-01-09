@@ -206,6 +206,9 @@ class Engine {
      * @private
      */
     _manageLoading() {
+        DefaultLoadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+            Manager.showLoadingInfo(itemsTotal);
+        }
         DefaultLoadingManager.onLoad = () => {
             Engine.instance.start();
 
@@ -217,6 +220,10 @@ class Engine {
             Manager.changeTimeScenario(TIME.NIGHT);
             Manager.finishLoading();
             this.tick();
+        }
+        DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+            console.log(url, itemsLoaded, itemsTotal)
+            Manager.updateLoadingInfo(itemsLoaded);
         }
     }
 

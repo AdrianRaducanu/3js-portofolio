@@ -5,7 +5,7 @@ import {Raycaster, Vector3} from "three";
  */
 class CustomRaycaster {
 
-    constructor(name, origin, direction, near = 0, far = 10) {
+    constructor(name, origin, direction) {
         this.name = name;
         this.raycastingOrigin = origin;
         this.raycastingDirection = direction;
