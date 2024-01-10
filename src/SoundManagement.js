@@ -39,7 +39,7 @@ class SoundManagement {
     _createSounds() {
         SOUNDS_ARRAY.forEach(sound => {
             this.sounds[sound.name] = new Howl({
-                src: [`../public/sounds/mp3/${sound.name}.mp3`],
+                src: [`/sounds/mp3/${sound.name}.mp3`],
                 volume: sound.volume,
                 autoplay: false,
                 loop: sound.loop,

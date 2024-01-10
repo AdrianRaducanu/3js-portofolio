@@ -10,7 +10,7 @@ class WorldModel extends WorldObjects {
 
     constructor(name, props = null) {
         super(name);
-        this.url = `../../public/models/${this.name}.glb`;
+        this.url = `/models/${this.name}.glb`;
         this.modelInstance = {};
         this.modelAnimations = {};
         this.mixer = null;
