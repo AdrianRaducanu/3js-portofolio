@@ -21,7 +21,7 @@ export default class ClientDataGetter {
                     const longitude = position.coords.longitude;
                     fetchWeatherAPI(latitude, longitude).then(res => {
                         const weatherCode = getWeatherCode(res);
-                        console.log("User's data: ", weatherCode, time)
+                        // console.log("User's data: ", weatherCode, time)
                         Manager.setWeatherAndTime(weatherCode, time);
                     })
                 },
@@ -52,7 +52,7 @@ const fetchWeatherAPI = async (latitude, longitude) => {
         const response = await fetch(url);
 
         if (!response.ok) {
-            console.log(`HTTP error! Status: ${response.status}`);
+            // console.log(`HTTP error! Status: ${response.status}`);
             return INVALID_WEATHER_CODE;
         }
 

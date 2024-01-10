@@ -44,7 +44,7 @@ class SoundManagement {
                 autoplay: false,
                 loop: sound.loop,
                 onloaderror: (err) => {
-                    console.log("Sound " + sound.name + " has a problem while trying to load " + err);
+                    // console.log("Sound " + sound.name + " has a problem while trying to load " + err);
                 },
                 onplay: () => {
                     // console.log("Sound " + sound.name + " has started");
@@ -56,7 +56,7 @@ class SoundManagement {
                     // console.log("Sound " + sound.name + " has stopped");
                 },
                 onplayerror: (err) => {
-                    console.log("Sound " + sound.name + " has a problem while trying to play " + err);
+                    // console.log("Sound " + sound.name + " has a problem while trying to play " + err);
                 }
             });
         });
