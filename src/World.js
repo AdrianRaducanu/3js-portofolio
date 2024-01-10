@@ -13,7 +13,7 @@ import {
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
 import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
-import {JOBS_NAME, WEATHER} from "./worldObjects/constants/CONST.js";
+import {WEATHER} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 import Firefly from "./worldObjects/Firefly.js";
 import MusicNotes from "./worldObjects/MusicNotes.js";
@@ -22,6 +22,7 @@ import {OBJECT_PROPERTIES} from "./constants/OBJECT_PROPERTIES.js";
 import {SCENARIOS, TIME_SCENARIOS} from "./constants/SCENARIOS.js";
 import Engine from "./Engine.js";
 import ObjectiveLight from "./worldObjects/ObjectiveLight.js";
+import {MODELS_NAME} from "./worldObjects/constants/MODELS_NAME.js";
 
 class World {
 
@@ -92,7 +93,7 @@ class World {
      * @private
      */
     _addLandscape() {
-        this.landscape = new Landscape("landscape-snow", this.downFacingRaycaster);
+        this.landscape = new Landscape(MODELS_NAME.LANDSCAPE, this.downFacingRaycaster);
         this.landscape.initialize();
     }
 
@@ -117,7 +118,7 @@ class World {
             lightEgg: this.lightEgg,
             lightMusic: this.lightMusic,
         }
-        this.mainObject = new MainObject("dora", this.downFacingRaycaster, this.frontFacingRaycaster, otherObjects);
+        this.mainObject = new MainObject(MODELS_NAME.MAIN_OBJ, this.downFacingRaycaster, this.frontFacingRaycaster, otherObjects);
         this.mainObject.initialize();
     }
 
@@ -139,13 +140,13 @@ class World {
      */
     _addJobs() {
         //db
-        this.jobDB = new WorldAnimatedObject(JOBS_NAME.DB, JOB_DB_PROPS, this.frontFacingRaycaster);
+        this.jobDB = new WorldAnimatedObject(MODELS_NAME.DB, JOB_DB_PROPS, this.frontFacingRaycaster);
         this.jobDB.initialize();
         this.lightDB = new ObjectiveLight("db light", LIGHT_TYPE.POINT, DB_LIGHT_PROPS);
         this.lightDB.initialize();
 
         //wss
-        this.jobWSS = new WorldAnimatedObject(JOBS_NAME.WSS, JOB_WSS_PROPS, this.frontFacingRaycaster);
+        this.jobWSS = new WorldAnimatedObject(MODELS_NAME.WSS, JOB_WSS_PROPS, this.frontFacingRaycaster);
         this.jobWSS.initialize();
         this.lightWSS = new ObjectiveLight("wss light", LIGHT_TYPE.POINT, WSS_LIGHT_PROPS);
         this.lightWSS.initialize();
@@ -165,12 +166,12 @@ class World {
      * @private
      */
     _addEasterEgg() {
-        this.easterEgg = new WorldAnimatedObject("easter-egg", EASTER_EGG_PROP, this.frontFacingRaycaster);
+        this.easterEgg = new WorldAnimatedObject(MODELS_NAME.EGG, EASTER_EGG_PROP, this.frontFacingRaycaster);
         this.easterEgg.initialize();
         this.lightEgg = new ObjectiveLight("egg light", LIGHT_TYPE.POINT, EGG_LIGHT_PROPS);
         this.lightEgg.initialize();
 
-        this.questionMark = new WorldAnimatedObject("question-mark", QUESTION_MARK_PROP, this.frontFacingRaycaster);
+        this.questionMark = new WorldAnimatedObject(MODELS_NAME.QUESTION, QUESTION_MARK_PROP, this.frontFacingRaycaster);
         this.questionMark.initialize();
     }
 
@@ -179,7 +180,7 @@ class World {
      * @private
      */
     _addMusicObjects() {
-        this.pickup = new WorldAnimatedObject("pickup", PICKUP_PROP, this.frontFacingRaycaster);
+        this.pickup = new WorldAnimatedObject(MODELS_NAME.PICK_UP, PICKUP_PROP, this.frontFacingRaycaster);
         this.pickup.initialize();
         this.lightMusic = new ObjectiveLight("music light", LIGHT_TYPE.POINT, MUSIC_LIGHT_PROPS);
         this.lightMusic.initialize();

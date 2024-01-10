@@ -11,6 +11,7 @@ import {
 import {NO_OF_NOTES, STARTING_POSITION_NOTES} from "./constants/CONST.js";
 import vertexShader from "../shaders/musicNotes/vertex.glsl";
 import fragmentShader from "../shaders/musicNotes/fragment.glsl";
+import musicNotePNG from "../../static/textures/music-note.png";
 
 class MusicNotes extends WorldObjects {
     constructor(name) {
@@ -42,7 +43,7 @@ class MusicNotes extends WorldObjects {
      */
     _importTexture() {
         const textureLoader = new TextureLoader();
-        this.texture = textureLoader.load("../static/textures/music-note.png");
+        this.texture = textureLoader.load(musicNotePNG);
     }
 
     /**
