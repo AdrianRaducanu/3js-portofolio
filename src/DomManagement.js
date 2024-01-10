@@ -408,21 +408,14 @@ class DomManagement {
     }
 
     /**
-     * Show loading info with total items to load
-     * @param totalItems
-     */
-    showLoadingInfo(totalItems) {
-        console.log(this.loadingText)
-        this.loadingText.classList.remove("hidden");
-        this.itemsTotal.innerText = totalItems;
-    }
-
-    /**
      * Update no of items loaded
      * @param itemsLoaded
+     * @param totalItems
      */
-    updateLoadingInfo(itemsLoaded) {
+    updateLoadingInfo(itemsLoaded, totalItems) {
+        this.loadingText.classList.remove("hidden")
         this.itemsLoaded.innerText = itemsLoaded;
+        this.itemsTotal.innerText = totalItems;
     }
 
 }

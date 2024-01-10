@@ -235,12 +235,8 @@ export const Manager = {
         WeatherManager.setTime(time);
     },
 
-    showLoadingInfo(totalItems) {
-        DomManagement.instance.showLoadingInfo(totalItems);
-    },
-
-    updateLoadingInfo(itemsLoaded) {
-        DomManagement.instance.updateLoadingInfo(itemsLoaded);
+    updateLoadingInfo(itemsLoaded, totalItems) {
+        DomManagement.instance.updateLoadingInfo(itemsLoaded, totalItems);
     }
 }
 

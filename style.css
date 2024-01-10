@@ -250,6 +250,8 @@ h2 {
 }
 
 .loading-text {
+  position: absolute;
+  bottom: 13%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,6 +263,8 @@ h2 {
 }
 
 #loading-ready {
+  position: absolute;
+  bottom: 13%;
   color: #2db494;
   user-select: none;
 }
