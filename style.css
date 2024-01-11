@@ -671,7 +671,7 @@ input:checked + .slider:before {
   height: 100%;
   background: rgba(33, 33, 33, 0.77);
   z-index: 100;
-  color: #e5e5e5;
+  color: #cccccc;
   user-select: none;
   font-size: 2.1dvh;
 }
@@ -682,8 +682,8 @@ input:checked + .slider:before {
 
 .about-objectives-title {
   position: absolute;
-  transform: translate(0, -145%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px 0 30px;
@@ -695,7 +695,7 @@ input:checked + .slider:before {
   top: 5%;
   left: 50%;
   width: 50dvh;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   transform: translate(-50%, 0);
@@ -704,8 +704,8 @@ input:checked + .slider:before {
 
 .about-scenarios-title {
   position: absolute;
-  transform: translate(0, -145%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px 0 30px;
@@ -716,7 +716,7 @@ input:checked + .slider:before {
   bottom: 5%;
   left: 50%;
   width: 50dvh;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   transform: translate(-50%, 0);
@@ -725,8 +725,8 @@ input:checked + .slider:before {
 
 .about-sounds-title {
   position: absolute;
-  transform: translate(0, -145%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px 0 30px;
@@ -737,7 +737,7 @@ input:checked + .slider:before {
   bottom: 5%;
   right: 0;
   width: 35dvh;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   transform: translate(0, 0);
@@ -747,8 +747,9 @@ input:checked + .slider:before {
 .about-back-title {
   position: absolute;
   right: 3%;
-  transform: translate(-50%, -150%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  transform: translate(-50%, 0);
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px 0 30px;
@@ -759,7 +760,7 @@ input:checked + .slider:before {
   top: 5%;
   left: 0;
   width: 35dvh;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   transform: translate(0, 0);
@@ -768,8 +769,8 @@ input:checked + .slider:before {
 
 .about-speed-title {
   position: absolute;
-  transform: translate(0, -150%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px 0 30px;
@@ -780,7 +781,7 @@ input:checked + .slider:before {
   top: 5%;
   right: 0;
   width: 35dvh;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   transform: translate(0, 0);
@@ -789,8 +790,8 @@ input:checked + .slider:before {
 
 .about-game-title {
   position: absolute;
-  transform: translate(0, -145%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px;
@@ -802,7 +803,7 @@ input:checked + .slider:before {
   left: 50%;
   width: 40%;
   height: 40%;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   transform: translate(-50%, 50%);
@@ -815,21 +816,22 @@ input:checked + .slider:before {
 
 .about-game p::before {
   content: '\2022';
-  color: #e5e5e5;
+  color: #cccccc;
   display: inline-block;
   width: 1em;
   margin-right: 0.5em;
 }
 
 .about-game a{
-  color: #e5e5e5;
+  color: #cccccc;
 }
 
 .about-move-title {
   position: absolute;
   right: 3%;
-  transform: translate(-20%, -145%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  transform: translate(-20%, 0);
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px;
@@ -841,7 +843,7 @@ input:checked + .slider:before {
   left: 0;
   width: 25dvh;
   height: 20%;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   text-align: justify;
@@ -853,7 +855,7 @@ input:checked + .slider:before {
 
 .about-move p::before {
   content: '\2022';
-  color: #e5e5e5;
+  color: #cccccc;
   display: inline-block;
   width: 1em;
   margin-right: 0.5em;
@@ -861,8 +863,8 @@ input:checked + .slider:before {
 
 .about-fireflies-title {
   position: absolute;
-  transform: translate(-0%, -145%);
-  background: #e5e5e5;
+  top: -3.2dvh;
+  background: #cccccc;
   color: #1f1f1f;
   font-weight: bolder;
   padding: 0 5px;
@@ -874,7 +876,7 @@ input:checked + .slider:before {
   right: 0;
   width: 20%;
   height: 50%;
-  border: 2px solid #e5e5e5;
+  border: 2px solid #cccccc;
   border-radius: 10px;
   padding: 10px;
   text-align: justify;
@@ -887,7 +889,7 @@ input:checked + .slider:before {
 
 .about-fireflies p::before {
   content: '\2022';
-  color: #e5e5e5;
+  color: #cccccc;
   display: inline-block;
   width: 1em;
   margin-right: 0.5em;
@@ -919,12 +921,12 @@ input:checked + .slider:before {
 
 .accept-btn {
   background: #1c8168;
-  color: #e5e5e5;
+  color: #cccccc;
 }
 
 .decline-btn {
   background: #505050;
-  color: #e5e5e5;
+  color: #cccccc;
 }
 
 .speed-checker {
@@ -958,10 +960,11 @@ input:checked + .slider:before {
 }
 
 
-@media only screen and (max-width: 1200px) and (orientation: portrait) {
+@media (max-width: 800px) or (orientation: portrait) {
   .on-mobile {
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
     width: 100dvw;
     height: 100dvh;
@@ -969,12 +972,17 @@ input:checked + .slider:before {
     padding: 20px;
     color: #dedede;
     text-align: center;
+    z-index: 200;
   }
 
-  .loader-page {
+  .on-mobile h2{
+    margin: 15px;
+  }
+
+  #loader-page {
     display: none;
   }
-  .main-page {
+  #main-page {
     display: none;
   }
   canvas {
@@ -982,7 +990,7 @@ input:checked + .slider:before {
   }
 }
 
-@media only screen and (min-width: 1200px){
+@media (min-width: 800px){
   .on-mobile {
     display: none;
   }
