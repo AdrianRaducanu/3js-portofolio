@@ -79,9 +79,11 @@ class DomManagement {
         this.loadingText = document.getElementById("loading-text-id");
         this.loadingReady = document.getElementById("loading-ready");
         // Modal elements
+
         this.textModal = document.getElementById("text-modal-id");
         this.closeBtn = document.getElementById("close-btn-id");
         this.text = document.getElementById("text-id");
+        this.closeTrainingDiv = document.getElementById("close-training-div-id");
 
         // Button containers
         this.wssBtn = document.getElementById("wss-container");
@@ -96,6 +98,10 @@ class DomManagement {
         this.musicStatus = document.getElementById("music-status-id");
         this.musicModal = document.getElementById("music-modal");
 
+        // Pace
+        this.speedChecker = document.getElementById("speed-checker-id");
+        this.speedStatus = document.getElementById("speed-status-id");
+
         // Daytime and weather elements
         this.daytimeChecker = document.getElementById("day-night-checker-id");
         this.daytimeDiv = document.getElementById("daytime-div");
@@ -109,6 +115,9 @@ class DomManagement {
         this.beginBtn = document.getElementById("begin-btn");
         this.returnBtn = document.getElementById("return-btn-id");
         this.loadBtn = document.getElementById("load-btn");
+        this.trainingBtn = document.getElementById("training-btn-id");
+        this.locationBtns = document.getElementById("location-btns-id");
+        this.closeTrainingBtn = document.getElementById("close-training-btn-id");
 
         // Training elements
         this.acceptBtn = document.getElementById("accept-btn-id");
@@ -125,6 +134,8 @@ class DomManagement {
         this.closeBtn.addEventListener('click', () => this._closeTextModal());
         this.beginBtn.addEventListener('click', () => this._exitLoaderPage());
         this.returnBtn.addEventListener('click', () => this._exitMainPage());
+        this.trainingBtn.addEventListener('click', () => this._openTraining());
+        this.closeTrainingBtn.addEventListener('click', () => this._closeTraining());
 
         this.acceptBtn.addEventListener('click', () => this._startGameWithLocation());
         this.declineBtn.addEventListener('click', () => this._startGameWithoutLocation());
@@ -135,6 +146,7 @@ class DomManagement {
         this.musicBtn.addEventListener("click", () => this.openObjectiveModal(OBJECTIVES.MUSIC));
 
         this.soundChecker.addEventListener("change", () => this._onChangeSoundChecker());
+        this.speedChecker.addEventListener("change", () => this._onChangeSpeedChecker());
         this.musicChecker.addEventListener("change", () => this._onChangeMusicChecker());
 
         this.daytimeChecker.addEventListener("change", () => this._changeDaytimeScenario());
@@ -260,11 +272,11 @@ class DomManagement {
      */
     _onChangeSoundChecker() {
         if(this.soundChecker.checked) {
-            this.soundStatus.innerText = "Unmute";
+            this.soundStatus.innerText = "Unmuted";
             this.soundStatus.classList.add("sound-on");
             Manager.unmuteAllSounds();
         } else {
-            this.soundStatus.innerText = "Mute";
+            this.soundStatus.innerText = "Muted";
             this.soundStatus.classList.remove("sound-on");
             Manager.muteAllSounds();
         }
@@ -396,6 +408,8 @@ class DomManagement {
     _startGameWithLocation() {
         Manager.startGameWithLocation();
         this.training.classList.add("hidden");
+        this.locationBtns.classList.add("hidden");
+        this.closeTrainingDiv.classList.remove("hidden");
     }
 
     /**
@@ -405,6 +419,8 @@ class DomManagement {
     _startGameWithoutLocation() {
         Manager.startGameWithoutLocation();
         this.training.classList.add("hidden");
+        this.locationBtns.classList.add("hidden");
+        this.closeTrainingDiv.classList.remove("hidden");
     }
 
     /**
@@ -416,6 +432,28 @@ class DomManagement {
         this.loadingText.classList.remove("hidden")
         this.itemsLoaded.innerText = itemsLoaded;
         this.itemsTotal.innerText = totalItems;
+    }
+
+    _onChangeSpeedChecker() {
+        if(this.speedChecker.checked) {
+            this.speedStatus.innerText = "Fast"
+            this.speedStatus.classList.add("on-fast-speed");
+            Manager.setFastSpeed();
+        } else {
+            Manager.setDefaultSpeed();
+            this.speedStatus.classList.remove("on-fast-speed");
+            this.speedStatus.innerText = "Normal"
+        }
+    }
+
+    _openTraining() {
+        Manager.freezeApp();
+        this.training.classList.remove("hidden");
+    }
+
+    _closeTraining() {
+        Manager.unfreezeApp();
+        this.training.classList.add("hidden");
     }
 
 }

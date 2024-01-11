@@ -47,6 +47,20 @@ export const Manager = {
     },
 
     /**
+     * Freeze app
+     */
+    freezeApp: function() {
+        Engine.instance.freezeApp();
+    },
+
+    /**
+     * Unfreeze app
+     */
+    unfreezeApp: function() {
+        Engine.instance.unfreezeApp();
+    },
+
+    /**
      * Will open the modal and stop the cat's movement
      */
     openModal: function(text, callback) {
@@ -235,8 +249,21 @@ export const Manager = {
         WeatherManager.setTime(time);
     },
 
+    /**
+     * Update loading text, models loaded and total
+     * @param itemsLoaded
+     * @param totalItems
+     */
     updateLoadingInfo(itemsLoaded, totalItems) {
         DomManagement.instance.updateLoadingInfo(itemsLoaded, totalItems);
+    },
+
+    setFastSpeed() {
+        Engine.instance.onFastSpeed();
+    },
+
+    setDefaultSpeed() {
+        Engine.instance.onNormalSpeed();
     }
 }
 

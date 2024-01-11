@@ -343,6 +343,20 @@ class Engine {
         this.world.setCatVisible(bool);
     }
 
+    /**
+     * Used to modify cat's move speed to fast
+     */
+    onFastSpeed() {
+        this.world.onFastSpeed();
+    }
+
+    /**
+     * Used to modify cat's move speed to normal
+     */
+    onNormalSpeed() {
+        this.world.onNormalSpeed()
+    }
+
 }
 
 export default Engine

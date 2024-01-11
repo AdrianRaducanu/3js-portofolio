@@ -48,6 +48,7 @@ class MainObject extends WorldModel {
         this.isInCave = false;
         this.isNight = false;
         this.isFrozen = false;
+        this.speed = MOVING_UNIT;
     }
 
     /**
@@ -195,8 +196,8 @@ class MainObject extends WorldModel {
      * @private
      */
     _move() {
-        const incrementalX = Math.sin(this.modelInstance.rotation.y) * MOVING_UNIT;
-        const incrementalZ = Math.cos(this.modelInstance.rotation.y) * MOVING_UNIT;
+        const incrementalX = Math.sin(this.modelInstance.rotation.y) * this.speed;
+        const incrementalZ = Math.cos(this.modelInstance.rotation.y) * this.speed;
         const roadCollision = this.downFacingRaycaster.verifyNextStep(
             this.modelInstance.position.x - incrementalX,
             DOWN_FACING_RAYCASTER_POS.Y,
@@ -544,6 +545,10 @@ class MainObject extends WorldModel {
         this.otherObjects.lightDB.checkDistance(this.modelInstance.position);
         this.otherObjects.lightEgg.checkDistance(this.modelInstance.position);
         this.otherObjects.lightMusic.checkDistance(this.modelInstance.position);
+    }
+
+    setSpeed(value) {
+        this.speed = value;
     }
 }
 

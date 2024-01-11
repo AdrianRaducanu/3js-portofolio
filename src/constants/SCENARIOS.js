@@ -28,7 +28,7 @@ export const SCENARIOS = {
         background: "#0f0202",
         directionalLight: {
             color: "#642727",
-            intensity: 0.30
+            intensity: 0.50
         },
         ambientLight: {
             color: "#744040",

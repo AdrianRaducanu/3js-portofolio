@@ -13,7 +13,7 @@ import {
 import MainObject from "./worldObjects/MainObject.js";
 import Landscape from "./worldObjects/Landscape.js";
 import CustomRaycaster from "./worldObjects/CustomRaycaster.js";
-import {WEATHER} from "./worldObjects/constants/CONST.js";
+import {MOVING_UNIT, MOVING_UNIT_SPEED, WEATHER} from "./worldObjects/constants/CONST.js";
 import WorldAnimatedObject from "./worldObjects/objectClasses/WorldAnimatedObject.js";
 import Firefly from "./worldObjects/Firefly.js";
 import MusicNotes from "./worldObjects/MusicNotes.js";
@@ -375,6 +375,14 @@ class World {
      */
     setCatVisible(bool) {
         this.mainObject.setVisible(bool);
+    }
+
+    onFastSpeed() {
+        this.mainObject.setSpeed(MOVING_UNIT_SPEED);
+    }
+
+    onNormalSpeed() {
+        this.mainObject.setSpeed(MOVING_UNIT)
     }
 }
 

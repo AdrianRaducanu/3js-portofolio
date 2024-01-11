@@ -22,6 +22,7 @@ export const KEY_EVENTS = {
 }
 
 export const MOVING_UNIT = 0.1;
+export const MOVING_UNIT_SPEED = 0.25;
 
 export const ROTATION_UNIT = Math.PI / 360;
 
